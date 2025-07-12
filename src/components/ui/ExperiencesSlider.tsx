@@ -70,7 +70,7 @@ const ExperiencesSlider = () => {
           {[1, 2, 3, 4, 5, 6].map((n, index) => (
             <SwiperSlide key={n} className="h-full flex items-center justify-center">
               <div
-                className={`relative rounded-[16px] overflow-hidden w-full transition-all duration-300 ${index === activeIndex ? 'sm:h-[370px] h-[340px]' : 'sm:h-[333px] h-[300px] mt-[19px]'
+                className={`relative rounded-[16px] overflow-hidden w-full transition-all duration-300 ${index === activeIndex ? 'sm:h-[390px] h-[353px]' : 'sm:h-[353px] h-[320px] mt-[19px]'
                   }`}
               >
                 <Image
