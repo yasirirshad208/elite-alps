@@ -13,6 +13,15 @@ const ExperiencesSlider = () => {
   const nextRef = useRef<HTMLButtonElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
 
+  const data = [
+    {number:1, text:"Private Chalets"},
+    {number:2, text:"Transfer Helicopter"},
+    {number:3, text:"Après-Ski & Culinary"},
+    {number:4, text:"Curated Ski Experiences"},
+    {number:5, text:"Personal Concierge"},
+    {number:6, text:"Private Apartments"},
+  ]
+
   return (
     <div>
       <div className="flex md:justify-between md:items-end flex-col md:flex-row gap-6.5">
@@ -67,18 +76,30 @@ const ExperiencesSlider = () => {
           className="w-full"
         >
 
-          {[1, 2, 3, 4, 5, 6].map((n, index) => (
-            <SwiperSlide key={n} className="h-full flex items-center justify-center">
+          {data.map((n, index) => (
+            <SwiperSlide key={index} className="h-full flex items-center justify-center">
               <div
                 className={`relative rounded-[16px] overflow-hidden w-full transition-all duration-300 ${index === activeIndex ? 'sm:h-[390px] h-[353px]' : 'sm:h-[353px] h-[320px] mt-[19px]'
                   }`}
               >
                 <Image
-                  src={`/exp-slide-${n}.webp`}
-                  alt={`Experience Slide ${n}`}
+                  src={`/exp-slide-${n.number}.webp`}
+                  alt={`Experience Slide ${n.number}`}
                   fill
                   className="object-cover"
                 />
+                <span
+                  className="
+    absolute bottom-4 left-4 
+    text-white 
+    text-[20px] font-semibold leading-[120%] 
+    font-['Proxima_Nova']
+  "
+                  style={{ letterSpacing: '-0.4px' }}
+                >
+                  {n.text}
+                </span>
+
                 <button className={`absolute top-4 right-4 text-black bg-white rounded-full h-[46px] w-[46px] flex items-center justify-center ${index === activeIndex ? '' : 'rotate-[-45deg]'
                   }  text-[18px] cursor-pointer shadow-md`}>
                   <FaArrowRightLong />
