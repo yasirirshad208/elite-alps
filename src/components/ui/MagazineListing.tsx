@@ -24,7 +24,7 @@ const MagazineListing = ({ bgColor = true, heading, headline }: { bgColor?: bool
     return (
         <section>
             <div className={`${bgColor ? "bg-[#EFEFEF]" : "bg-white"} lg:py-16 md:py-12 py-10`}>
-                <div className="sm:container mx-auto">
+                <div className="container mx-auto">
                     {/* Header */}
                     <div className="px-[16px] sm:px-0 flex md:justify-between w-full md:items-end flex-col md:flex-row gap-6.5">
                         <div >
