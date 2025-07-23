@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
@@ -149,7 +150,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                 className="absolute top-1/2 lg:left-14 left-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white sm:text-[22px] text-[18px] flex items-center justify-center"
                 onClick={prevSlide}
               >
-                <FaArrowLeftLong />
+                <BsArrowLeft />
               </button>
 
               {/* ➡️ Next Slide Button (Outside Image) */}
@@ -157,7 +158,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                 className="absolute top-1/2 lg:right-14 right-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white  sm:text-[22px] text-[18px] flex items-center justify-center"
                 onClick={nextSlide}
               >
-                <FaArrowRightLong />
+                <BsArrowRight />
               </button>
             </div>
           </div>
