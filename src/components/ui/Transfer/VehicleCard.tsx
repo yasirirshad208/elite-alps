@@ -240,9 +240,9 @@ const VehicleCard = ({ name, passengers, speed, gearType, fuelType, seats, engin
               <div className="flex items-center flex-col gap-1 ">
                 {/* <div> */}
                 <span className="font-large font-[600] text-[#184E44] ">
-                  {parseFloat(item.price)
+                  From €{parseFloat(item.price)
                     .toFixed(0) // remove decimal
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}€
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </span>
                 <Link href={navTo}>
                   <button
