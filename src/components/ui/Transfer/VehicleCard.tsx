@@ -246,7 +246,7 @@ const VehicleCard = ({ name, passengers, speed, gearType, fuelType, seats, engin
                 </span>
                 <Link href={navTo}>
                   <button
-                    className="bg-[#0074ec] rounded-[12px] lg:px-6 md:px-4 px-2 py-2 md:py-2.6 text-white text-[16px] md:text-[18px] text-[16px] cursor-pointer"
+                    className="bg-[#0074ec] rounded-[12px] sm:w-[120px] md:w-[140px] lg:w-[166px] p-2 sm:p-3 text-white text-[16px] md:text-[18px] text-[16px] cursor-pointer"
                   >
                     Book Now
                   </button>

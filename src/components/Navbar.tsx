@@ -294,7 +294,8 @@ const Navbar = () => {
                         <div>
                         <button
                             onClick={openInquiry}
-                            className="cursor-pointer bg-[#0074ec] rounded-[9999px] px-4  md:py-3 py-2 text-white font-[600] lg:text-[18px] md:text-[16px] text-[14px] whitespace-nowrap"
+                            className="cursor-pointer bg-[#0074ec] rounded-[9999px] sm:w-[120px] md:w-[140px] lg:w-[152px] px-3 md:py-3 py-2 text-white font-[600]  md:text-[16px] text-[14px] whitespace-nowrap"
+                        style={{ letterSpacing: "-0.36px", lineHeight: "140%"}}
                         >
                             Quick Inquiry
                         </button>
