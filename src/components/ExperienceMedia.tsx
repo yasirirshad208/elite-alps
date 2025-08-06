@@ -1,8 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 interface ExperienceMediaProps {
   images?: Array<string>
@@ -36,69 +34,70 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
     <div>
 
       <div className="flex items-center md:h-[439px] h-[320px] gap-3">
-  {/* First Image Block */}
-  <div className="flex-1 h-full">
-    <div className="relative flex-1 h-full">
-      <img
-        src={itemImages[0] ? url + itemImages[0] : "https://via.placeholder.com/150"}
-        alt="Image"
-        className="h-full w-full sm:rounded-[12px] object-cover"
-      />
+        {/* First Image Block */}
+        <div className="flex-1 h-full">
+          <div className="relative flex-1 h-full">
+            <img
+              src={itemImages[0] ? url + itemImages[0] : "https://via.placeholder.com/150"}
+              alt="Image"
+              className="h-full w-full sm:rounded-[12px] object-cover"
+            />
 
-      {/* See All Images Button for Small Screens */}
-      <div
-        className="absolute rounded-[38px] bg-white/70 text-[14px] bottom-[20px] right-[20px] px-3 py-1 cursor-pointer font-inter md:hidden"
-        onClick={openModal}
-      >
-        1/{itemImages.length}
-      </div>
-    </div>
-  </div>
-
-  {/* Grid of Images (Only for md and up) */}
-  <div className="flex-1 md:grid grid-cols-2 grid-rows-2 gap-3 h-full relative hidden md:block">
-    {itemImages.slice(1, 5).map((image, index) => {
-      // For 5th image
-      if (index === 3) {
-        return (
-          <div
-            className="h-full w-full relative rounded-[12px] overflow-hidden"
-            key={index}
-            style={{
-              background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(0, 0, 0, 0.41)), url(${url + image}) center/cover no-repeat`,
-            }}
-          >
-            {/* Centered Button on 5th Image */}
+            {/* See All Images Button for Small Screens */}
             <div
-              className="absolute inset-0 flex items-center justify-center text-black font-inter text-[14px] cursor-pointer"
+              className="absolute rounded-[38px] bg-white/70 text-[14px] bottom-[20px] right-[20px] px-3 py-1 cursor-pointer font-inter md:hidden"
               onClick={openModal}
             >
-              <button className="bg-white/70 px-3 py-1.5 rounded-[24px] cursor-pointer"> 
-                See all images
-              </button>
+              1/{itemImages.length}
             </div>
           </div>
-        );
-      }
-
-      // For other images
-      return (
-        <div className="h-full w-full" key={index}>
-          <img
-            src={url + image}
-            className="h-full w-full object-cover rounded-[12px]"
-            alt={`Slide ${index + 1}`}
-          />
         </div>
-      );
-    })}
-  </div>
-</div>
+
+        {/* Grid of Images (Only for md and up) */}
+        <div className="flex-1 md:grid grid-cols-2 grid-rows-2 gap-3 h-full relative hidden md:block">
+          {itemImages.slice(1, 5).map((image, index) => {
+            // For 5th image
+            if (index === 3) {
+              return (
+                <div
+                  className="h-full w-full relative rounded-[12px] overflow-hidden"
+                  key={index}
+                  style={{
+                    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(0, 0, 0, 0.41)), url(${url + image}) center/cover no-repeat`,
+                  }}
+                >
+                  {/* Centered Button on 5th Image */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center text-black font-inter text-[14px] cursor-pointer"
+                    onClick={openModal}
+                  >
+                    <button className="bg-white/70 px-3 py-1.5 rounded-[24px] cursor-pointer">
+                      See all images
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+
+            // For other images
+            return (
+              <div className="h-full w-full" key={index}>
+                <img
+                  src={url + image}
+                  className="h-full w-full object-cover rounded-[12px]"
+                  alt={`Slide ${index + 1}`}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-black/30 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-[rgba(0,0,0,0.25)] backdrop-blur-[2.35px] flex items-center justify-center z-50"
+
           style={{ backdropFilter: 'blur(2.35px)' }}
         >
           <div className="w-11/12 max-w-4xl">

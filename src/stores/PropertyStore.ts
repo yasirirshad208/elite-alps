@@ -69,7 +69,7 @@ for (const key of filterKeys) {
   }
 }
     const response = await axios.get(
-      `http://localhost:5000/api/accommodations/properties/get/all?${params.toString()}`
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
@@ -112,7 +112,7 @@ for (const key of filterKeys) {
     }
 
     const response = await axios.get(
-      `http://localhost:5000/api/accommodations/properties/get/all?${params.toString()}`
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
