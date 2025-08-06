@@ -19,10 +19,22 @@ interface PropertyState {
   error: string | null;
 
   fetchChalets: (filters?: {
+   location?: string;
+  price?: string;
+  guest?: string;
+  feature?: string;
+  checkin?: string;
+  checkout?: string;
   page?: string;
 }) => Promise<void>;
 
   fetchApartments: (filters?: {
+   location?: string;
+  price?: string;
+  guest?: string;
+  feature?: string;
+  checkin?: string;
+  checkout?: string;
   page?: string;
 }) => Promise<void>;
 }
@@ -35,25 +47,36 @@ export const usePropertyStore = create<PropertyState>((set) => ({
   loading: false,
   error: null,
 
- fetchChalets: async (filters = {}) => {
+fetchChalets: async (filters = {}) => {
   set({ loading: true, error: null });
 
   try {
-    const params = new URLSearchParams(filters as Record<string, string>);
-    params.set("type", "chalet");
+    const params = new URLSearchParams();
+    const defaultType = "chalet";
+    const page = filters.page || "1";
+    params.set("type", defaultType);
+    params.set("page", page);
 
+    let hasExtraFilters = false;
+
+   const filterKeys = ["location", "price", "guest", "feature", "checkin", "checkout"] as const;
+
+for (const key of filterKeys) {
+  const value = filters[key as keyof typeof filters];
+  if (value) {
+    hasExtraFilters = true;
+    params.set(key, value);
+  }
+}
     const response = await axios.get(
-      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
+      `http://localhost:5000/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
     const total = parseInt(response.data.countTotalProperties);
 
-    // Get page number
-    const page = parseInt(params.get("page") || "1");
-
     set((state) => ({
-      chalets: page > 1 ? [...state.chalets, ...newData] : newData,
+      chalets: !hasExtraFilters && parseInt(page) > 1 ? [...state.chalets, ...newData] : newData,
       countChalets: total,
     }));
   } catch (error: any) {
@@ -61,35 +84,52 @@ export const usePropertyStore = create<PropertyState>((set) => ({
   } finally {
     set({ loading: false });
   }
-},
+}
+,
+
 
 
  fetchApartments: async (filters = {}) => {
   set({ loading: true, error: null });
 
   try {
-    const params = new URLSearchParams(filters as Record<string, string>);
-    params.set("type", "appartement");
+    const params = new URLSearchParams();
+    const defaultType = "appartement";
+    const page = filters.page || "1";
+    params.set("type", defaultType);
+    params.set("page", page);
+
+    let hasExtraFilters = false;
+
+    const filterKeys = ["location", "price", "guest", "feature", "checkin", "checkout"] as const;
+
+    for (const key of filterKeys) {
+      const value = filters[key as keyof typeof filters];
+      if (value) {
+        hasExtraFilters = true;
+        params.set(key, value);
+      }
+    }
 
     const response = await axios.get(
-      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
+      `http://localhost:5000/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
     const total = parseInt(response.data.countTotalProperties);
 
-    // Get page number
-    const page = parseInt(params.get("page") || "1");
-
     set((state) => ({
-      apartments: page > 1 ? [...state.apartments, ...newData] : newData,
+      apartments: !hasExtraFilters && parseInt(page) > 1
+        ? [...state.apartments, ...newData]
+        : newData,
       countApartments: total,
     }));
   } catch (error: any) {
-    set({ error: error.message || "Failed to fetch chalets" });
+    set({ error: error.message || "Failed to fetch apartments" });
   } finally {
     set({ loading: false });
   }
-  },
+},
+
 
 }));

@@ -28,39 +28,18 @@ const ChaletListing = ({
 
   // Fetch unfiltered data from backend
   useEffect(() => {
-    fetchChalets({ page });
-  }, [page]);
+   fetchChalets({
+  location,
+  price,
+  guest,
+  feature,
+  checkin,
+  checkout,
+  page,
+});
+  }, [page, checkin, checkout, location, price, guest, feature]);
 
-  // Filter data in frontend
-  const filteredChalets = useMemo(() => {
-    return chalets.filter((item) => {
-      if (location && item.station !== location) return false;
-
-      if (price && item.availability.every((a:any) => a.price > parseFloat(price))) {
-        return false;
-      }
-
-      if (guest && item.adults < parseInt(guest)) return false;
-
-      if (feature && !item.equipmentGeneral.includes(feature)) return false;
-
-      if (checkin && checkout) {
-        const checkinDate = new Date(checkin);
-        const checkoutDate = new Date(checkout);
-
-        const isAvailable = item.availability.some((a:any) => {
-          const aCheckin = new Date(a.checkin);
-          const aCheckout = new Date(a.checkout);
-          return aCheckin <= checkinDate && aCheckout >= checkoutDate;
-        });
-
-        if (!isAvailable) return false;
-      }
-
-      return true;
-    });
-  }, [chalets, location, price, guest, feature, checkin, checkout]);
-
+ 
 
    const icons = [
   { name: "All", iconKey: "IoMenu" },
@@ -93,12 +72,12 @@ const ChaletListing = ({
             <RestaurantIconsFilter icons={icons} />
           </div>
           <div className="sm:w-auto w-full sm:block flex justify-end">
-            <CountResults number={filteredChalets.length} />
+            <CountResults number={chalets.length} />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {filteredChalets.map((item: any, index: number) => (
+          {chalets.map((item: any, index: number) => (
             <AccommodationCard
               key={index}
               title={item.name}

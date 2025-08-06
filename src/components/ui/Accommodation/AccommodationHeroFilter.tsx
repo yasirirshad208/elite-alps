@@ -9,6 +9,8 @@ import { FiMinus } from 'react-icons/fi'
 import Dropdown from '../DropdownAnimation'
 import { FaHouseDamage } from 'react-icons/fa'
 import { RiHotelLine } from 'react-icons/ri'
+import DatePicker from 'react-datepicker'
+import { addDays, isSaturday } from 'date-fns'
 
 type DropdownType = 'accommodation' | 'location' | 'guests' | 'price' | null
 
@@ -19,13 +21,31 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
   const [location, setLocation] = useState('Courchevel')
   const [price, setPrice] = useState('10000')
 
+  const [checkIn, setCheckIn] = useState<Date | null>(null)
+  const [checkOut, setCheckOut] = useState<Date | null>(null)
+
   const handleDropdownToggle = (dropdown: DropdownType) => {
     setOpenDropdown(prev => (prev === dropdown ? null : dropdown))
   }
 
+  const normalizeDateToUTC = (date: Date) => {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  };
+
+  const filterCheckInDates = (date: Date) => {
+    const today = new Date()
+    return date >= today && isSaturday(date)
+  }
+
+  // Disable Saturdays after check-in date for check-out
+  const filterCheckOutDates = (date: Date) => {
+    if (!checkIn) return false; // ⛔ don't allow any dates if no check-in selected
+    return isSaturday(date) && date > checkIn;
+  }
+
   return (
     <div
-      className="absolute z-10 left-1/2 bottom-0 transform -translate-x-1/2 translate-y-[30%] sm:translate-y-1/2 w-full max-w-[665px] px-4 sm:px-0"
+      className="absolute z-10 left-1/2 bottom-0 transform -translate-x-1/2 translate-y-[30%] lg:translate-y-1/2 w-full max-w-[872px] px-4 sm:px-0"
       style={{ boxShadow: "0px 11.65px 39.88px 0px #00000012" }}
     >
       <div className="bg-white rounded-[16px] w-full">
@@ -118,15 +138,78 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
           </Link>
         </div>
       </div>
+
       {/* lg:items-center lg:flex-row flex-col */}
-      <div className='bg-white rounded-b-[12px] p-[12px] flex sm:flex-row flex-col gap-[24px]'>
-        <div className='w-full grid sm:grid-cols-3 grid-cols-1 sm:gap-[12px] gap-[8px]'>
+      <div className='bg-white rounded-b-[12px] p-[12px] flex lg:flex-row flex-col gap-[24px]'>
+        <div className='w-full grid grid-cols-2 lg:grid-cols-5 gap-[12px]'>
+
+          {/* Check In */}
+          <div className="relative">
+            <div className='cursor-pointer w-full lg:pr-2.5 lg:border-r border-[#e3e3e3]'>
+              <div className="mb-2 font-regular font-[600] text-[#121212]">Check In</div>
+
+
+              <div className="flex items-center justify-between">
+                <div className="w-full">
+                  <DatePicker
+                    selected={checkIn}
+                    onChange={(date) => {
+                      if (date) {
+                        const normalized = normalizeDateToUTC(date);
+                        setCheckIn(normalized);
+                        setCheckOut(null);
+                      }
+                    }}
+                    filterDate={filterCheckInDates}
+                    placeholderText="Select"
+                    className="w-full bg-transparent placeholder:text-[#121212] text-[14px] text-[#121212] focus:outline-none"
+                    dateFormat="MMM d yyyy"
+                    calendarClassName="!z-50"
+                  />
+                </div>
+                <IoIosArrowDown className="min-w-[20px] text-[20px] text-[#121212]" />
+              </div>
+
+            </div>
+          </div>
+
+          {/* Check Out */}
+          <div className="relative">
+            <div className='cursor-pointer w-full lg:pr-2.5 lg:border-r border-[#e3e3e3]'>
+              <div className="mb-2 font-regular font-[600] text-[#121212]">Check Out</div>
+
+              <div className="flex items-center justify-between">
+                <div className="w-full">
+                  <DatePicker
+                    selected={checkOut}
+                    onChange={(date) => {
+                      if (date) {
+                        const normalized = normalizeDateToUTC(date);
+                        setCheckOut(normalized)
+                      }
+
+
+                    }}
+                    filterDate={filterCheckOutDates}
+                    placeholderText="Select"
+                    className="w-full bg-transparent placeholder:text-[#121212] text-[14px] text-[#121212] focus:outline-none"
+                    dateFormat="MMM d yyyy"
+                    disabled={!checkIn}
+                    calendarClassName="!z-50"
+                  />
+                </div>
+                <IoIosArrowDown className="min-w-[20px] text-[20px] text-[#121212]" />
+              </div>
+            </div>
+          </div>
+
+
 
 
 
           {/* Location */}
           <div className="relative">
-            <div className='cursor-pointer w-full sm:pr-2.5 sm:border-r border-[#e3e3e3]' onClick={() => handleDropdownToggle('location')}>
+            <div className='cursor-pointer w-full lg:pr-2.5 lg:border-r border-[#e3e3e3]' onClick={() => handleDropdownToggle('location')}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Location</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -137,7 +220,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
             </div>
             <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'location'} border={true}>
               <div className='w-full'>
-                {['Courchevel', 'Merible', 'Val Thorens'].map((item) => (
+                {['Courchevel', 'Meribel', 'Val Thorens'].map((item) => (
                   <div
                     key={item}
                     className='hover:bg-[#F6F8FA] px-3 py-2 text-[#121212] cursor-pointer'
@@ -158,7 +241,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
 
           {/* Price */}
           <div className="relative">
-            <div className='cursor-pointer w-full sm:pr-2.5 py-2 sm:py-0 sm:border-r border-[#e3e3e3]' onClick={() => handleDropdownToggle('price')}>
+            <div className='cursor-pointer w-full lg:pr-2.5 py-2 sm:py-0 lg:border-r border-[#e3e3e3]' onClick={() => handleDropdownToggle('price')}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Price</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -188,7 +271,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
 
 
           {/* Guests */}
-          <div className="relative">
+          <div className="relative col-span-2 lg:col-span-1">
             <div className='cursor-pointer w-full ' onClick={() => handleDropdownToggle('guests')}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Guests</div>
               <div className=' flex items-center justify-between'>
@@ -210,9 +293,13 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
 
         {/* Search Button */}
         <div>
-          <Link scroll={false} href={`/${page}?location=${location.toLowerCase()}&price=${price}&guest=${guest}`} className='flex items-center justify-center gap-2 font-medium font-[600] text-white bg-[#0074ec] md:p-[20px] py-3 rounded-[12px] whitespace-nowrap'>
+          <Link
+            scroll={false}
+            href={`/${page}?location=${location.toLowerCase()}&price=${price}&guest=${guest}&checkin=${checkIn ? checkIn.toISOString().split('T')[0] : ''}&checkout=${checkOut ? checkOut.toISOString().split('T')[0] : ''}`}
+            className='flex items-center justify-center gap-2 font-medium font-[600] text-white bg-[#0074ec] lg:p-[20px] py-3 rounded-[12px] whitespace-nowrap'
+          >
             <IoSearch className='md:text-[20px] text-[18px]' />
-            <span className='text-white text-[16px] font-[600] sm:hidden'>Search Now</span>
+            <span className='text-white text-[16px] font-[600] lg:hidden'>Search Now</span>
           </Link>
         </div>
       </div>

@@ -23,8 +23,6 @@ export default async function Chalets({ searchParams }: { searchParams: Promise<
 
       <ChaletListing location={location} price={price} guest={guest} feature={feature} checkin={checkin} checkout={checkout} page={page} />
 
-
-
       <ChaletsSlider />
 
       <MagazineListing bgColor={false} />

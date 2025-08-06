@@ -10,7 +10,10 @@ export default {
     extend: {
     fontFamily: {
         proxima: ['"Proxima Nova"', 'sans-serif'],
-      }
+      },
+      top: {
+      unset: 'unset',
+    }
     },
   },
 //   plugins: [

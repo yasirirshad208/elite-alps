@@ -72,8 +72,6 @@ export default function Home() {
       <section>
         <div className="bg-[#EFEFEF] lg:py-[80px] py-[40px] md:py-[60px]">
           <div className="container">
-
-
             <ExperiencesSlider />
           </div>
         </div>

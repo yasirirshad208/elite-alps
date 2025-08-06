@@ -111,6 +111,18 @@ const RestaurantIconsFilter = ({ icons }: { icons: IconType[] }) => {
     };
   }, []);
 
+  useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  const featureFromUrl = params.get("feature");
+
+  if (featureFromUrl) {
+    setSelected(featureFromUrl);
+  } else {
+    setSelected("All");
+  }
+}, []);
+
+
   return (
     <div className="relative w-full ">
       {/* Scrollable icon row */}

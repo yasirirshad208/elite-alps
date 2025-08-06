@@ -1,5 +1,8 @@
 
 @import "tailwindcss";
+/* In your global styles or layout.tsx */
+@import 'react-datepicker/dist/react-datepicker.css';
+
 
 /* @font-face {
   font-family: 'Proxima Nova';
