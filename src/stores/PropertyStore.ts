@@ -52,31 +52,29 @@ fetchChalets: async (filters = {}) => {
 
   try {
     const params = new URLSearchParams();
-    const defaultType = "chalet";
     const page = filters.page || "1";
-    params.set("type", defaultType);
+    params.set("type", "chalet");
     params.set("page", page);
 
-    let hasExtraFilters = false;
+    // Add all filters to query
+    const filterKeys = ["location", "price", "guest", "feature", "checkin", "checkout"] as const;
+    for (const key of filterKeys) {
+      const value = filters[key as keyof typeof filters];
+      if (value) {
+        params.set(key, value);
+      }
+    }
 
-   const filterKeys = ["location", "price", "guest", "feature", "checkin", "checkout"] as const;
-
-for (const key of filterKeys) {
-  const value = filters[key as keyof typeof filters];
-  if (value) {
-    hasExtraFilters = true;
-    params.set(key, value);
-  }
-}
     const response = await axios.get(
       `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
     const total = parseInt(response.data.countTotalProperties);
+    const pageNum = parseInt(page);
 
     set((state) => ({
-      chalets: !hasExtraFilters && parseInt(page) > 1 ? [...state.chalets, ...newData] : newData,
+      chalets: pageNum > 1 ? [...state.chalets, ...newData] : newData,
       countChalets: total,
     }));
   } catch (error: any) {
@@ -118,10 +116,10 @@ for (const key of filterKeys) {
     const newData = response.data.properties || [];
     const total = parseInt(response.data.countTotalProperties);
 
+    const pageNum = parseInt(page);
+
     set((state) => ({
-      apartments: !hasExtraFilters && parseInt(page) > 1
-        ? [...state.apartments, ...newData]
-        : newData,
+      apartments: pageNum > 1 ? [...state.apartments, ...newData] : newData,
       countApartments: total,
     }));
   } catch (error: any) {

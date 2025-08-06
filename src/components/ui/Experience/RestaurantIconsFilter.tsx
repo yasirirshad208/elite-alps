@@ -85,6 +85,8 @@ const RestaurantIconsFilter = ({ icons }: { icons: IconType[] }) => {
       params.set("feature", iconName);
     }
 
+    params.delete("page");
+
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
