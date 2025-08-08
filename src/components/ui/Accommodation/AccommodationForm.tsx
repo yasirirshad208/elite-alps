@@ -38,11 +38,16 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
 
-    const allowedDates = dateRanges.map((date) => ({
-        start: new Date(date.start),
-        end: new Date(date.end),
-        price: date.price,
-    }))
+    const parseLocalDate = (dateStr: string) => {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day); // local date, no UTC conversion
+};
+
+const allowedDates = dateRanges.map((date) => ({
+  start: parseLocalDate(date.start),
+  end: parseLocalDate(date.end),
+  price: date.price,
+}));
 
     const getMatchingRange = (date: Date | null) => {
         if (!date) return undefined
