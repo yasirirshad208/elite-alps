@@ -6,6 +6,7 @@ import AccommodationCard from '../AccommodationCard';
 import RestaurantIconsFilter from '../Experience/RestaurantIconsFilter';
 import CountResults from '../CountResults';
 import SeeMore from '../SeeMore';
+import AccommodationIconsFilter from './AccommodationFilters';
 
 const ChaletListing = ({
   location,
@@ -69,7 +70,7 @@ const ChaletListing = ({
       <div className="container">
         <div className="sm:mb-[30px] mb-[20px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-[32px]">
           <div className="overflow-hidden w-full">
-            <RestaurantIconsFilter icons={icons} />
+            <AccommodationIconsFilter icons={icons} />
           </div>
           <div className="sm:w-auto w-full sm:block flex justify-end">
             <CountResults number={chalets.length} />

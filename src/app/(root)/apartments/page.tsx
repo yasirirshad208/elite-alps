@@ -13,6 +13,8 @@ export default async function Apartment({ searchParams }: { searchParams: Promis
   const checkin = params.checkin || ""
   const checkout = params.checkout || ""
   const page = params.page || ""
+
+
     return(
         <>
         <AccommodationHeader page="apartments" image='/apartment-hero.webp' text="Elevate Your Stay in our Luxury Apartments"/>
