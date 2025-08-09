@@ -6,6 +6,7 @@ import ShareBtn from "@/components/ShareBtn";
 import AccommodationForm from "@/components/ui/Accommodation/AccommodationForm";
 import ApartmentSlider from "@/components/ui/ApartmentsSlider";
 import ChaletsKeyFeatures from "@/components/ui/ChaletsKeyFeatures";
+import Faqs from "@/components/ui/Faqs";
 import SubMenu from "@/components/ui/SubMenu";
 import axios from "axios";
 import Link from "next/link";
@@ -93,6 +94,29 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
             setActiveId(id);
         }
     };
+
+    const faqs = [
+  {
+    question: "What utilities are included in the apartment rent?",
+    answer: "Utilities included vary by apartment. Some may cover water, electricity, and internet, while others require tenants to pay separately."
+  },
+  {
+    question: "Is parking available for tenants?",
+    answer: "Many apartments offer on-site parking or a dedicated parking space, but availability depends on the building. Some may charge extra for parking."
+  },
+  {
+    question: "Are apartments furnished or unfurnished?",
+    answer: "This depends on the property. Some apartments come fully furnished, while others may be semi-furnished or unfurnished."
+  },
+  {
+    question: "Can I keep pets in the apartment?",
+    answer: "Pet policies vary by landlord and building. Some allow pets with an additional deposit, while others have restrictions on size or breed."
+  },
+  {
+    question: "How does the security deposit work?",
+    answer: "A security deposit is collected before moving in and is typically refunded after the lease ends, provided there is no damage to the property."
+  }
+];
     if (openForm) {
         return (
             <div className="mt-[115px] px-4">
@@ -287,6 +311,15 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
 
                                 </div>
                             </div>
+
+                            <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
+
+                                <div id="faqs">
+                                    <h2 className="text-[#121212] font-semibold mb-4 font-large">
+                                        Faqs
+                                    </h2>
+                                    <Faqs faqs={faqs} />
+                                </div>
                         </div>
 
                         <div className="md:max-w-[487px] sm:block hidden w-full">

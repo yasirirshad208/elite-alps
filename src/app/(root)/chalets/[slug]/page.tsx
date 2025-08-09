@@ -6,6 +6,7 @@ import ShareBtn from "@/components/ShareBtn";
 import AccommodationForm from "@/components/ui/Accommodation/AccommodationForm";
 import ChaletsKeyFeatures from "@/components/ui/ChaletsKeyFeatures";
 import ChaletsSlider from "@/components/ui/ChaletsSlider";
+import Faqs from "@/components/ui/Faqs";
 import SubMenu from "@/components/ui/SubMenu";
 import axios from "axios";
 import Link from "next/link";
@@ -90,6 +91,30 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
     };
 
 
+     const faqs = [
+  {
+    question: "What is included in the chalet rental price?",
+    answer: "The rental price typically includes accommodation, basic utilities, and access to amenities such as the kitchen, living area, and outdoor spaces. Some chalets may also offer free Wi-Fi and parking."
+  },
+  {
+    question: "Are pets allowed in the chalet?",
+    answer: "Pet policies vary by chalet. Some chalets are pet-friendly, while others may have restrictions. Please check the specific chalet's rules before booking."
+  },
+  {
+    question: "Is there a minimum stay requirement?",
+    answer: "Many chalets have a minimum stay of 2 to 3 nights, especially during weekends or peak seasons. Longer minimum stays may apply during holidays."
+  },
+  {
+    question: "Do chalets have heating and air conditioning?",
+    answer: "Most chalets are equipped with heating for the winter months and fans or air conditioning for the summer, but amenities can vary depending on the property."
+  },
+  {
+    question: "How do I check in and get the keys?",
+    answer: "Check-in instructions are usually sent after booking confirmation. Some chalets use self-check-in with a lockbox, while others may require meeting the host in person."
+  }
+];
+
+
     if (openForm) {
         return (
             <div className="mt-[115px] px-4">
@@ -107,6 +132,9 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
             </div>
         )
     }
+
+   
+
 
 
     return (
@@ -291,6 +319,15 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
 
                                 </div>
                             </div>
+
+                            <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
+
+                                <div id="faqs">
+                                    <h2 className="text-[#121212] font-semibold mb-4 font-large">
+                                        Faqs
+                                    </h2>
+                                    <Faqs faqs={faqs} />
+                                </div>
                         </div>
 
                         <div className="md:max-w-[487px] sm:block hidden w-full">
