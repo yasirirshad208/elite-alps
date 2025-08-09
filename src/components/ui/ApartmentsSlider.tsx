@@ -6,20 +6,20 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { useAccommodationStore } from '@/stores/AccommodationStore';
 import AccommodationCard from './AccommodationCard';
+import { usePropertyStore } from '@/stores/PropertyStore';
 
 const ApartmentSlider = () => {
     const {
-        randomApartments,
-        fetchAccommodations,
-    } = useAccommodationStore();
+        sliderApartments,
+        fetchSliderApartments,
+    } = usePropertyStore();
 
     useEffect(() => {
-        if (randomApartments.length === 0) {
-            fetchAccommodations();
+        if (sliderApartments.length === 0) {
+            fetchSliderApartments();
         }
-    }, [fetchAccommodations, randomApartments.length]);
+    }, [fetchSliderApartments, sliderApartments.length]);
 
     return (
         <section className='md:mt-8 mt-6'>
@@ -67,17 +67,18 @@ const ApartmentSlider = () => {
                             nextEl: '.magazine-next',
                         }}
                     >
-                        {randomApartments.map((item, i) => (
+                        {sliderApartments.map((item, i) => (
                             <SwiperSlide key={i}>
                                 <AccommodationCard
-                                    title={item.nom_bien_en[0]}
-                                    area={item.surface}
-                                    persons={item.nb_adultes}
-                                    location={item.nom_station[0]}
-                                    bedrooms={item.nombre_chambres}
-                                    price={item.prix_appel_hiver[0]}
-                                    image={item.photo_web[0]}
-                                    link={`/apartments/${item.id_bien}`}
+              title={item.name}
+              area={item.surface}
+              persons={item.adults}
+              location={item.station}
+              bedrooms={item.rooms}
+              price={item.winterPrice}
+              images={item.allImages.slice(0,7)}
+              id={item.propertyId}
+              link={`/chalets/${item.propertyId}`}
                                 />
                             </SwiperSlide>
                         ))}

@@ -1,27 +1,51 @@
+"use client"
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
-import {CiRuler } from 'react-icons/ci';
+import React, { useState } from 'react'
+import { CiRuler } from 'react-icons/ci';
 import { FaRegUser } from 'react-icons/fa';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { LuBed } from 'react-icons/lu';
 
 type AccommodationCard = {
     title: string;
-    image: string
+    image?: string;
+    images?: string[];
     location: string;
     price: string;
     persons?: string;
     bedrooms?: string;
     area?: string;
+    showHandle?: Boolean;
     link: string;
-    stars?:string
+    stars?: string
+    id?:string
 };
 
-const AccommodationCard = ({ title, image, stars, location, price, persons, bedrooms, area, link }: AccommodationCard) => {
+const AccommodationCard = ({ title, image, id, stars, showHandle = true, images, location, price, persons, bedrooms, area, link }: AccommodationCard) => {
+    const [activeImageIndex, setActiveImageIndex] = useState(0); // State to track the active image
+
+
+    const handleDotClick = (index: number) => {
+        setActiveImageIndex(index); // Update the active image index when a dot is clicked
+    };
+
+    const handleIndex = () => {
+        if (!images || images.length === 0) return; // guard clause
+
+        if (activeImageIndex === images.length - 1) {
+            setActiveImageIndex(0);
+            return;
+        }
+
+        setActiveImageIndex(activeImageIndex + 1);
+    };
+
     return (
         <div className='rounded-[12px] bg-white border border-[#E3E3E3] p-[6px] cursor-pointer'>
-            <Link href={link}>
 
+
+            {image && (
                 <div className="relative z-0 w-full h-[223px]">
                     <Image
                         src={image}
@@ -33,8 +57,69 @@ const AccommodationCard = ({ title, image, stars, location, price, persons, bedr
                         className="object-cover rounded-[9px]"
                     />
                 </div>
+            )}
+
+            {images && (
+                <div>
+                    <div className="relative z-0 group cursor-pointer">
+                        <div className="overflow-hidden h-[223px] w-full">
+                            <div
+                                className="flex transition-transform duration-500 ease-in-out w-full h-full"
+                                style={{
+                                    transform: `translateX(-${activeImageIndex * 100}%)`,
+                                }}
+                            >
+                                {images.map((img, idx) => (
+                                    <img
+                                        key={idx}
+                                        src={`https://admin.cimalpes.com/photos/bien/${id}/${img}`}
+                                        alt={title}
+                                        className="object-cover rounded-[9px] w-full h-full"
+                                        sizes="(max-width: 768px) 100vw,
+                                            (max-width: 1024px) 50vw,
+                                            25vw"
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        {showHandle && (
+                            <>
+                                {activeImageIndex > 0 && (
+                                    <div
+                                        className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
+                                        onClick={() => setActiveImageIndex(activeImageIndex - 1)}
+                                    >
+                                        <IoIosArrowBack className="mr-[2px]" />
+                                    </div>
+                                )}
+                                {images.length - 1 !== activeImageIndex && (
+                                    <div
+                                        className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
+                                        onClick={handleIndex}
+                                    >
+                                        <IoIosArrowForward className="ml-[3px]" />
+                                    </div>
+                                )}
+                            </>
+                        )}
+                        {/* Dots */}
+                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1">
+                            {images.map((_, index) => (
+                                <div
+                                    key={index}
+                                    className={`w-[5.5px] h-[5.5px] rounded-full cursor-pointer ${activeImageIndex === index ? "bg-white" : "bg-[#b0b0b0]"
+                                        }`}
+                                    onClick={() => handleDotClick(index)}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
 
 
+
+            <Link href={link}>
                 <div className='mt-2 px-2'>
                     <div className='font-large text-[#121212] font-[600]'>{title}</div>
                     <div className='font-medium text-[#121212] text-[#272835] flex items-center gap-1 flex-wrap'>
@@ -44,39 +129,39 @@ const AccommodationCard = ({ title, image, stars, location, price, persons, bedr
                         {location}</div>
                     <div className='flex items-center gap-1 sm:mt-2 mt-1.5 font-regular'>
                         {!stars ? (
-<>
-<div className='rounded-[4px] text-[#121212] flex gap-1.5 items-center border border-[#E3E3E3] p-1'>
-                            <FaRegUser className='sm:text-[15px] text-[13px]' />
+                            <>
+                                <div className='rounded-[4px] text-[#121212] flex gap-1.5 items-center border border-[#E3E3E3] p-1'>
+                                    <FaRegUser className='sm:text-[15px] text-[13px]' />
 
-                            {persons} person
-                        </div>
+                                    {persons} person
+                                </div>
 
-                        <div className='rounded-[4px] text-[#121212] flex gap-1.5 items-center border border-[#E3E3E3] p-1'>
-                            <LuBed className='sm:text-[15px] text-[13px]' />
+                                <div className='rounded-[4px] text-[#121212] flex gap-1.5 items-center border border-[#E3E3E3] p-1'>
+                                    <LuBed className='sm:text-[15px] text-[13px]' />
 
-                            {bedrooms} Bed
-                        </div>
+                                    {bedrooms} Bed
+                                </div>
 
-                        <div className='rounded-[4px] text-[#121212] flex gap-1.5 items-center border border-[#E3E3E3] p-1'>
-                            <CiRuler className='text-[20px] rotate-[-45deg]' />
-                            {area} m²
-                        </div>
-</>
-                        ):(
+                                <div className='rounded-[4px] text-[#121212] flex gap-1.5 items-center border border-[#E3E3E3] p-1'>
+                                    <CiRuler className='text-[20px] rotate-[-45deg]' />
+                                    {area} m²
+                                </div>
+                            </>
+                        ) : (
                             <div className='rounded-[4px] text-[#121212] flex gap-1.5 items-center border border-[#E3E3E3] p-1'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <mask id="mask0_187_5448"  style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                                    <rect width="24" height="24" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_187_5448)">
-                                    <path d="M9.675 13.7L10.55 10.85L8.25 9H11.1L12 6.2L12.9 9H15.75L13.425 10.85L14.3 13.7L12 11.925L9.675 13.7ZM6 23V15.275C5.36667 14.575 4.875 13.775 4.525 12.875C4.175 11.975 4 11.0167 4 10C4 7.76667 4.775 5.875 6.325 4.325C7.875 2.775 9.76667 2 12 2C14.2333 2 16.125 2.775 17.675 4.325C19.225 5.875 20 7.76667 20 10C20 11.0167 19.825 11.975 19.475 12.875C19.125 13.775 18.6333 14.575 18 15.275V23L12 21L6 23ZM12 16C13.6667 16 15.0833 15.4167 16.25 14.25C17.4167 13.0833 18 11.6667 18 10C18 8.33333 17.4167 6.91667 16.25 5.75C15.0833 4.58333 13.6667 4 12 4C10.3333 4 8.91667 4.58333 7.75 5.75C6.58333 6.91667 6 8.33333 6 10C6 11.6667 6.58333 13.0833 7.75 14.25C8.91667 15.4167 10.3333 16 12 16ZM8 20.025L12 19L16 20.025V16.925C15.4167 17.2583 14.7875 17.5208 14.1125 17.7125C13.4375 17.9042 12.7333 18 12 18C11.2667 18 10.5625 17.9042 9.8875 17.7125C9.2125 17.5208 8.58333 17.2583 8 16.925V20.025Z" fill="#121212" />
-                                </g>
-                            </svg>
-                            {stars} star
-                        </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <mask id="mask0_187_5448" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                        <rect width="24" height="24" fill="#D9D9D9" />
+                                    </mask>
+                                    <g mask="url(#mask0_187_5448)">
+                                        <path d="M9.675 13.7L10.55 10.85L8.25 9H11.1L12 6.2L12.9 9H15.75L13.425 10.85L14.3 13.7L12 11.925L9.675 13.7ZM6 23V15.275C5.36667 14.575 4.875 13.775 4.525 12.875C4.175 11.975 4 11.0167 4 10C4 7.76667 4.775 5.875 6.325 4.325C7.875 2.775 9.76667 2 12 2C14.2333 2 16.125 2.775 17.675 4.325C19.225 5.875 20 7.76667 20 10C20 11.0167 19.825 11.975 19.475 12.875C19.125 13.775 18.6333 14.575 18 15.275V23L12 21L6 23ZM12 16C13.6667 16 15.0833 15.4167 16.25 14.25C17.4167 13.0833 18 11.6667 18 10C18 8.33333 17.4167 6.91667 16.25 5.75C15.0833 4.58333 13.6667 4 12 4C10.3333 4 8.91667 4.58333 7.75 5.75C6.58333 6.91667 6 8.33333 6 10C6 11.6667 6.58333 13.0833 7.75 14.25C8.91667 15.4167 10.3333 16 12 16ZM8 20.025L12 19L16 20.025V16.925C15.4167 17.2583 14.7875 17.5208 14.1125 17.7125C13.4375 17.9042 12.7333 18 12 18C11.2667 18 10.5625 17.9042 9.8875 17.7125C9.2125 17.5208 8.58333 17.2583 8 16.925V20.025Z" fill="#121212" />
+                                    </g>
+                                </svg>
+                                {stars} star
+                            </div>
                         )}
 
-                        
+
                     </div>
                     <div className='mt-2.5  h-[1px] w-full bg-[#e3e3e3]'></div>
                     {/* <div className='font-regular text-[#121212] font-[600] sm:mt-2 mt-1.5'>Start From</div> */}

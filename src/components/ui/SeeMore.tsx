@@ -21,7 +21,7 @@ const SeeMore = () => {
         <div className='flex justify-center w-full mt-[40px]'>
             <button
                 onClick={handleClick}
-                className='px-[24px] py-[12px] rounded-[9999px] border-2 border-[#e3e3e3] cursor-pointer font-[600] font-medium sm:w-auto w-full flex items-center gap-2'
+                className='px-[24px] py-[12px] rounded-[9999px] border-2 border-[#e3e3e3] cursor-pointer font-[600] font-medium sm:w-auto w-full flex items-center justify-center gap-2'
             >
                 See More
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 25 25" fill="none">

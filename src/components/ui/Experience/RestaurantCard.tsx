@@ -115,9 +115,9 @@ const RestaurantCard = ({
                         <h3 className="text-[20px] leading-[30px] font-[700] text-[#121212]">
                             {title}
                         </h3>
-                        
 
-                        
+
+
                     </div>
 
                     {showIcons && (
@@ -126,7 +126,7 @@ const RestaurantCard = ({
                                 <LuUsers className="text-[18px]" />
                                 1 {persons}
                             </span>
-                            
+
                             <span className="text-[14px] text-[#3D3D3D] flex items-center gap-1">
                                 <FiClock className="text-[18px]" />
                                 {time}
@@ -140,10 +140,10 @@ const RestaurantCard = ({
                             <span className="text-[#272835] text-[18px] font-[400]">{location}</span>
                         </div>
                     ) : ( */}
-                        <div className="flex items-center gap-2">
-                           <ImSpoonKnife className="text-[#121212] text-[20px]" />
-                            <span className="text-[#272835] text-[18px] font-[400]">French, Mediterranean</span>
-                        </div>
+                    <div className="flex items-center gap-2">
+                        <ImSpoonKnife className="text-[#121212] text-[20px]" />
+                        <span className="text-[#272835] text-[18px] font-[400]">French, Mediterranean</span>
+                    </div>
                     {/* )} */}
 
 
@@ -151,14 +151,14 @@ const RestaurantCard = ({
 
 
                     {showRating && (
-                            <div className="flex items-center">
-                                 <IoStar className="text-[20px] text-[#FFA515] mb-1" />
-                                <span className="ml-1.5 text-[18px] text-[#121212] font-bold mr-1">
-                                    5,0{" "}
-                                </span>
-                                <span className="text-[18px] text-[#6D6D6D]">(53) reviews</span>
-                            </div>
-                        )}
+                        <div className="flex items-center">
+                            <IoStar className="text-[20px] text-[#FFA515] mb-1" />
+                            <span className="ml-1.5 text-[18px] text-[#121212] font-bold mr-1">
+                                5,0{" "}
+                            </span>
+                            <span className="text-[18px] text-[#6D6D6D]">(53) reviews</span>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

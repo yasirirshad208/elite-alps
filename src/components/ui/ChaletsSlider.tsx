@@ -6,20 +6,20 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { useAccommodationStore } from '@/stores/AccommodationStore';
 import AccommodationCard from './AccommodationCard';
+import { usePropertyStore } from '@/stores/PropertyStore';
 
 const ChaletsSlider = () => {
     const {
-        randomChalets,
-        fetchAccommodations,
-    } = useAccommodationStore();
+        sliderChalets,
+        fetchSliderChalets
+    } = usePropertyStore();
 
     useEffect(() => {
-        if (randomChalets.length === 0) {
-            fetchAccommodations();
+        if (sliderChalets.length === 0) {
+            fetchSliderChalets();
         }
-    }, [fetchAccommodations, randomChalets.length]);
+    }, [fetchSliderChalets, sliderChalets.length]);
 
     return (
         <section className='md:mt-8 mt-6'>
@@ -67,17 +67,18 @@ const ChaletsSlider = () => {
                             nextEl: '.magazine-next',
                         }}
                     >
-                        {randomChalets.map((item, i) => (
+                        {sliderChalets.map((item, i) => (
                             <SwiperSlide key={i}>
                                 <AccommodationCard
-                                    title={item.nom_bien_en[0]}
-                                    area={item.surface}
-                                    persons={item.nb_adultes}
-                                    location={item.nom_station[0]}
-                                    bedrooms={item.nombre_chambres}
-                                    price={item.prix_appel_hiver[0]}
-                                    image={item.photo_web[0]}
-                                    link={`/chalets/${item.id_bien}`}
+              title={item.name}
+              area={item.surface}
+              persons={item.adults}
+              location={item.station}
+              bedrooms={item.rooms}
+              price={item.winterPrice}
+              images={item.allImages.slice(0,7)}
+              id={item.propertyId}
+              link={`/chalets/${item.propertyId}`}
                                 />
                             </SwiperSlide>
                         ))}

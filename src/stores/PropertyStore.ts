@@ -13,6 +13,8 @@ export interface apartments {
 interface PropertyState {
   chalets: chalets[];
   countChalets:number;
+  sliderChalets: chalets[];
+  sliderApartments: apartments[];
   countApartments:number;
   apartments: apartments[];
   loading: boolean;
@@ -28,6 +30,10 @@ interface PropertyState {
   page?: string;
 }) => Promise<void>;
 
+fetchSliderChalets: () => Promise<void>;
+
+fetchSliderApartments: () => Promise<void>;
+
   fetchApartments: (filters?: {
    location?: string;
   price?: string;
@@ -41,7 +47,9 @@ interface PropertyState {
 
 export const usePropertyStore = create<PropertyState>((set) => ({
   chalets: [],
+  sliderChalets:[],
   apartments: [],
+  sliderApartments:[],
   countChalets:0,
   countApartments:0,
   loading: false,
@@ -85,6 +93,33 @@ fetchChalets: async (filters = {}) => {
 }
 ,
 
+fetchSliderChalets: async () => {
+  set({ loading: true, error: null });
+
+  try {
+    const params = new URLSearchParams();
+    const page = "3";
+
+    params.set("type", "chalet");
+    params.set("page", page);
+
+    const response = await axios.get(
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
+    );
+
+    const newData = response.data.properties || [];
+
+    set({
+      sliderChalets:newData,
+    });
+  } catch (error: any) {
+    set({ error: error.message || "Failed to fetch chalets" });
+  } finally {
+    set({ loading: false });
+  }
+},
+
+
 
 
  fetchApartments: async (filters = {}) => {
@@ -124,6 +159,33 @@ fetchChalets: async (filters = {}) => {
     }));
   } catch (error: any) {
     set({ error: error.message || "Failed to fetch apartments" });
+  } finally {
+    set({ loading: false });
+  }
+},
+
+
+fetchSliderApartments: async () => {
+  set({ loading: true, error: null });
+
+  try {
+    const params = new URLSearchParams();
+    const page = "3";
+
+    params.set("type", "appartement");
+    params.set("page", page);
+
+    const response = await axios.get(
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
+    );
+
+    const newData = response.data.properties || [];
+
+    set({
+      sliderApartments:newData,
+    });
+  } catch (error: any) {
+    set({ error: error.message || "Failed to fetch chalets" });
   } finally {
     set({ loading: false });
   }

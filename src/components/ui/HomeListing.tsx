@@ -1,27 +1,25 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { FaHouseDamage } from 'react-icons/fa'
-import { MdApartment } from 'react-icons/md';
-import { RiHotelLine } from 'react-icons/ri';
-import AccommodationCard from './AccommodationCard';
 import Link from 'next/link';
 import { GoArrowUpRight } from 'react-icons/go';
-import { useAccommodationStore } from '@/stores/AccommodationStore';
 import HomeAccommodationCard from './HomeAccommodationCard';
+import { usePropertyStore } from '@/stores/PropertyStore';
 
 const HomeListing = () => {
     const [selected, setSelected] = useState("chalets");
     const {
-        randomChalets,
-        randomApartments,
-        fetchAccommodations,
-    } = useAccommodationStore();
+        sliderApartments,
+        sliderChalets,
+        fetchSliderApartments,
+        fetchSliderChalets
+    } = usePropertyStore();
 
     useEffect(() => {
-        if (randomChalets.length === 0) {
-            fetchAccommodations();
+        if (sliderChalets.length === 0) {
+            fetchSliderApartments();
+            fetchSliderChalets()
         }
-    }, [fetchAccommodations, randomChalets.length, randomApartments.length]);
+    }, [fetchSliderChalets, fetchSliderApartments, sliderApartments.length, sliderChalets.length]);
     return (
         <div className='container'>
             <div>
@@ -112,31 +110,32 @@ const HomeListing = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:mt-12 mt-8">
                 {
                     selected === "apartments" || selected === "hotels" ? (
-                        randomApartments.slice(2, 5).map((item, index) => (
+                        sliderApartments.slice(2, 5).map((item, index) => (
                             <HomeAccommodationCard
-                                key={index}
-                                title={item.nom_bien_en[0]}
-                                area={item.surface}
-                                persons={item.nb_adultes}
-                                location={item.nom_station[0]}
-                                bedrooms={item.nombre_chambres}
-                                price={item.prix_appel_hiver[0]}
-                                image={item.photo_web[0]}
-                                link={`/chalets/${item.id_bien}`}
+
+                                 key={index}
+              title={item.name}
+              area={item.surface}
+              persons={item.adults}
+              location={item.station}
+              bedrooms={item.rooms}
+              price={item.winterPrice}
+              image={item.mainImage}
+              link={`/chalets/${item.propertyId}`}
                             />
                         ))
                     ) : (
-                        randomChalets.slice(2, 5).map((item, index) => (
+                        sliderChalets.slice(2, 5).map((item, index) => (
                             <HomeAccommodationCard
-                                key={index}
-                                title={item.nom_bien_en[0]}
-                                area={item.surface}
-                                persons={item.nb_adultes}
-                                location={item.nom_station[0]}
-                                bedrooms={item.nombre_chambres}
-                                price={item.prix_appel_hiver[0]}
-                                image={item.photo_web[0]}
-                                link={`/chalets/${item.id_bien}`}
+                                 key={index}
+              title={item.name}
+              area={item.surface}
+              persons={item.adults}
+              location={item.station}
+              bedrooms={item.rooms}
+              price={item.winterPrice}
+              image={item.mainImage}
+              link={`/chalets/${item.propertyId}`}
                             />
                         ))
                     )
