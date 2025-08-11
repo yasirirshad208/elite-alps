@@ -16,7 +16,6 @@ export default async function Chalets({ searchParams }: { searchParams: Promise<
 
 
 
-
   return (
     <>
       <AccommodationHeader page="chalets" image='/chalet-hero.webp' text="Chalet Living in Harmony with Nature" />
