@@ -80,6 +80,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
         { id: 'details', label: 'Details' },
         { id: 'pricing', label: 'Pricing' },
         { id: 'location', label: 'Location' },
+        { id: 'faqs', label: 'Faqs' },
     ];
 
     const handleScrollTo = (id: string) => {

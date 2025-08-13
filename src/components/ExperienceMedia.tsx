@@ -96,7 +96,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-[rgba(0,0,0,0.25)] backdrop-blur-[2.35px] flex items-center justify-center z-50"
+          className="fixed inset-0 bg-[rgba(0,0,0,0.50)] backdrop-blur-[2.35px] flex items-center justify-center z-50"
 
           style={{ backdropFilter: 'blur(2.35px)' }}
         >

@@ -1,12 +1,13 @@
 "use client"
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { IoIosAdd, IoIosArrowDown } from 'react-icons/io'
 import Dropdown from './DropdownAnimation'
 import { FiMinus } from 'react-icons/fi'
 import { TbTransferVertical } from 'react-icons/tb'
+import PriceRange from './PriceRange'
 
 type DropdownType = 'accommodation' | 'location' | 'guests' | 'price' | 'transfer' | 'departure' | 'destination' | 'passengers' | null
 
@@ -16,8 +17,10 @@ const HeroFilter = () => {
   const [passengers, setPassengers] = useState(1)
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null)
   const [accommodationType, setAccommodationType] = useState('Chalets')
-  const [location, setLocation] = useState('Courchevel')
+  const [location, setLocation] = useState('Courchevel 1850')
   const [price, setPrice] = useState('10000')
+  const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [transferType, setTransferType] = useState('Helicopters')
   const [destination, setDestination] = useState('Courchevel')
@@ -26,6 +29,21 @@ const HeroFilter = () => {
   const handleDropdownToggle = (dropdown: DropdownType) => {
     setOpenDropdown(prev => (prev === dropdown ? null : dropdown))
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+    handleResize(); // initial check
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleApply = (min: number, max: number) => {
+    setPrice(max.toString());
+    handleDropdownToggle("price");
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="px-4 sm:px-0 absolute md:bottom-[50px] bottom-[20px] left-1/2 transform -translate-x-1/2  min-h-[100px] rounded-[16px] w-full sm:max-w-[600px] md:max-w-[900px] lg:max-w-[1100px] xl:max-w-[1312px]">
@@ -111,7 +129,7 @@ const HeroFilter = () => {
                   </div>
                   <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'location'} border={true}>
                     <div className='w-full'>
-                      {['Courchevel 1850','Courchevel Moriond (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
+                      {['Courchevel 1850', 'Courchevel Moriond (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
                         <div
                           key={item}
                           className='hover:bg-[#F6F8FA] px-3 py-2 text-[#121212] cursor-pointer'
@@ -161,40 +179,79 @@ const HeroFilter = () => {
                   </div>
                 </div>
 
-                {/* Price */}
-                <div className="relative">
-                  <div className='cursor-pointer w-full' onClick={() => handleDropdownToggle('price')}>
-                    <div className='mb-2 font-regular font-[600] text-[#121212]'>Price</div>
-                    <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
-                      <div className='flex items-center gap-2'>
+                <div className="relative inline-block">
+                  <div
+                    className="cursor-pointer w-full"
+                    onClick={() => handleDropdownToggle("price")}
+                  >
+                    {/* Trigger */}
+                    <div className="mb-2 font-regular font-[600] text-[#121212]">Price</div>
+                    <div className="sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        {/* Icon */}
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                          <path fillRule="evenodd" clipRule="evenodd" d="M8.48294 9.83788C8.73559 8.32213 10.047 7.21118 11.5837 7.21118H12.4479C14.0297 7.21118 15.434 8.22338 15.9343 9.72403C16.0652 10.117 15.8529 10.5417 15.4599 10.6727C15.067 10.8037 14.6422 10.5913 14.5112 10.1983C14.2152 9.31023 13.3841 8.71118 12.4479 8.71118H11.5837C10.7803 8.71118 10.0946 9.29203 9.96254 10.0845C9.84329 10.8 10.3134 11.4811 11.0247 11.6234L13.7149 12.1614C15.2202 12.4625 16.2149 13.9037 15.9625 15.4178C15.7099 16.9336 14.3985 18.0445 12.8618 18.0445H11.9976C10.4158 18.0445 9.01144 17.0323 8.51124 15.5317C8.38024 15.1387 8.59264 14.714 8.98559 14.583C9.37854 14.452 9.80329 14.6644 9.93429 15.0573C10.2303 15.9455 11.0614 16.5445 11.9976 16.5445H12.8618C13.6652 16.5445 14.3509 15.9637 14.4829 15.1712C14.6022 14.4557 14.1321 13.7746 13.4208 13.6323L10.7305 13.0943C9.22534 12.7932 8.23059 11.352 8.48294 9.83788Z" fill="#121212" />
-                          <path fillRule="evenodd" clipRule="evenodd" d="M12.2231 5.87793C12.6373 5.87793 12.9731 6.21373 12.9731 6.62793V18.6279C12.9731 19.0421 12.6373 19.3779 12.2231 19.3779C11.8089 19.3779 11.4731 19.0421 11.4731 18.6279V6.62793C11.4731 6.21373 11.8089 5.87793 12.2231 5.87793Z" fill="#121212" />
-                          <path fillRule="evenodd" clipRule="evenodd" d="M2.47363 12.6279C2.47363 7.24313 6.83883 2.87793 12.2236 2.87793C17.6084 2.87793 21.9736 7.24313 21.9736 12.6279C21.9736 18.0127 17.6084 22.3779 12.2236 22.3779C6.83883 22.3779 2.47363 18.0127 2.47363 12.6279ZM12.2236 4.37793C7.66728 4.37793 3.97363 8.07158 3.97363 12.6279C3.97363 17.1843 7.66728 20.8779 12.2236 20.8779C16.78 20.8779 20.4736 17.1843 20.4736 12.6279C20.4736 8.07158 16.78 4.37793 12.2236 4.37793Z" fill="#121212" />
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M8.48294 9.83788C8.73559 8.32213 10.047 7.21118 11.5837 7.21118H12.4479C14.0297 7.21118 15.434 8.22338 15.9343 9.72403C16.0652 10.117 15.8529 10.5417 15.4599 10.6727C15.067 10.8037 14.6422 10.5913 14.5112 10.1983C14.2152 9.31023 13.3841 8.71118 12.4479 8.71118H11.5837C10.7803 8.71118 10.0946 9.29203 9.96254 10.0845C9.84329 10.8 10.3134 11.4811 11.0247 11.6234L13.7149 12.1614C15.2202 12.4625 16.2149 13.9037 15.9625 15.4178C15.7099 16.9336 14.3985 18.0445 12.8618 18.0445H11.9976C10.4158 18.0445 9.01144 17.0323 8.51124 15.5317C8.38024 15.1387 8.59264 14.714 8.98559 14.583C9.37854 14.452 9.80329 14.6644 9.93429 15.0573C10.2303 15.9455 11.0614 16.5445 11.9976 16.5445H12.8618C13.6652 16.5445 14.3509 15.9637 14.4829 15.1712C14.6022 14.4557 14.1321 13.7746 13.4208 13.6323L10.7305 13.0943C9.22534 12.7932 8.23059 11.352 8.48294 9.83788Z"
+                            fill="#121212"
+                          />
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M12.2231 5.87793C12.6373 5.87793 12.9731 6.21373 12.9731 6.62793V18.6279C12.9731 19.0421 12.6373 19.3779 12.2231 19.3779C11.8089 19.3779 11.4731 19.0421 11.4731 18.6279V6.62793C11.4731 6.21373 11.8089 5.87793 12.2231 5.87793Z"
+                            fill="#121212"
+                          />
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M2.47363 12.6279C2.47363 7.24313 6.83883 2.87793 12.2236 2.87793C17.6084 2.87793 21.9736 7.24313 21.9736 12.6279C21.9736 18.0127 17.6084 22.3779 12.2236 22.3779C6.83883 22.3779 2.47363 18.0127 2.47363 12.6279ZM12.2236 4.37793C7.66728 4.37793 3.97363 8.07158 3.97363 12.6279C3.97363 17.1843 7.66728 20.8779 12.2236 20.8779C16.78 20.8779 20.4736 17.1843 20.4736 12.6279C20.4736 8.07158 16.78 4.37793 12.2236 4.37793Z"
+                            fill="#121212"
+                          />
                         </svg>
-                        <span className='sm:text-[16px] text-[12px]'>£{price}/week</span>
+                        <span className="sm:text-[16px] text-[12px]">£{price}/week</span>
                       </div>
-                      <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
+                      <IoIosArrowDown className="sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]" />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'price'} border={true}>
-                    <div className='w-full'>
-                      {['5000', '10000', '15000'].map((item) => (
-                        <div
-                          key={item}
-                          className='hover:bg-[#F6F8FA] px-3 py-2 text-[#121212] cursor-pointer'
-                          onClick={() => {
-                            setPrice(item)
-                            setOpenDropdown(null)
-                          }}
-                        >
-                          {item}
-                        </div>
-                      ))}
 
+                  {/* Dropdown */}
+                  {/* <> */}
+                  {!isMobile && openDropdown === "price" ? (
+                    // Desktop / Tablet View
+                    <div
+                      className="
+      fixed
+      bottom-[calc(70%)]
+      mb-2
+      left-1/2 -translate-x-1/2
+      max-w-[706px]
+      z-[999999]
+    "
+                    >
+                      <PriceRange onApplyFilter={handleApply} onClose={()=>{setOpenDropdown(null)}}/>
                     </div>
-                  </Dropdown>
+                  ) : (
+                    // Mobile: Button to open modal
+                    <>
+                      {isMobile && openDropdown === "price" && (
+                        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
+                          <div className="w-[90%] max-w-md px-[12px]">
+                            <PriceRange onApplyFilter={handleApply} onClose={()=>{setOpenDropdown(null)}} />
+                            {/* <button
+                              className="mt-4 w-full bg-gray-300 py-2 rounded"
+                              onClick={() => setIsModalOpen(false)}
+                            >
+                              Close
+                            </button> */}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+
                 </div>
+
               </div>
 
               {/* Search Button */}

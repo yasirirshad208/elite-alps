@@ -7,6 +7,7 @@ import RestaurantIconsFilter from '../Experience/RestaurantIconsFilter';
 import CountResults from '../CountResults';
 import SeeMore from '../SeeMore';
 import AccommodationIconsFilter from './AccommodationFilters';
+import SortBy from '../SortBy';
 
 const ApartmentListing = ({
   location,
@@ -71,8 +72,9 @@ const ApartmentListing = ({
           <div className="overflow-hidden w-full">
             <AccommodationIconsFilter icons={icons} />
           </div>
-          <div className="sm:w-auto w-full sm:block flex justify-end">
+           <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
             <CountResults number={apartments.length} />
+            <SortBy list={["Recommended", "Price low to high", "Price high to low", "Bedrooms min to max", "Bedrooms max to min"]} />
           </div>
         </div>
 

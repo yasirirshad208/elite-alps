@@ -3,6 +3,7 @@ import HeroFilter from "@/components/ui/HeroFilter";
 import HomeListing from "@/components/ui/HomeListing";
 import HomeTestimonials from "@/components/ui/HomeTestimonials";
 import MagazineListing from "@/components/ui/MagazineListing";
+import PriceRange from "@/components/ui/PriceRange";
 import WhyChoose from "@/components/ui/WhyChoose";
 import { GoArrowUpRight } from "react-icons/go";
 
@@ -19,7 +20,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/50 z-0"></div>
 
           {/* Content */}
-          <div className="sm:px-0 px-4 xl:mt-[-84px] lg:mt-[-75px] mt-[-126px] lg:gap-4 gap-3 flex flex-col items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full z-10">
+          <div className="sm:px-0 px-4 xl:mt-[-84px] lg:mt-[-75px] mt-[-126px] lg:gap-4 gap-3 flex flex-col items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full">
             <div
               className="text-white text-center font-normal leading-[140%] text-[16px] md:text-[18px] mb-3 md:mb-6 lg:mb-10 xl:mb-14"
               style={{
@@ -66,6 +67,7 @@ export default function Home() {
           <HeroFilter />
         </div>
       </section>
+
 
 
 

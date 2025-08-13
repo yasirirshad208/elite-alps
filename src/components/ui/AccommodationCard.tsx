@@ -63,24 +63,23 @@ const AccommodationCard = ({ title, image, id, stars, showHandle = true, images,
                 <div>
                     <div className="relative z-0 group cursor-pointer">
                         <div className="overflow-hidden h-[223px] w-full">
-                            <div
-                                className="flex transition-transform duration-500 ease-in-out w-full h-full"
-                                style={{
-                                    transform: `translateX(-${activeImageIndex * 100}%)`,
-                                }}
-                            >
-                                {images.map((img, idx) => (
-                                    <img
-                                        key={idx}
-                                        src={`https://admin.cimalpes.com/photos/bien/${id}/${img}`}
-                                        alt={title}
-                                        className="object-cover rounded-[9px] w-full h-full"
-                                        sizes="(max-width: 768px) 100vw,
-                                            (max-width: 1024px) 50vw,
-                                            25vw"
-                                    />
-                                ))}
-                            </div>
+                           <div
+  className="flex transition-transform duration-500 ease-in-out w-full h-full"
+  style={{
+    transform: `translateX(-${activeImageIndex * 100}%)`,
+  }}
+>
+  {images.map((img, idx) => (
+    <div key={idx} className="w-full flex-shrink-0 h-full">
+      <img
+        src={`https://admin.cimalpes.com/photos/bien/${id}/${img}`}
+        alt={title}
+        className="object-cover rounded-[9px] w-full h-full"
+      />
+    </div>
+  ))}
+</div>
+
                         </div>
                         {showHandle && (
                             <>
