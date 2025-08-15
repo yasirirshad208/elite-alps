@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { usePropertyStore } from '@/stores/PropertyStore';
 import AccommodationCard from '../AccommodationCard';
-import RestaurantIconsFilter from '../Experience/RestaurantIconsFilter';
 import CountResults from '../CountResults';
 import SeeMore from '../SeeMore';
 import AccommodationIconsFilter from './AccommodationFilters';
@@ -27,7 +26,7 @@ const ApartmentListing = ({
   page: string;
 }) => {
   const { apartments, loading, error, fetchApartments, countApartments } = usePropertyStore();
-
+ const [sort, setSort] = useState<string>('recommended');
   // Fetch unfiltered data from backend
     useEffect(() => {
    fetchApartments({
@@ -60,6 +59,22 @@ const ApartmentListing = ({
   { name: "Board games", iconKey: "FaGamepad" },
 ];
 
+const sortedApartments = useMemo(() => {
+    const data = [...apartments];
+    switch (sort) {
+      case 'price_asc':
+        return data.sort((a, b) => a.winterPrice - b.winterPrice);
+      case 'price_desc':
+        return data.sort((a, b) => b.winterPrice - a.winterPrice);
+      case 'bedrooms_asc':
+        return data.sort((a, b) => a.rooms - b.rooms);
+      case 'bedrooms_desc':
+        return data.sort((a, b) => b.rooms - a.rooms);
+      default:
+        return data; // recommended or no sort
+    }
+  }, [apartments, sort]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
 
@@ -74,12 +89,20 @@ const ApartmentListing = ({
           </div>
            <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
             <CountResults number={apartments.length} />
-            <SortBy list={["Recommended", "Price low to high", "Price high to low", "Bedrooms min to max", "Bedrooms max to min"]} />
-          </div>
+            <SortBy
+              list={[
+                { label: 'Recommended', value: 'recommended' },
+                { label: 'Price low to high', value: 'price_asc' },
+                { label: 'Price high to low', value: 'price_desc' },
+                { label: 'Bedrooms min to max', value: 'bedrooms_asc' },
+                { label: 'Bedrooms max to min', value: 'bedrooms_desc' }
+              ]}
+              onChange={(value) => setSort(value)}
+            /> </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {apartments.map((item: any, index: number) => (
+          {sortedApartments.map((item: any, index: number) => (
             <AccommodationCard
               key={index}
               title={item.name}

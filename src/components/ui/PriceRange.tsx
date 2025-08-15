@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Range } from "react-range";
 
 interface PriceRangeProps {
@@ -12,9 +12,12 @@ const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose }) => {
   const STEP = 1;
   const MIN = 0;
   const MAX = 100000000; // 100 million
-  const bars = Array.from({ length: 80 }, () =>
-    Math.floor(Math.random() * 80) + 20
-  );
+  const bars = useMemo(
+  () => Array.from({ length: 50 }, () =>
+    Math.floor(Math.random() * 50) + 20
+  ),
+  []
+);
 
   const [values, setValues] = useState<number[]>([MIN, MAX]);
 
@@ -28,9 +31,9 @@ const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose }) => {
   };
 
   return (
-    <div className="p-3 bg-white rounded-[12px] border border-[#e3e3e3] max-w-[706px] mx-auto">
-      <div className="flex justify-between">
-        <h2 className="md:text-[20px] text-[18px] font-[600] mb-6">Price Range Per Week</h2>
+    <div className="p-3 bg-white rounded-[12px] border border-[#e3e3e3] max-w-[506px] mx-auto">
+      <div className="flex justify-between  mb-4">
+        <h2 className="md:text-[20px] text-[18px] font-[600]">Price Range Per Week</h2>
         <button
           className="w-[32px] h-[32px] block md:hidden text-[18px] md:text-[24px] cursor-pointer rounded-full border border-[#e3e3e3] flex justify-center items-center"
           onClick={onClose}
@@ -39,7 +42,7 @@ const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose }) => {
         </button>
       </div>
 
-      <div className="relative h-32 flex items-end">
+      <div className="relative h-24 flex items-end">
         {bars.map((height, i) => {
           const position = (i / (bars.length - 1)) * (MAX - MIN);
           const isSelected =

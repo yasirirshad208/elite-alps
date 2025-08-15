@@ -4,7 +4,7 @@ interface DropdownProps {
   isOpen: boolean;
   children: ReactNode;
   top?: string;
-  border?: boolean
+  border?: boolean;
 }
 
 function Dropdown({ top, isOpen, children, border }: DropdownProps) {
@@ -20,9 +20,11 @@ function Dropdown({ top, isOpen, children, border }: DropdownProps) {
 
   return (
     <div
-      className={`absolute ${top ? top : "top-full"}  ${border ? "shadow-sm border border-[#e3e3e3]" : ""} z-[10000] rounded-[10px] left-0 bg-white p-1.5
+      className={`absolute ${top ? top : "top-full"}  
+        ${border ? "shadow-sm border border-[#e3e3e3]" : ""} 
+        z-[10000] rounded-[10px] left-0 bg-white p-1.5
         transform-gpu transition-all duration-300 ease-in-out
-        origin-top-left w-full
+        origin-top-left w-auto min-w-max
         ${isOpen
           ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
           : "opacity-0 scale-95 -translate-y-2 pointer-events-none"

@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { usePropertyStore } from '@/stores/PropertyStore';
 import AccommodationCard from '../AccommodationCard';
-import RestaurantIconsFilter from '../Experience/RestaurantIconsFilter';
 import CountResults from '../CountResults';
 import SeeMore from '../SeeMore';
 import AccommodationIconsFilter from './AccommodationFilters';
@@ -26,40 +25,57 @@ const ChaletListing = ({
   checkout: string;
   page: string;
 }) => {
+  const [sort, setSort] = useState<string>('recommended');
+
   const { chalets, loading, error, fetchChalets, countChalets } = usePropertyStore();
 
-  // Fetch unfiltered data from backend
+  // Fetch data (filters only)
   useEffect(() => {
-   fetchChalets({
-  location,
-  price,
-  guest,
-  feature,
-  checkin,
-  checkout,
-  page,
-});
+    fetchChalets({
+      location,
+      price,
+      guest,
+      feature,
+      checkin,
+      checkout,
+      page,
+    });
   }, [page, checkin, checkout, location, price, guest, feature]);
 
- 
+  // Frontend sorting
+  const sortedChalets = useMemo(() => {
+    const data = [...chalets];
+    switch (sort) {
+      case 'price_asc':
+        return data.sort((a, b) => a.winterPrice - b.winterPrice);
+      case 'price_desc':
+        return data.sort((a, b) => b.winterPrice - a.winterPrice);
+      case 'bedrooms_asc':
+        return data.sort((a, b) => a.rooms - b.rooms);
+      case 'bedrooms_desc':
+        return data.sort((a, b) => b.rooms - a.rooms);
+      default:
+        return data; // recommended or no sort
+    }
+  }, [chalets, sort]);
 
-   const icons = [
-  { name: "All", iconKey: "IoMenu" },
-  { name: "Wood fireplace", iconKey: "GiWoodPile" },
-  { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
-  { name: "Gas fireplace", iconKey: "GiGasStove" },
-  { name: "Ski locker", iconKey: "FaCar" },
-  { name: "Parking space", iconKey: "FaCar" },
-  { name: "Boots heater", iconKey: "GiBootPrints" },
-  { name: "Without elevator", iconKey: "FaTimesCircle" },
-  { name: "Elevator", iconKey: "BiBuildingHouse" },
-  { name: "Outdoor furniture", iconKey: "MdOutlineChair" },
-  { name: "Baby cot", iconKey: "FaBaby" },
-  { name: "High chair", iconKey: "FaChild" },
-  { name: "Safe", iconKey: "BsSafe" },
-  { name: "Garage", iconKey: "PiGarageFill" },
-  { name: "Board games", iconKey: "FaGamepad" },
-];
+  const icons = [
+    { name: "All", iconKey: "IoMenu" },
+    { name: "Wood fireplace", iconKey: "GiWoodPile" },
+    { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
+    { name: "Gas fireplace", iconKey: "GiGasStove" },
+    { name: "Ski locker", iconKey: "FaCar" },
+    { name: "Parking space", iconKey: "FaCar" },
+    { name: "Boots heater", iconKey: "GiBootPrints" },
+    { name: "Without elevator", iconKey: "FaTimesCircle" },
+    { name: "Elevator", iconKey: "BiBuildingHouse" },
+    { name: "Outdoor furniture", iconKey: "MdOutlineChair" },
+    { name: "Baby cot", iconKey: "FaBaby" },
+    { name: "High chair", iconKey: "FaChild" },
+    { name: "Safe", iconKey: "BsSafe" },
+    { name: "Garage", iconKey: "PiGarageFill" },
+    { name: "Board games", iconKey: "FaGamepad" },
+  ];
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
@@ -74,13 +90,22 @@ const ChaletListing = ({
             <AccommodationIconsFilter icons={icons} />
           </div>
           <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
-            <CountResults number={chalets.length} />
-            <SortBy list={["Recommended", "Price low to high", "Price high to low", "Bedrooms min to max", "Bedrooms max to min"]} />
+            <CountResults number={sortedChalets.length} />
+            <SortBy
+              list={[
+                { label: 'Recommended', value: 'recommended' },
+                { label: 'Price low to high', value: 'price_asc' },
+                { label: 'Price high to low', value: 'price_desc' },
+                { label: 'Bedrooms min to max', value: 'bedrooms_asc' },
+                { label: 'Bedrooms max to min', value: 'bedrooms_desc' }
+              ]}
+              onChange={(value) => setSort(value)}
+            />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {chalets.map((item: any, index: number) => (
+          {sortedChalets.map((item: any, index: number) => (
             <AccommodationCard
               key={index}
               title={item.name}
@@ -89,14 +114,14 @@ const ChaletListing = ({
               location={item.station}
               bedrooms={item.rooms}
               price={item.winterPrice}
-              images={item.allImages.slice(0,7)}
+              images={item.allImages.slice(0, 7)}
               id={item.propertyId}
               link={`/chalets/${item.propertyId}`}
             />
           ))}
         </div>
 
-         {parseInt(page || "1") * 12 < countChalets && <SeeMore />}
+        {parseInt(page || "1") * 12 < countChalets && <SeeMore />}
       </div>
     </section>
   );

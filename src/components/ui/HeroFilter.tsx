@@ -18,7 +18,7 @@ const HeroFilter = () => {
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null)
   const [accommodationType, setAccommodationType] = useState('Chalets')
   const [location, setLocation] = useState('Courchevel 1850')
-  const [price, setPrice] = useState('10000')
+  const [price, setPrice] = useState('0')
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -220,16 +220,16 @@ const HeroFilter = () => {
                   {!isMobile && openDropdown === "price" ? (
                     // Desktop / Tablet View
                     <div
-                      className="
-      fixed
-      bottom-[calc(70%)]
-      mb-2
-      left-1/2 -translate-x-1/2
-      max-w-[706px]
-      z-[999999]
-    "
+                                        className="
+                        fixed
+                        top-[calc(90%)]
+                        mb-2
+                        left-1/2 -translate-x-1/2
+                        max-w-[506px]
+                        z-[999999]
+                      "
                     >
-                      <PriceRange onApplyFilter={handleApply} onClose={()=>{setOpenDropdown(null)}}/>
+                      <PriceRange onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
                     </div>
                   ) : (
                     // Mobile: Button to open modal
@@ -237,13 +237,8 @@ const HeroFilter = () => {
                       {isMobile && openDropdown === "price" && (
                         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
                           <div className="w-[90%] max-w-md px-[12px]">
-                            <PriceRange onApplyFilter={handleApply} onClose={()=>{setOpenDropdown(null)}} />
-                            {/* <button
-                              className="mt-4 w-full bg-gray-300 py-2 rounded"
-                              onClick={() => setIsModalOpen(false)}
-                            >
-                              Close
-                            </button> */}
+                            <PriceRange onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+                           
                           </div>
                         </div>
                       )}

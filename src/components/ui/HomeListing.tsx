@@ -134,7 +134,8 @@ const HomeListing = () => {
               location={item.station}
               bedrooms={item.rooms}
               price={item.winterPrice}
-              image={item.mainImage}
+              images={item.allImages.slice(0,7)}
+              id={item.propertyId}
               link={`/chalets/${item.propertyId}`}
                             />
                         ))

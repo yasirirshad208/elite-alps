@@ -3,7 +3,6 @@ import HeroFilter from "@/components/ui/HeroFilter";
 import HomeListing from "@/components/ui/HomeListing";
 import HomeTestimonials from "@/components/ui/HomeTestimonials";
 import MagazineListing from "@/components/ui/MagazineListing";
-import PriceRange from "@/components/ui/PriceRange";
 import WhyChoose from "@/components/ui/WhyChoose";
 import { GoArrowUpRight } from "react-icons/go";
 
@@ -72,7 +71,7 @@ export default function Home() {
 
 
       <section>
-        <div className="bg-[#EFEFEF] lg:py-[80px] py-[40px] md:py-[60px]">
+        <div className="bg-[#EFEFEF] lg:py-[90px] py-[40px] md:py-[60px]">
           <div className="container">
             <ExperiencesSlider />
           </div>

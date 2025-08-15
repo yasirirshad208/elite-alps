@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { MdApartment } from 'react-icons/md'
 import { IoIosAdd, IoIosArrowDown } from 'react-icons/io'
@@ -11,6 +11,7 @@ import { FaHouseDamage } from 'react-icons/fa'
 import { RiHotelLine } from 'react-icons/ri'
 import DatePicker from 'react-datepicker'
 import { addDays, isSaturday } from 'date-fns'
+import PriceRange from '../PriceRange'
 
 type DropdownType = 'accommodation' | 'location' | 'guests' | 'price' | null
 
@@ -23,6 +24,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
 
   const [checkIn, setCheckIn] = useState<Date | null>(null)
   const [checkOut, setCheckOut] = useState<Date | null>(null)
+  const [isMobile, setIsMobile] = useState(false);
 
   const handleDropdownToggle = (dropdown: DropdownType) => {
     setOpenDropdown(prev => (prev === dropdown ? null : dropdown))
@@ -42,6 +44,20 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
     if (!checkIn) return false; // ⛔ don't allow any dates if no check-in selected
     return isSaturday(date) && date > checkIn;
   }
+
+  useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 767);
+      };
+      handleResize(); // initial check
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+  
+    const handleApply = (min: number, max: number) => {
+      setPrice(max.toString());
+      handleDropdownToggle("price");
+    };
 
   return (
     <div
@@ -250,23 +266,35 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
                 <IoIosArrowDown className='text-[20px] text-[#121212]' />
               </div>
             </div>
-            <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'price'} border={true}>
-              <div className='w-full'>
-                {['5000', '10000', '15000'].map((item) => (
-                  <div
-                    key={item}
-                    className='hover:bg-[#F6F8FA] px-3 py-2 text-[#121212] cursor-pointer'
-                    onClick={() => {
-                      setPrice(item)
-                      setOpenDropdown(null)
-                    }}
-                  >
-                    {item}
-                  </div>
-                ))}
 
-              </div>
-            </Dropdown>
+            {!isMobile && openDropdown === "price" ? (
+                    // Desktop / Tablet View
+                    <div
+                                        className="
+                        fixed
+                        top-[calc(100%)]
+                        mb-2
+                        left-1/2 -translate-x-1/2
+                        max-w-[506px]
+                        z-[999999]
+                      "
+                    >
+                      <PriceRange onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+                    </div>
+                  ) : (
+                    // Mobile: Button to open modal
+                    <>
+                      {isMobile && openDropdown === "price" && (
+                        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
+                          <div className="w-[90%] max-w-md px-[12px]">
+                            <PriceRange onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+                           
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+           
           </div>
 
 
