@@ -1,25 +1,31 @@
 "use client"
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Range } from "react-range";
 
 interface PriceRangeProps {
   onApplyFilter: (min: number, max: number) => void;
   onClose: () => void;
+  min:number;
+  max:number;
 }
 
-const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose }) => {
-  const STEP = 1;
+const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose, min, max }) => {
+  const STEP = 1000;
   const MIN = 0;
-  const MAX = 100000000; // 100 million
+  const MAX = 3000000; 
+
   const bars = useMemo(
-  () => Array.from({ length: 50 }, () =>
-    Math.floor(Math.random() * 50) + 20
-  ),
-  []
-);
+    () => Array.from({ length: 50 }, () => Math.floor(Math.random() * 50) + 20),
+    []
+  );
 
   const [values, setValues] = useState<number[]>([MIN, MAX]);
+
+  // 🔑 sync with parent props
+  useEffect(() => {
+    setValues([min, max]);
+  }, [min, max]);
 
   const handleInputChange = (index: number, value: string) => {
     const num = parseInt(value) || 0;

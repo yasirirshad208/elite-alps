@@ -103,7 +103,10 @@ const ExperienceHeroFilter = ({ page, values }: { page: string, values: Value[] 
                             <div key={dropdownKey} className="relative">
                                 <div
                                     className={`cursor-pointer w-full ${index === 0 ? "sm:border-r  border-[#e3e3e3] sm:pr-2.5 mb-1 sm:mb-0" : ""} `}
-                                    onClick={() => handleDropdownToggle(dropdownKey)}
+                                    onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle(dropdownKey);
+  }}
                                 >
                                     <div className="mb-2 font-regular font-[600] text-[#121212]">{item.name}</div>
                                     <div className="flex items-center justify-between">
@@ -115,7 +118,7 @@ const ExperienceHeroFilter = ({ page, values }: { page: string, values: Value[] 
                                         <IoIosArrowDown className="text-[20px] text-[#121212]" />
                                     </div>
                                 </div>
-                                <Dropdown top="top-[calc(100%+6px)]" isOpen={openDropdown === dropdownKey} border={true}>
+                                <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === dropdownKey} border={true}>
                                     <div className="w-full">
                                         {item.value.map((option) => (
                                             <div

@@ -28,9 +28,9 @@ export default function About() {
                 <div className="container">
                     <div className="flex justify-between sm:items-end gap-3 sm:flex-row flex-col flex-wrap">
                         <div className="flex flex-col gap-3">
-                            <h1 className="heading-h1 mb-[12px] font-[600]">Who Are We</h1>
+                            <h1 className="heading-h1 mb-[12px] font-[600] leading-[120%]">Who Are We</h1>
 
-                            <p className="font-medium max-w-[528px] text-[#666D80] "> Get the latest insights, trends, and expert advice in our blog. Stay informed, inspired, and ahead of the curve.</p>
+                            <p className="font-medium max-w-[528px] text-[#666D80] leading-[140%]"> Get the latest insights, trends, and expert advice in our blog. Stay informed, inspired, and ahead of the curve.</p>
                         </div>
 
                         <div>
@@ -38,22 +38,22 @@ export default function About() {
                         </div>
                     </div>
 
-                    <div className="mt-[48px] md:text-[32px] sm:text-[26px] text-[20px] font-[600] text-[#666D80]">
-                        <span className="text-[#121212]">Elite is your gateway to unforgettable travel experiences, luxurious accommodations, and charming chalets.</span> We meticulously curate the best in travel, from exotic destinations to hidden gems, ensuring that every journey with us is extraordinary. At Elite, we are dedicated to crafting moments that inspire and memories that last. Explore the world with us and elevate your travel adventures to new heights.
+                   <div className="mt-[48px] flex items-center justify-between gap-[32px] flex-col lg:flex-row">
+                     <div className="w-full lg:max-w-[616px]">
+                        <div className="w-full md:text-[20px] text-[18px] font-[400] text-[#121212] leading-[120%]">Elite is your gateway to unforgettable travel experiences, luxurious accommodations, and charming chalets. We meticulously curate the best in travel, from exotic destinations to hidden gems, ensuring that every journey with us is extraordinary.</div>
+                        <div className="w-full md:text-[20px] text-[18px] font-[400] text-[#121212] leading-[120%] mt-6">
+                        At Elite, we are dedicated to crafting moments that inspire and memories that last. Explore the world with us and elevate your travel adventures to new heights.
+                    </div>
                     </div>
 
-                    <div className="mt-[32px] flex items-center gap-4 w-full overflow-hidden">
+                    <div className="h-full w-full lg:max-w-[483px]">
                         <img
                             src="/about-1.png"
                             alt="About"
-                            className="w-[48%] md:w-[324px] h-[107px] sm:h-[140px] md:h-[168px] rounded-[12px] object-cover"
-                        />
-                        <img
-                            src="/about-2.png"
-                            alt="About"
-                            className="w-[48%] md:w-[324px] h-[107px] sm:h-[140px] md:h-[168px] rounded-[12px] object-cover"
+                            className="w-full h-[218px] sm:h-[230px] md:h-[260px] lg:rounded-[0px] rounded-[12px] object-cover"
                         />
                     </div>
+                   </div>
 
 
                 </div>

@@ -79,7 +79,10 @@ const TransferHeroFilter = ({ page }: { page: string }) => {
 
           {/* Location */}
           <div className="relative">
-            <div className='cursor-pointer w-full sm:pr-2.5 sm:border-r border-[#e3e3e3]' onClick={() => handleDropdownToggle('departure')}>
+            <div className='cursor-pointer w-full sm:pr-2.5 sm:border-r border-[#e3e3e3]' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("departure");
+  }}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Departure</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -88,7 +91,7 @@ const TransferHeroFilter = ({ page }: { page: string }) => {
                 <IoIosArrowDown className='text-[20px] text-[#121212]' />
               </div>
             </div>
-            <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'departure'} border={true}>
+            <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'departure'} border={true}>
               <div className='w-full'>
                 {["Grena", "Lyon", "Chambery",].map((item) => (
                   <div
@@ -108,7 +111,10 @@ const TransferHeroFilter = ({ page }: { page: string }) => {
 
           {/* Price */}
           <div className="relative">
-            <div className='cursor-pointer w-full sm:pr-2.5 py-2 sm:py-0 sm:border-r border-[#e3e3e3]' onClick={() => handleDropdownToggle('destination')}>
+            <div className='cursor-pointer w-full sm:pr-2.5 py-2 sm:py-0 sm:border-r border-[#e3e3e3]' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("destination");
+  }}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Destination</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -117,7 +123,7 @@ const TransferHeroFilter = ({ page }: { page: string }) => {
                 <IoIosArrowDown className='text-[20px] text-[#121212]' />
               </div>
             </div>
-            <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'destination'} border={true}>
+            <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'destination'} border={true}>
               <div className='w-full'>
                 {['Courchevel'].map((item) => (
                   <div

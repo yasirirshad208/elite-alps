@@ -35,14 +35,17 @@ const Navbar = () => {
                         <div className='relative'>
                             <div
                                 className={`flex items-center ${openMenu === 'accommodation' ? 'font-semibold' : ''} gap-1 px-[12px] py-[8px] text-[16px] cursor-pointer text-[#121212]`}
-                                onClick={() => toggleMenu('accommodation')}
+                               
+                                onMouseDown={(e) => {
+                                    e.stopPropagation()
+                                    toggleMenu('accommodation')}}
                             >
                                 Accommodation <IoIosArrowDown
                                     className={`transition-transform duration-300 ${openMenu === 'accommodation' ? 'rotate-180' : ''
                                         }`}
                                 />
                             </div>
-                            <Dropdown top="top-[59px]" isOpen={openMenu === 'accommodation'}>
+                            <Dropdown top="top-[59px]" onClose={()=>setOpenMenu(null)} isOpen={openMenu === 'accommodation'}>
                                 <div className='w-full cursor-pointer'>
                                     <Link href={"/chalets"}>
                                         <div className='rounded-[8px] pr-6 pl-2 flex items-center gap-2 py-2 rounded-md hover:bg-[#F6F8FA] group transition-all duration-200' onClick={() => setOpenMenu(null)}>
@@ -146,14 +149,16 @@ const Navbar = () => {
                         <div className='relative'>
                             <div
                                 className={`flex items-center ${openMenu === 'transfer' ? 'font-semibold' : ''} gap-1 px-[12px] py-[8px] text-[16px] cursor-pointer text-[#121212]`}
-                                onClick={() => toggleMenu('transfer')}
+                                 onMouseDown={(e) => {
+                                    e.stopPropagation()
+                                    toggleMenu('transfer')}}
                             >
                                 Transfer <IoIosArrowDown
                                     className={`transition-transform duration-300 ${openMenu === 'transfer' ? 'rotate-180' : ''
                                         }`}
                                 />
                             </div>
-                            <Dropdown top="top-[59px]" isOpen={openMenu === 'transfer'}>
+                            <Dropdown onClose={()=>setOpenMenu(null)} top="top-[59px]" isOpen={openMenu === 'transfer'}>
                                 <div className='w-full cursor-pointer'>
                                     <Link href={"/helicopters"}>
                                         <div className='rounded-[8px] pr-6 pl-2 flex items-center gap-2 py-2 rounded-md hover:bg-[#F6F8FA] group transition-all duration-200' onClick={() => setOpenMenu(null)}>
@@ -213,14 +218,17 @@ const Navbar = () => {
                         <div className='relative'>
                             <div
                                 className={`flex items-center ${openMenu === 'experiences' ? 'font-semibold' : ''} gap-1 px-[12px] py-[8px] text-[16px] cursor-pointer text-[#121212]`}
-                                onClick={() => toggleMenu('experiences')}
+                                 onMouseDown={(e) => {
+                                    e.stopPropagation()
+                                    toggleMenu('experiences')}}
+                            
                             >
                                 Experiences <IoIosArrowDown
                                     className={`transition-transform duration-300 ${openMenu === 'experiences' ? 'rotate-180' : ''
                                         }`}
                                 />
                             </div>
-                            <Dropdown top="top-[59px]" isOpen={openMenu === 'experiences'}>
+                            <Dropdown onClose={()=>setOpenMenu(null)} top="top-[59px]" isOpen={openMenu === 'experiences'}>
                                 <div className='w-full cursor-pointer'>
                                     <Link href={"/restaurants"}>
                                         <div className='rounded-[8px] pr-6 pl-2 flex items-center gap-2 py-2 rounded-md hover:bg-[#F6F8FA] group transition-all duration-200' onClick={() => setOpenMenu(null)}>

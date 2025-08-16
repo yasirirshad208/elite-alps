@@ -1,6 +1,6 @@
 'use client';
 import { useModalStore } from '@/stores/modalStore';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form } from './ui/Form';
 import TransferSuccessCard from './ui/Transfer/TransferSuccesscard';
 import { useMediaQuery } from 'react-responsive';
@@ -85,19 +85,36 @@ const [price, setPrice] = useState<number[]>([5000, 300000]);
         }
     };
 
+    const modalRef = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      closeInquiry();
+      setIsSubmitted(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [closeInquiry]);
+
+
     if (!isInquiryOpen) return null;
     if (isSubmitted) {
         if (isMobile) {
             return (
                 <div className="fixed  inset-0 z-[9999] bg-[rgba(0,0,0,0.4)] flex justify-center items-center">
-                    <div className="bg-white rounded-xl max-w-sm w-[90%] p-4">
+                    <div ref={modalRef}  className="bg-white rounded-xl max-w-sm w-[90%] p-4">
                         <TransferSuccessCard onClose={handleCloseModal} />
                     </div>
                 </div>
             )
         } else {
             return <div className="fixed  inset-0 z-[9999] bg-[rgba(0,0,0,0.4)] flex justify-center items-center">
-                <div className=" bg-white w-full h-full md:h-auto max-w-[706px] md:p-6 p-4 md:rounded-[12px] relative">
+                <div ref={modalRef}  className=" bg-white w-full h-full md:h-auto max-w-[706px] md:p-6 p-4 md:rounded-[12px] relative">
                     <>
                         <div className='flex justify-between'>
 
@@ -127,7 +144,7 @@ const [price, setPrice] = useState<number[]>([5000, 300000]);
         return (
             <>
                 <div className="fixed inset-0 z-19 sm:z-[9999] bg-[rgba(0,0,0,0.4)] flex justify-center items-center">
-                    <div className="overflow-y-auto bg-white w-full h-full md:max-h-[820px] max-w-[706px] sm:p-4 px-4 pb-4 pt-[108px] md:p-6 md:rounded-[12px] relative">
+                    <div ref={modalRef} className="overflow-y-auto bg-white w-full h-full md:max-h-[820px] max-w-[706px] sm:p-4 px-4 pb-4 pt-[108px] md:p-6 md:rounded-[12px] relative">
                         <>
                             <div className='mb-[32px] flex items-center gap-3 sm:hidden'>
                                 <button className='p-2 rounded-full border-[#e3e3e3] border cursor-pointer' onClick={closeInquiry}><FaArrowLeft className='w-[24px] h-[24px]' /></button> <span className='text-[16x] font-[600] '>Quick Inquiry Form</span>

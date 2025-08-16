@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { MdApartment } from 'react-icons/md'
 import { IoIosAdd, IoIosArrowDown } from 'react-icons/io'
@@ -20,7 +20,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
   const [guest, setGuest] = useState(1)
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null)
   const [location, setLocation] = useState('Courchevel')
-  const [price, setPrice] = useState('10000')
+  const [price, setPrice] = useState('0')
 
   const [checkIn, setCheckIn] = useState<Date | null>(null)
   const [checkOut, setCheckOut] = useState<Date | null>(null)
@@ -54,10 +54,36 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
       return () => window.removeEventListener("resize", handleResize);
     }, []);
   
-    const handleApply = (min: number, max: number) => {
-      setPrice(max.toString());
-      handleDropdownToggle("price");
-    };
+    const [minPrice, setMinPrice] = useState(0)
+  const [maxPrice, setMaxPrice] = useState(3000000)
+
+  const handleApply = (min: number, max: number) => {
+    setPrice(max.toString());
+    setMinPrice(min)
+    setMaxPrice(max)
+    handleDropdownToggle("price");
+  };
+
+   const dropdownRef = useRef<HTMLDivElement>(null);
+  
+    useEffect(() => {
+      function handleClickOutside(event: MouseEvent) {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target as Node)
+        ) {
+          setOpenDropdown(null) // ✅ only call if provided
+        }
+      }
+  
+      if (openDropdown === "price") {
+        document.addEventListener("mousedown", handleClickOutside);
+      }
+  
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [openDropdown === "price"]);
 
   return (
     <div
@@ -225,7 +251,10 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
 
           {/* Location */}
           <div className="relative">
-            <div className='cursor-pointer w-full lg:pr-2.5 lg:border-r border-[#e3e3e3]' onClick={() => handleDropdownToggle('location')}>
+            <div className='cursor-pointer w-full lg:pr-2.5 lg:border-r border-[#e3e3e3]' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("location");
+  }}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Location</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -234,7 +263,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
                 <IoIosArrowDown className='text-[20px] text-[#121212]' />
               </div>
             </div>
-            <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'location'} border={true}>
+            <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'location'} border={true}>
               <div className='w-full'>
                 {['Courchevel 1850','Courchevel Moriond (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
                   <div
@@ -257,7 +286,10 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
 
           {/* Price */}
           <div className="relative">
-            <div className='cursor-pointer w-full lg:pr-2.5 py-2 sm:py-0 lg:border-r border-[#e3e3e3]' onClick={() => handleDropdownToggle('price')}>
+            <div className='cursor-pointer w-full lg:pr-2.5 py-2 sm:py-0 lg:border-r border-[#e3e3e3]' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("price");
+  }}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Price</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -270,6 +302,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
             {!isMobile && openDropdown === "price" ? (
                     // Desktop / Tablet View
                     <div
+                    ref={dropdownRef}
                                         className="
                         fixed
                         top-[calc(100%)]
@@ -279,15 +312,15 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
                         z-[999999]
                       "
                     >
-                      <PriceRange onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+                      <PriceRange min={minPrice} max={maxPrice} onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
                     </div>
                   ) : (
                     // Mobile: Button to open modal
                     <>
                       {isMobile && openDropdown === "price" && (
                         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
-                          <div className="w-[90%] max-w-md px-[12px]">
-                            <PriceRange onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+                          <div className="w-[90%] max-w-md px-[12px]" ref={dropdownRef}>
+                            <PriceRange min={minPrice} max={maxPrice} onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
                            
                           </div>
                         </div>

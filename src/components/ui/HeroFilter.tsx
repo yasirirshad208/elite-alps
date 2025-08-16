@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { IoIosAdd, IoIosArrowDown } from 'react-icons/io'
 import Dropdown from './DropdownAnimation'
@@ -19,6 +19,7 @@ const HeroFilter = () => {
   const [accommodationType, setAccommodationType] = useState('Chalets')
   const [location, setLocation] = useState('Courchevel 1850')
   const [price, setPrice] = useState('0')
+  
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,11 +40,37 @@ const HeroFilter = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const [minPrice, setMinPrice] = useState(0)
+  const [maxPrice, setMaxPrice] = useState(3000000)
+
   const handleApply = (min: number, max: number) => {
     setPrice(max.toString());
+    setMinPrice(min)
+    setMaxPrice(max)
     handleDropdownToggle("price");
     setIsModalOpen(false);
   };
+
+   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null) // ✅ only call if provided
+      }
+    }
+
+    if (openDropdown === "price") {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openDropdown === "price"]);
 
   return (
     <div className="px-4 sm:px-0 absolute md:bottom-[50px] bottom-[20px] left-1/2 transform -translate-x-1/2  min-h-[100px] rounded-[16px] w-full sm:max-w-[600px] md:max-w-[900px] lg:max-w-[1100px] xl:max-w-[1312px]">
@@ -70,7 +97,10 @@ const HeroFilter = () => {
 
                 {/* Accommodation Type */}
                 <div className="relative">
-                  <div className='cursor-pointer w-full' onClick={() => handleDropdownToggle('accommodation')}>
+                  <div className='cursor-pointer w-full' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("accommodation");
+  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Accommodation Type</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -85,7 +115,7 @@ const HeroFilter = () => {
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'accommodation'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'accommodation'} border={true}>
                     <div className='w-full'>
                       {['Chalets', 'Apartments', 'Hotels'].map((item) => (
                         <div
@@ -106,7 +136,10 @@ const HeroFilter = () => {
 
                 {/* Location */}
                 <div className="relative">
-                  <div className='cursor-pointer w-full' onClick={() => handleDropdownToggle('location')}>
+                  <div className='cursor-pointer w-full' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("location");
+  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Location</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -127,7 +160,7 @@ const HeroFilter = () => {
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'location'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'location'} border={true}>
                     <div className='w-full'>
                       {['Courchevel 1850', 'Courchevel Moriond (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
                         <div
@@ -182,7 +215,10 @@ const HeroFilter = () => {
                 <div className="relative inline-block">
                   <div
                     className="cursor-pointer w-full"
-                    onClick={() => handleDropdownToggle("price")}
+                   onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("price");
+  }}
                   >
                     {/* Trigger */}
                     <div className="mb-2 font-regular font-[600] text-[#121212]">Price</div>
@@ -220,6 +256,7 @@ const HeroFilter = () => {
                   {!isMobile && openDropdown === "price" ? (
                     // Desktop / Tablet View
                     <div
+                     ref={dropdownRef}
                                         className="
                         fixed
                         top-[calc(90%)]
@@ -229,7 +266,7 @@ const HeroFilter = () => {
                         z-[999999]
                       "
                     >
-                      <PriceRange onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+                      <PriceRange onApplyFilter={handleApply} min={minPrice} max={maxPrice} onClose={() => { setOpenDropdown(null) }} />
                     </div>
                   ) : (
                     // Mobile: Button to open modal
@@ -237,7 +274,7 @@ const HeroFilter = () => {
                       {isMobile && openDropdown === "price" && (
                         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
                           <div className="w-[90%] max-w-md px-[12px]">
-                            <PriceRange onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+                            <PriceRange onApplyFilter={handleApply} min={minPrice} max={maxPrice}  onClose={() => { setOpenDropdown(null) }} />
                            
                           </div>
                         </div>
@@ -263,7 +300,10 @@ const HeroFilter = () => {
 
                 {/* Accommodation Type */}
                 <div className="relative">
-                  <div className='cursor-pointer w-full' onClick={() => handleDropdownToggle('transfer')}>
+                  <div className='cursor-pointer w-full' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("transfer");
+  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Transfer Type</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -273,7 +313,7 @@ const HeroFilter = () => {
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'transfer'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'transfer'} border={true}>
                     <div className='w-full'>
                       {['Helicopters', 'Cars', 'Jets'].map((item) => (
                         <div
@@ -294,7 +334,10 @@ const HeroFilter = () => {
 
                 {/* Location */}
                 <div className="relative">
-                  <div className='cursor-pointer w-full' onClick={() => handleDropdownToggle('departure')}>
+                  <div className='cursor-pointer w-full' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("departure");
+  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Departure</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -315,7 +358,7 @@ const HeroFilter = () => {
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'departure'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'departure'} border={true}>
                     <div className='w-full'>
                       {["Grena", "Lyon", "Chambery",].map((item) => (
                         <div
@@ -335,7 +378,10 @@ const HeroFilter = () => {
 
                 {/* Price */}
                 <div className="relative">
-                  <div className='cursor-pointer w-full' onClick={() => handleDropdownToggle('destination')}>
+                  <div className='cursor-pointer w-full' onMouseDown={(e) => {
+    e.stopPropagation();
+    handleDropdownToggle("destination");
+  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Destination</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -362,7 +408,7 @@ const HeroFilter = () => {
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' isOpen={openDropdown === 'destination'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'destination'} border={true}>
                     <div className='w-full'>
                       {['Courchevel'].map((item) => (
                         <div

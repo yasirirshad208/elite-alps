@@ -86,7 +86,7 @@ const ChaletListing = ({
 ];
 
 
-  if (loading) return <div>Loading...</div>;
+  // if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (

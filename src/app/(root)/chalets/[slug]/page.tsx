@@ -349,13 +349,19 @@ const featuresArray = [
                         </div>
 
                         <div className="md:max-w-[487px] sm:block hidden w-full">
-                            <div className="border border-[#e3e3e3] bg-white rounded-[12px] p-4 " style={{ "boxShadow": "0px 4px 12px 0px #9A9A9A1A" }}>
-
-
-                                <AccommodationForm accommodationType="Chalet" dateRanges={dateRanges} name={data.data.propertyDetail.message.detail[0].nom_bien_en[0]} location={data.data.propertyDetail.message.detail[0].secteur[1]._} id={data.data.propertyDetail.message.detail[0].id_bien} />
-
-                            </div>
-                        </div>
+  <div
+    className="border border-[#e3e3e3] bg-white rounded-[12px] p-4 md:sticky md:top-[94px]"
+    style={{ boxShadow: "0px 4px 12px 0px #9A9A9A1A" }}
+  >
+    <AccommodationForm
+      accommodationType="Chalet"
+      dateRanges={dateRanges}
+      name={data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
+      location={data.data.propertyDetail.message.detail[0].secteur[1]._}
+      id={data.data.propertyDetail.message.detail[0].id_bien}
+    />
+  </div>
+</div>
                     </div>
                 </div>
             </section>

@@ -26,24 +26,13 @@ const Faqs: React.FC<FaqsProps> = ({ faqs }) => {
         return (
           <div
             key={index}
-            className={`${!isOpen && "items-center"} flex gap-[24px] w-full p-3 rounded-[12px] border border-[#e3e3e3] transition-all duration-300`}
+            className="flex flex-col w-full p-3 rounded-[12px] border border-[#e3e3e3]"
           >
-            <div className="w-full">
+            {/* Question row */}
+            <div className="flex justify-between items-center gap-4">
               <div className="font-medium font-[600] text-[#121212]">
                 {faq.question}
               </div>
-              <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  isOpen ? 'max-h-[500px] mt-4 opacity-100' : 'max-h-0 opacity-0'
-                }`}
-              >
-                <div className="font-regular font-[400] text-[#666D80]">
-                  {faq.answer}
-                </div>
-              </div>
-            </div>
-
-            <div>
               <button
                 onClick={() => toggleFaq(index)}
                 className={`w-[40px] h-[40px] rounded-[12px] border flex justify-center items-center cursor-pointer transition-all duration-300 ${
@@ -53,11 +42,24 @@ const Faqs: React.FC<FaqsProps> = ({ faqs }) => {
                 }`}
               >
                 {isOpen ? (
-                  <FaMinus className="w-[18px] h-[18px] transition-transform duration-300 rotate-0" />
+                  <FaMinus className="w-[18px] h-[18px] transition-transform duration-300" />
                 ) : (
-                  <FaPlus className="w-[18px] h-[18px] transition-transform duration-300 rotate-0" />
+                  <FaPlus className="w-[18px] h-[18px] transition-transform duration-300" />
                 )}
               </button>
+            </div>
+
+            {/* Answer block */}
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                isOpen
+                  ? 'max-h-[500px] opacity-100 mt-4'
+                  : 'max-h-0 opacity-0 mt-0'
+              }`}
+            >
+              <div className="font-regular font-[400] text-[#666D80]">
+                {faq.answer}
+              </div>
             </div>
           </div>
         );

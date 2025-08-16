@@ -1,14 +1,16 @@
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, ReactNode, useRef } from "react";
 
 interface DropdownProps {
   isOpen: boolean;
   children: ReactNode;
   top?: string;
   border?: boolean
+  onClose?: () => void;
 }
 
-function Dropdown({ top, isOpen, children, border }: DropdownProps) {
+function Dropdown({ top, isOpen, children, border, onClose }: DropdownProps) {
   const [show, setShow] = useState(isOpen);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) setShow(true);
@@ -18,8 +20,28 @@ function Dropdown({ top, isOpen, children, border }: DropdownProps) {
     }
   }, [isOpen]);
 
+   useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        onClose?.(); // ✅ only call if provided
+      }
+    }
+
+    if (isOpen && onClose) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
   return (
     <div
+    ref={dropdownRef}
       className={`absolute ${top ? top : "top-full"}  ${border ? "shadow-sm" : ""} z-18 rounded-[10px] left-0 bg-white p-1.5 z-10
         transform-gpu transition-all duration-300 ease-in-out
         origin-top-left min-w-max w-auto

@@ -213,7 +213,7 @@ const AccommodationIconsFilter = ({ icons }: { icons: IconType[] }) => {
         </div>
       )}
 
-      <div className="absolute top-1/2 right-[3%] border border-[#e3e3e3] -translate-y-1/2 flex items-center justify-center z-10 bg-white w-[32px] h-[32px] rounded-full cursor-pointer">
+      <div className="absolute top-1/2 right-[3%] border border-[#e3e3e3] -translate-y-1/2 flex items-center justify-center z-0 bg-white w-[32px] h-[32px] rounded-full cursor-pointer">
         <IoIosArrowForward
           onClick={scrollNext}
           className="text-[#121212] w-[16px] h-[16px]"
