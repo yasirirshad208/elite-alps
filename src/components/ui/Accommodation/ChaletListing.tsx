@@ -59,23 +59,32 @@ const ChaletListing = ({
     }
   }, [chalets, sort]);
 
-  const icons = [
-    { name: "All", iconKey: "IoMenu" },
-    { name: "Wood fireplace", iconKey: "GiWoodPile" },
-    { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
-    { name: "Gas fireplace", iconKey: "GiGasStove" },
-    { name: "Ski locker", iconKey: "FaCar" },
-    { name: "Parking space", iconKey: "FaCar" },
-    { name: "Boots heater", iconKey: "GiBootPrints" },
-    { name: "Without elevator", iconKey: "FaTimesCircle" },
-    { name: "Elevator", iconKey: "BiBuildingHouse" },
-    { name: "Outdoor furniture", iconKey: "MdOutlineChair" },
-    { name: "Baby cot", iconKey: "FaBaby" },
-    { name: "High chair", iconKey: "FaChild" },
-    { name: "Safe", iconKey: "BsSafe" },
-    { name: "Garage", iconKey: "PiGarageFill" },
-    { name: "Board games", iconKey: "FaGamepad" },
-  ];
+ const icons = [
+  { name: "All", iconKey: "IoMenu" },
+  { name: "Wood fireplace", iconKey: "GiWoodPile" },
+  { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
+  { name: "Ski locker", iconKey: "GiSkiBoot" }, // separate icon
+  { name: "Parking space", iconKey: "FaParking" }, // separate icon
+  { name: "Elevator", iconKey: "BiBuildingHouse" },
+  { name: "Garage", iconKey: "PiGarageFill" },
+
+  // New features
+  { name: "Fitness room", iconKey: "FaDumbbell" },
+  { name: "Hammam", iconKey: "GiSteam" },
+  { name: "Indoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
+  { name: "Outdoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
+  { name: "Nordic bath", iconKey: "GiBathtub" },
+  { name: "Swimming pool", iconKey: "FaSwimmingPool" },
+  { name: "Snooker", iconKey: "GiEightBall" }, // replaced invalid
+  { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
+
+  // Locations
+  { name: "Centre", iconKey: "MdLocationOn" },
+  { name: "Near slopes", iconKey: "GiMountains" },
+  { name: "Near the center", iconKey: "MdLocationCity" },
+  { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" } // replaced invalid
+];
+
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">{error}</div>;

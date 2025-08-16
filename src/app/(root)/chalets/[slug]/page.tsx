@@ -50,6 +50,23 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 
+    const detail = data.data.propertyDetail.message.detail[0]
+const featuresArray = [
+  ...(detail.node_equipement_general?.[0]?.equipement_general || []).map((item:any) => {
+    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
+    return englishLabel?._ || "";
+  }),
+  ...(detail.node_espace_loisir?.[0]?.espace_loisir || []).map((item:any) => {
+    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
+    return englishLabel?._ || "";
+  }),
+  ...(detail.node_situation?.[0]?.situation || []).map((item:any) => {
+    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
+    return englishLabel?._ || "";
+  })
+]
+
+
     const fileOrderString =
         data.data.propertyDetail.message.detail[0].fileorder[0];
     const fileOrderArray = fileOrderString.split(",");
@@ -92,28 +109,28 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
     };
 
 
-     const faqs = [
-  {
-    question: "What is included in the chalet rental price?",
-    answer: "The rental price typically includes accommodation, basic utilities, and access to amenities such as the kitchen, living area, and outdoor spaces. Some chalets may also offer free Wi-Fi and parking."
-  },
-  {
-    question: "Are pets allowed in the chalet?",
-    answer: "Pet policies vary by chalet. Some chalets are pet-friendly, while others may have restrictions. Please check the specific chalet's rules before booking."
-  },
-  {
-    question: "Is there a minimum stay requirement?",
-    answer: "Many chalets have a minimum stay of 2 to 3 nights, especially during weekends or peak seasons. Longer minimum stays may apply during holidays."
-  },
-  {
-    question: "Do chalets have heating and air conditioning?",
-    answer: "Most chalets are equipped with heating for the winter months and fans or air conditioning for the summer, but amenities can vary depending on the property."
-  },
-  {
-    question: "How do I check in and get the keys?",
-    answer: "Check-in instructions are usually sent after booking confirmation. Some chalets use self-check-in with a lockbox, while others may require meeting the host in person."
-  }
-];
+    const faqs = [
+        {
+            question: "What is included in the chalet rental price?",
+            answer: "The rental price typically includes accommodation, basic utilities, and access to amenities such as the kitchen, living area, and outdoor spaces. Some chalets may also offer free Wi-Fi and parking."
+        },
+        {
+            question: "Are pets allowed in the chalet?",
+            answer: "Pet policies vary by chalet. Some chalets are pet-friendly, while others may have restrictions. Please check the specific chalet's rules before booking."
+        },
+        {
+            question: "Is there a minimum stay requirement?",
+            answer: "Many chalets have a minimum stay of 2 to 3 nights, especially during weekends or peak seasons. Longer minimum stays may apply during holidays."
+        },
+        {
+            question: "Do chalets have heating and air conditioning?",
+            answer: "Most chalets are equipped with heating for the winter months and fans or air conditioning for the summer, but amenities can vary depending on the property."
+        },
+        {
+            question: "How do I check in and get the keys?",
+            answer: "Check-in instructions are usually sent after booking confirmation. Some chalets use self-check-in with a lockbox, while others may require meeting the host in person."
+        }
+    ];
 
 
     if (openForm) {
@@ -134,7 +151,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
         )
     }
 
-   
+
 
 
 
@@ -235,7 +252,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                             <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
 
                             <div >
-                                <ChaletsKeyFeatures data={data.data.propertyDetail.message.detail[0].node_equipement_general[0].equipement_general} />
+                                <ChaletsKeyFeatures data={featuresArray} />
 
                             </div>
 
@@ -323,12 +340,12 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
 
                             <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
 
-                                <div id="faqs">
-                                    <h2 className="text-[#121212] font-semibold mb-4 font-large">
-                                        Faqs
-                                    </h2>
-                                    <Faqs faqs={faqs} />
-                                </div>
+                            <div id="faqs">
+                                <h2 className="text-[#121212] font-semibold mb-4 font-large">
+                                    Faqs
+                                </h2>
+                                <Faqs faqs={faqs} />
+                            </div>
                         </div>
 
                         <div className="md:max-w-[487px] sm:block hidden w-full">

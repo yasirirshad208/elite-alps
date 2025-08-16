@@ -57,6 +57,22 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 
+    const detail = data.data.propertyDetail.message.detail[0]
+const featuresArray = [
+  ...(detail.node_equipement_general?.[0]?.equipement_general || []).map((item:any) => {
+    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
+    return englishLabel?._ || "";
+  }),
+  ...(detail.node_espace_loisir?.[0]?.espace_loisir || []).map((item:any) => {
+    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
+    return englishLabel?._ || "";
+  }),
+  ...(detail.node_situation?.[0]?.situation || []).map((item:any) => {
+    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
+    return englishLabel?._ || "";
+  })
+]
+
     const fileOrderString =
         data.data.propertyDetail.message.detail[0].fileorder[0];
     const fileOrderArray = fileOrderString.split(",");
@@ -231,7 +247,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                             </div>
                             <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
                             <div >
-                                <ChaletsKeyFeatures data={data.data.propertyDetail.message.detail[0].node_equipement_general[0].equipement_general} />
+                                <ChaletsKeyFeatures data={featuresArray} />
 
                             </div>
                             <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>

@@ -41,22 +41,30 @@ const ApartmentListing = ({
   }, [page, checkin, checkout, location, price, guest, feature]);
 
 
-   const icons = [
+ const icons = [
   { name: "All", iconKey: "IoMenu" },
   { name: "Wood fireplace", iconKey: "GiWoodPile" },
   { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
-  { name: "Gas fireplace", iconKey: "GiGasStove" },
-  { name: "Ski locker", iconKey: "FaCar" },
-  { name: "Parking space", iconKey: "FaCar" },
-  { name: "Boots heater", iconKey: "GiBootPrints" },
-  { name: "Without elevator", iconKey: "FaTimesCircle" },
+  { name: "Ski locker", iconKey: "GiSkiBoot" }, // separate icon
+  { name: "Parking space", iconKey: "FaParking" }, // separate icon
   { name: "Elevator", iconKey: "BiBuildingHouse" },
-  { name: "Outdoor furniture", iconKey: "MdOutlineChair" },
-  { name: "Baby cot", iconKey: "FaBaby" },
-  { name: "High chair", iconKey: "FaChild" },
-  { name: "Safe", iconKey: "BsSafe" },
   { name: "Garage", iconKey: "PiGarageFill" },
-  { name: "Board games", iconKey: "FaGamepad" },
+
+  // New features
+  { name: "Fitness room", iconKey: "FaDumbbell" },
+  { name: "Hammam", iconKey: "GiSteam" },
+  { name: "Indoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
+  { name: "Outdoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
+  { name: "Nordic bath", iconKey: "GiBathtub" },
+  { name: "Swimming pool", iconKey: "FaSwimmingPool" },
+  { name: "Snooker", iconKey: "GiEightBall" }, // replaced invalid
+  { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
+
+  // Locations
+  { name: "Centre", iconKey: "MdLocationOn" },
+  { name: "Near slopes", iconKey: "GiMountains" },
+  { name: "Near the center", iconKey: "MdLocationCity" },
+  { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" } // replaced invalid
 ];
 
 const sortedApartments = useMemo(() => {

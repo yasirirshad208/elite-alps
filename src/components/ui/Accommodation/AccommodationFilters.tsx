@@ -26,6 +26,12 @@ import { MdOutlineChair, MdOutlineFireplace } from 'react-icons/md';
 import { BiBuildingHouse } from 'react-icons/bi';
 import { GiBootPrints, GiGasStove, GiWoodPile } from 'react-icons/gi';
 
+import { MdOutlineTheaters, MdLocationOn, MdLocationCity } from "react-icons/md";
+import { GiSkiBoot, GiSteam, GiBathtub, GiEightBall, GiMountains } from "react-icons/gi";
+import { FaParking, FaDumbbell, FaHotTub, FaSwimmingPool, FaSkiingNordic } from "react-icons/fa";
+
+
+
 type IconType = {
   name: string;
   iconKey?: string;
@@ -67,6 +73,21 @@ const iconMap: Record<string, React.ElementType> = {
   BsSafe,
   PiGarageFill,
   FaGamepad,
+
+    // New ones
+  GiSkiBoot,
+  FaParking,
+  FaDumbbell,
+  GiSteam,
+  GiBathtub,
+  FaHotTub,
+  FaSwimmingPool,
+  GiEightBall,
+  MdOutlineTheaters,
+  MdLocationOn,
+  GiMountains,
+  MdLocationCity,
+  FaSkiingNordic,
 };
 
 const AccommodationIconsFilter = ({ icons }: { icons: IconType[] }) => {
