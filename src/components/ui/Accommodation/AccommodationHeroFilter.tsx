@@ -193,7 +193,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
 
 
               <div className="flex items-center justify-between">
-                <div className="w-full"  onClick={() => handleDropdownToggle('checkIn')}>
+                <div className="w-full" >
                   <DatePicker
                     selected={checkIn}
                     onChange={(date) => {
@@ -210,6 +210,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
                     dateFormat="MMM d yyyy"
                     open={openDropdown === 'checkIn'}
                     onClickOutside={() => setOpenDropdown(null)}
+                     onInputClick={() => handleDropdownToggle('checkIn')} 
                     calendarClassName="!z-50"
                   />
                 </div>
