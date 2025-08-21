@@ -96,7 +96,7 @@ const sortedApartments = useMemo(() => {
             <AccommodationIconsFilter icons={icons} />
           </div>
            <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
-            <CountResults number={apartments.length} />
+            <CountResults number={countApartments} />
             <SortBy
               list={[
                 { label: 'Recommended', value: 'recommended' },

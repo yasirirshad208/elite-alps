@@ -99,7 +99,7 @@ const ChaletListing = ({
             <AccommodationIconsFilter icons={icons} />
           </div>
           <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
-            <CountResults number={sortedChalets.length} />
+            <CountResults number={countChalets} />
             <SortBy
               list={[
                 { label: 'Recommended', value: 'recommended' },

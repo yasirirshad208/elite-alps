@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { MdApartment } from 'react-icons/md'
-import { IoIosAdd, IoIosArrowDown } from 'react-icons/io'
+import { IoIosAdd, IoIosArrowDown, IoIosClose } from 'react-icons/io'
 import { FiMinus } from 'react-icons/fi'
 import Dropdown from '../DropdownAnimation'
 import { FaHouseDamage } from 'react-icons/fa'
@@ -13,7 +13,8 @@ import DatePicker from 'react-datepicker'
 import { addDays, isSaturday } from 'date-fns'
 import PriceRange from '../PriceRange'
 
-type DropdownType = 'accommodation' | 'location' | 'guests' | 'price' | null
+type DropdownType = 'accommodation' | 'location' | 'guests' | 'price' | 'checkIn' | 'checkOut' | null;
+
 
 const AccommodationHeroFilter = ({ page }: { page: string }) => {
   const [toggle, setToggle] = useState(false)
@@ -46,15 +47,15 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
   }
 
   useEffect(() => {
-      const handleResize = () => {
-        setIsMobile(window.innerWidth <= 767);
-      };
-      handleResize(); // initial check
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
-  
-    const [minPrice, setMinPrice] = useState(0)
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+    handleResize(); // initial check
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(3000000)
 
   const handleApply = (min: number, max: number) => {
@@ -64,26 +65,26 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
     handleDropdownToggle("price");
   };
 
-   const dropdownRef = useRef<HTMLDivElement>(null);
-  
-    useEffect(() => {
-      function handleClickOutside(event: MouseEvent) {
-        if (
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target as Node)
-        ) {
-          setOpenDropdown(null) // ✅ only call if provided
-        }
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null) // ✅ only call if provided
       }
-  
-      if (openDropdown === "price") {
-        document.addEventListener("mousedown", handleClickOutside);
-      }
-  
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, [openDropdown === "price"]);
+    }
+
+    if (openDropdown === "price") {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openDropdown === "price"]);
 
   return (
     <div
@@ -192,7 +193,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
 
 
               <div className="flex items-center justify-between">
-                <div className="w-full">
+                <div className="w-full"  onClick={() => handleDropdownToggle('checkIn')}>
                   <DatePicker
                     selected={checkIn}
                     onChange={(date) => {
@@ -200,16 +201,29 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
                         const normalized = normalizeDateToUTC(date);
                         setCheckIn(normalized);
                         setCheckOut(null);
+                        setOpenDropdown(null); // close after selecting
                       }
                     }}
                     filterDate={filterCheckInDates}
                     placeholderText="Select"
                     className="w-full bg-transparent placeholder:text-[#121212] text-[14px] text-[#121212] focus:outline-none"
                     dateFormat="MMM d yyyy"
+                    open={openDropdown === 'checkIn'}
+                    onClickOutside={() => setOpenDropdown(null)}
                     calendarClassName="!z-50"
                   />
                 </div>
-                <IoIosArrowDown className="min-w-[20px] text-[20px] text-[#121212]" />
+                {checkIn ? (
+                  <IoIosClose
+                    className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
+                    onClick={() => setCheckIn(null)}
+                  />
+                ) : (
+                  <IoIosArrowDown
+                    className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
+                    onClick={() => handleDropdownToggle('checkIn')}
+                  />
+                )}
               </div>
 
             </div>
@@ -221,26 +235,37 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
               <div className="mb-2 font-regular font-[600] text-[#121212]">Check Out</div>
 
               <div className="flex items-center justify-between">
-                <div className="w-full">
+                <div className="w-full"  onClick={() => handleDropdownToggle('checkOut')}>
                   <DatePicker
                     selected={checkOut}
                     onChange={(date) => {
                       if (date) {
                         const normalized = normalizeDateToUTC(date);
-                        setCheckOut(normalized)
+                        setCheckOut(normalized);
+                        setOpenDropdown(null);
                       }
-
-
                     }}
                     filterDate={filterCheckOutDates}
                     placeholderText="Select"
                     className="w-full bg-transparent placeholder:text-[#121212] text-[14px] text-[#121212] focus:outline-none"
                     dateFormat="MMM d yyyy"
                     disabled={!checkIn}
+                    open={openDropdown === 'checkOut'}
+                    onClickOutside={() => setOpenDropdown(null)}
                     calendarClassName="!z-50"
                   />
                 </div>
-                <IoIosArrowDown className="min-w-[20px] text-[20px] text-[#121212]" />
+                {checkOut ? (
+                  <IoIosClose
+                    className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
+                    onClick={() => setCheckOut(null)}
+                  />
+                ) : (
+                  <IoIosArrowDown
+                    className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
+                    onClick={() => handleDropdownToggle('checkOut')}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -252,9 +277,9 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
           {/* Location */}
           <div className="relative">
             <div className='cursor-pointer w-full lg:pr-2.5 lg:border-r border-[#e3e3e3]' onMouseDown={(e) => {
-    e.stopPropagation();
-    handleDropdownToggle("location");
-  }}>
+              e.stopPropagation();
+              handleDropdownToggle("location");
+            }}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Location</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -263,9 +288,9 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
                 <IoIosArrowDown className='text-[20px] text-[#121212]' />
               </div>
             </div>
-            <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'location'} border={true}>
+            <Dropdown top='top-[calc(100%+6px)]' onClose={() => setOpenDropdown(null)} isOpen={openDropdown === 'location'} border={true}>
               <div className='w-full'>
-                {['Courchevel 1850','Courchevel Moriond (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
+                {['Courchevel 1850', 'Courchevel Moriond (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
                   <div
                     key={item}
                     className='hover:bg-[#F6F8FA] px-3 py-2 text-[#121212] cursor-pointer'
@@ -287,9 +312,9 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
           {/* Price */}
           <div className="relative">
             <div className='cursor-pointer w-full lg:pr-2.5 py-2 sm:py-0 lg:border-r border-[#e3e3e3]' onMouseDown={(e) => {
-    e.stopPropagation();
-    handleDropdownToggle("price");
-  }}>
+              e.stopPropagation();
+              handleDropdownToggle("price");
+            }}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Price</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -300,10 +325,10 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
             </div>
 
             {!isMobile && openDropdown === "price" ? (
-                    // Desktop / Tablet View
-                    <div
-                    ref={dropdownRef}
-                                        className="
+              // Desktop / Tablet View
+              <div
+                ref={dropdownRef}
+                className="
                         fixed
                         top-[calc(100%)]
                         mb-2
@@ -311,23 +336,23 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
                         max-w-[506px]
                         z-[999999]
                       "
-                    >
+              >
+                <PriceRange min={minPrice} max={maxPrice} onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+              </div>
+            ) : (
+              // Mobile: Button to open modal
+              <>
+                {isMobile && openDropdown === "price" && (
+                  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
+                    <div className="w-[90%] max-w-md px-[12px]" ref={dropdownRef}>
                       <PriceRange min={minPrice} max={maxPrice} onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
+
                     </div>
-                  ) : (
-                    // Mobile: Button to open modal
-                    <>
-                      {isMobile && openDropdown === "price" && (
-                        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
-                          <div className="w-[90%] max-w-md px-[12px]" ref={dropdownRef}>
-                            <PriceRange min={minPrice} max={maxPrice} onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
-                           
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  )}
-           
+                  </div>
+                )}
+              </>
+            )}
+
           </div>
 
 

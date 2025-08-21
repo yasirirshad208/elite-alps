@@ -38,10 +38,14 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
         <div className="flex-1 h-full">
           <div className="relative flex-1 h-full">
             <img
-              src={itemImages[0] ? url + itemImages[0] : "https://via.placeholder.com/150"}
-              alt="Image"
-              className="h-full w-full sm:rounded-[12px] object-cover"
-            />
+  src={itemImages[0] ? url + itemImages[0] : "https://via.placeholder.com/150"}
+  alt="Image"
+  className="h-full w-full sm:rounded-[12px] object-cover"
+  onClick={() => {
+    setCurrentSlide(0); // open the clicked image
+    openModal();
+  }}
+/>
 
             {/* See All Images Button for Small Screens */}
             <div
@@ -56,40 +60,48 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
         {/* Grid of Images (Only for md and up) */}
         <div className="flex-1 md:grid grid-cols-2 grid-rows-2 gap-3 h-full relative hidden md:block">
           {itemImages.slice(1, 5).map((image, index) => {
-            // For 5th image
-            if (index === 3) {
-              return (
-                <div
-                  className="h-full w-full relative rounded-[12px] overflow-hidden"
-                  key={index}
-                  style={{
-                    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(0, 0, 0, 0.41)), url(${url + image}) center/cover no-repeat`,
-                  }}
-                >
-                  {/* Centered Button on 5th Image */}
-                  <div
-                    className="absolute inset-0 flex items-center justify-center text-black font-inter text-[14px] cursor-pointer"
-                    onClick={openModal}
-                  >
-                    <button className="bg-white/70 px-3 py-1.5 rounded-[24px] cursor-pointer">
-                      See all images
-                    </button>
-                  </div>
-                </div>
-              );
-            }
+  const actualIndex = index + 1; // because slice starts from 1
 
-            // For other images
-            return (
-              <div className="h-full w-full" key={index}>
-                <img
-                  src={url + image}
-                  className="h-full w-full object-cover rounded-[12px]"
-                  alt={`Slide ${index + 1}`}
-                />
-              </div>
-            );
-          })}
+  // For the 5th image (overlay "See all images")
+  if (index === 3) {
+    return (
+      <div
+        className="h-full w-full relative rounded-[12px] overflow-hidden"
+        key={index}
+        style={{
+          background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(0, 0, 0, 0.41)), url(${url + image}) center/cover no-repeat`,
+        }}
+      >
+        <div
+          className="absolute inset-0 flex items-center justify-center text-black font-inter text-[14px] cursor-pointer"
+          onClick={() => {
+            setCurrentSlide(actualIndex);
+            openModal();
+          }}
+        >
+          <button className="bg-white/70 px-3 py-1.5 rounded-[24px] cursor-pointer">
+            See all images
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Other images
+  return (
+    <div className="h-full w-full" key={index}>
+      <img
+        src={url + image}
+        className="h-full w-full object-cover rounded-[12px]"
+        alt={`Slide ${actualIndex}`}
+        onClick={() => {
+          setCurrentSlide(actualIndex); // open this image
+          openModal();
+        }}
+      />
+    </div>
+  );
+})}
         </div>
       </div>
 
