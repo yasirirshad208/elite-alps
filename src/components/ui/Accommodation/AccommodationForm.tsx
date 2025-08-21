@@ -114,11 +114,11 @@ const allowedDates = dateRanges.map((date) => ({
 
     return (
         <div>
-            <h2 className="md:text-[32px] sm:text-[24px] text-[20px] text-[#121212] font-semibold">
-                €{parseFloat(dateRanges[0]?.price ? dateRanges[0]?.price : "0")
-                    .toFixed(0)
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / Week
-            </h2>
+           <h2 className="md:text-[32px] sm:text-[24px] text-[20px] text-[#121212] font-semibold">
+  €{parseFloat(rate || (dateRanges[0]?.price ?? "0"))
+    .toFixed(0)
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / Week
+</h2>
 
             <div className="h-[1px] bg-[#e3e3e3] w-full my-3"></div>
 

@@ -18,7 +18,7 @@ const HeroFilter = () => {
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null)
   const [accommodationType, setAccommodationType] = useState('Chalets')
   const [location, setLocation] = useState('Courchevel 1850')
-  const [price, setPrice] = useState('0')
+  const [price, setPrice] = useState('3000000')
   
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);

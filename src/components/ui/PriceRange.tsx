@@ -11,7 +11,7 @@ interface PriceRangeProps {
 }
 
 const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose, min, max }) => {
-  const STEP = 1000;
+  const STEP = 10000;
   const MIN = 0;
   const MAX = 3000000; 
 

@@ -19,8 +19,8 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
   const [toggle, setToggle] = useState(false)
   const [guest, setGuest] = useState(1)
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null)
-  const [location, setLocation] = useState('Courchevel')
-  const [price, setPrice] = useState('0')
+  const [location, setLocation] = useState('Courchevel 1850')
+  const [price, setPrice] = useState('3000000')
 
   const [checkIn, setCheckIn] = useState<Date | null>(null)
   const [checkOut, setCheckOut] = useState<Date | null>(null)
