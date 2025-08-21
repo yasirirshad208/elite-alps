@@ -235,25 +235,26 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
               <div className="mb-2 font-regular font-[600] text-[#121212]">Check Out</div>
 
               <div className="flex items-center justify-between">
-                <div className="w-full"  onClick={() => handleDropdownToggle('checkOut')}>
-                  <DatePicker
-                    selected={checkOut}
-                    onChange={(date) => {
-                      if (date) {
-                        const normalized = normalizeDateToUTC(date);
-                        setCheckOut(normalized);
-                        setOpenDropdown(null);
-                      }
-                    }}
-                    filterDate={filterCheckOutDates}
-                    placeholderText="Select"
-                    className="w-full bg-transparent placeholder:text-[#121212] text-[14px] text-[#121212] focus:outline-none"
-                    dateFormat="MMM d yyyy"
-                    disabled={!checkIn}
-                    open={openDropdown === 'checkOut'}
-                    onClickOutside={() => setOpenDropdown(null)}
-                    calendarClassName="!z-50"
-                  />
+                <div className="w-full" >
+               <DatePicker
+  selected={checkOut}
+  onChange={(date) => {
+    if (date) {
+      const normalized = normalizeDateToUTC(date);
+      setCheckOut(normalized);
+      setOpenDropdown(null);
+    }
+  }}
+  filterDate={filterCheckOutDates}
+  placeholderText="Select"
+  className="w-full bg-transparent placeholder:text-[#121212] text-[14px] text-[#121212] focus:outline-none"
+  dateFormat="MMM d yyyy"
+  disabled={!checkIn}
+  open={openDropdown === 'checkOut'}
+  onClickOutside={() => setOpenDropdown(null)}
+  onInputClick={() => handleDropdownToggle('checkOut')}   // ✅ add this
+  calendarClassName="!z-50"
+/>
                 </div>
                 {checkOut ? (
                   <IoIosClose
