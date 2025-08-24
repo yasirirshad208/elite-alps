@@ -339,7 +339,7 @@ const featuresArray = [
                                 </div>
                         </div>
 
-                       <div className="md:max-w-[487px] sm:block hidden w-full">
+                       <div className="md:max-w-[335px] sm:block hidden w-full">
   <div
     className="border border-[#e3e3e3] bg-white rounded-[12px] p-2 md:sticky md:top-[10px]"
     style={{ boxShadow: "0px 4px 12px 0px #9A9A9A1A" }}
