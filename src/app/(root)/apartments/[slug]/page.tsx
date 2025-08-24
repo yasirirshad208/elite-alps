@@ -58,20 +58,20 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
 
 
     const detail = data.data.propertyDetail.message.detail[0]
-const featuresArray = [
-  ...(detail.node_equipement_general?.[0]?.equipement_general || []).map((item:any) => {
-    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
-    return englishLabel?._ || "";
-  }),
-  ...(detail.node_espace_loisir?.[0]?.espace_loisir || []).map((item:any) => {
-    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
-    return englishLabel?._ || "";
-  }),
-  ...(detail.node_situation?.[0]?.situation || []).map((item:any) => {
-    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
-    return englishLabel?._ || "";
-  })
-]
+    const featuresArray = [
+        ...(detail.node_equipement_general?.[0]?.equipement_general || []).map((item: any) => {
+            const englishLabel = item?.libelle?.find((l: any) => l?.$?.lang === "en");
+            return englishLabel?._ || "";
+        }),
+        ...(detail.node_espace_loisir?.[0]?.espace_loisir || []).map((item: any) => {
+            const englishLabel = item?.libelle?.find((l: any) => l?.$?.lang === "en");
+            return englishLabel?._ || "";
+        }),
+        ...(detail.node_situation?.[0]?.situation || []).map((item: any) => {
+            const englishLabel = item?.libelle?.find((l: any) => l?.$?.lang === "en");
+            return englishLabel?._ || "";
+        })
+    ]
 
     const fileOrderString =
         data.data.propertyDetail.message.detail[0].fileorder[0];
@@ -113,27 +113,27 @@ const featuresArray = [
     };
 
     const faqs = [
-  {
-    question: "What utilities are included in the apartment rent?",
-    answer: "Utilities included vary by apartment. Some may cover water, electricity, and internet, while others require tenants to pay separately."
-  },
-  {
-    question: "Is parking available for tenants?",
-    answer: "Many apartments offer on-site parking or a dedicated parking space, but availability depends on the building. Some may charge extra for parking."
-  },
-  {
-    question: "Are apartments furnished or unfurnished?",
-    answer: "This depends on the property. Some apartments come fully furnished, while others may be semi-furnished or unfurnished."
-  },
-  {
-    question: "Can I keep pets in the apartment?",
-    answer: "Pet policies vary by landlord and building. Some allow pets with an additional deposit, while others have restrictions on size or breed."
-  },
-  {
-    question: "How does the security deposit work?",
-    answer: "A security deposit is collected before moving in and is typically refunded after the lease ends, provided there is no damage to the property."
-  }
-];
+        {
+            question: "What utilities are included in the apartment rent?",
+            answer: "Utilities included vary by apartment. Some may cover water, electricity, and internet, while others require tenants to pay separately."
+        },
+        {
+            question: "Is parking available for tenants?",
+            answer: "Many apartments offer on-site parking or a dedicated parking space, but availability depends on the building. Some may charge extra for parking."
+        },
+        {
+            question: "Are apartments furnished or unfurnished?",
+            answer: "This depends on the property. Some apartments come fully furnished, while others may be semi-furnished or unfurnished."
+        },
+        {
+            question: "Can I keep pets in the apartment?",
+            answer: "Pet policies vary by landlord and building. Some allow pets with an additional deposit, while others have restrictions on size or breed."
+        },
+        {
+            question: "How does the security deposit work?",
+            answer: "A security deposit is collected before moving in and is typically refunded after the lease ends, provided there is no damage to the property."
+        }
+    ];
     if (openForm) {
         return (
             <div className="mt-[115px] px-4">
@@ -228,7 +228,7 @@ const featuresArray = [
 
             <section id="details">
                 <div className="container mx-auto">
-                    <div className="flex gap-10   md:flex-row flex-col">
+                    <div className="flex gap-10 md:justify-between   md:flex-row flex-col">
                         <div className=" w-full  pl-3">
 
                             <div className="font-inter ">
@@ -331,19 +331,19 @@ const featuresArray = [
 
                             <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
 
-                                <div id="faqs">
-                                    <h2 className="text-[#121212] font-semibold mb-4 font-large">
-                                        Faqs
-                                    </h2>
-                                    <Faqs faqs={faqs} />
-                                </div>
+                            <div id="faqs">
+                                <h2 className="text-[#121212] font-semibold mb-4 font-large">
+                                    Faqs
+                                </h2>
+                                <Faqs faqs={faqs} />
+                            </div>
                         </div>
 
-                       <div className="md:max-w-[335px] sm:block hidden w-full">
-  <div
-    className="border border-[#e3e3e3] bg-white rounded-[12px] p-2 md:sticky md:top-[10px]"
-    style={{ boxShadow: "0px 4px 12px 0px #9A9A9A1A" }}
-  >
+                        <div className="md:max-w-[335px] sm:block hidden w-full">
+                            <div
+                                className="border border-[#e3e3e3] bg-white rounded-[12px] p-2 md:sticky md:top-[10px]"
+                                style={{ boxShadow: "0px 4px 12px 0px #9A9A9A1A" }}
+                            >
 
                                 <AccommodationForm accommodationType="Apartment" dateRanges={dateRanges} name={data.data.propertyDetail.message.detail[0].nom_bien_en[0]} location={data.data.propertyDetail.message.detail[0].secteur[1]._} id={data.data.propertyDetail.message.detail[0].id_bien} />
 

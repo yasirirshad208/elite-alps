@@ -51,20 +51,20 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
 
 
     const detail = data.data.propertyDetail.message.detail[0]
-const featuresArray = [
-  ...(detail.node_equipement_general?.[0]?.equipement_general || []).map((item:any) => {
-    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
-    return englishLabel?._ || "";
-  }),
-  ...(detail.node_espace_loisir?.[0]?.espace_loisir || []).map((item:any) => {
-    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
-    return englishLabel?._ || "";
-  }),
-  ...(detail.node_situation?.[0]?.situation || []).map((item:any) => {
-    const englishLabel = item?.libelle?.find((l:any) => l?.$?.lang === "en");
-    return englishLabel?._ || "";
-  })
-]
+    const featuresArray = [
+        ...(detail.node_equipement_general?.[0]?.equipement_general || []).map((item: any) => {
+            const englishLabel = item?.libelle?.find((l: any) => l?.$?.lang === "en");
+            return englishLabel?._ || "";
+        }),
+        ...(detail.node_espace_loisir?.[0]?.espace_loisir || []).map((item: any) => {
+            const englishLabel = item?.libelle?.find((l: any) => l?.$?.lang === "en");
+            return englishLabel?._ || "";
+        }),
+        ...(detail.node_situation?.[0]?.situation || []).map((item: any) => {
+            const englishLabel = item?.libelle?.find((l: any) => l?.$?.lang === "en");
+            return englishLabel?._ || "";
+        })
+    ]
 
 
     const fileOrderString =
@@ -232,7 +232,7 @@ const featuresArray = [
 
             <section >
                 <div className="container mx-auto">
-                    <div className="flex gap-10  md:flex-row flex-col">
+                    <div className="flex gap-10 md:justify-between md:flex-row flex-col">
                         <div className=" w-full  pl-3">
                             <div id="details">
                                 <h2 className="text-[#121212] font-large font-semibold mb-4">
@@ -349,19 +349,19 @@ const featuresArray = [
                         </div>
 
                         <div className="md:max-w-[335px] sm:block hidden w-full">
-  <div
-    className="border border-[#e3e3e3] bg-white rounded-[12px] p-2 md:sticky md:top-[10px]"
-    style={{ boxShadow: "0px 4px 12px 0px #9A9A9A1A" }}
-  >
-    <AccommodationForm
-      accommodationType="Chalet"
-      dateRanges={dateRanges}
-      name={data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
-      location={data.data.propertyDetail.message.detail[0].secteur[1]._}
-      id={data.data.propertyDetail.message.detail[0].id_bien}
-    />
-  </div>
-</div>
+                            <div
+                                className="border border-[#e3e3e3] bg-white rounded-[12px] p-2 md:sticky md:top-[10px]"
+                                style={{ boxShadow: "0px 4px 12px 0px #9A9A9A1A" }}
+                            >
+                                <AccommodationForm
+                                    accommodationType="Chalet"
+                                    dateRanges={dateRanges}
+                                    name={data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
+                                    location={data.data.propertyDetail.message.detail[0].secteur[1]._}
+                                    id={data.data.propertyDetail.message.detail[0].id_bien}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
