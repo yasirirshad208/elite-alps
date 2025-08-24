@@ -229,7 +229,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
             <section id="details">
                 <div className="container mx-auto">
                     <div className="flex gap-10 md:justify-between   md:flex-row flex-col">
-                        <div className=" w-full  pl-3">
+                        <div className=" w-full md:max-w-[888px] pl-3">
 
                             <div className="font-inter ">
                                 <h2 className="text-[#121212] font-large font-semibold mb-4">
