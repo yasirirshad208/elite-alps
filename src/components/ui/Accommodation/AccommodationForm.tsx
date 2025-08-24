@@ -255,7 +255,7 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                             <button
                                 type="submit"
                                 disabled={!agreed || isSubmitting}
-                                className={`text-[11px] font-[600] w-full text-white sm:py-3 py-2 rounded-[12px] transition-all duration-200 ${agreed && !isSubmitting ? 'bg-[#0074ec] cursor-pointer' : 'bg-blue-400 cursor-not-allowed'
+                                className={`text-[13px] font-[600] w-full text-white sm:py-3 py-2 rounded-[12px] transition-all duration-200 ${agreed && !isSubmitting ? 'bg-[#0074ec] cursor-pointer' : 'bg-blue-400 cursor-not-allowed'
                                     }`}
                             >
                                 {isSubmitting ? 'Sending...' : 'Send'}
