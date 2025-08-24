@@ -21,7 +21,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
   const [guest, setGuest] = useState(1)
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null)
   const [location, setLocation] = useState('Courchevel 1850')
-  const [price, setPrice] = useState('3000000')
+  const [price, setPrice] = useState('300000')
 
   const [checkIn, setCheckIn] = useState<Date | null>(null)
   const [checkOut, setCheckOut] = useState<Date | null>(null)
@@ -56,7 +56,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
   }, []);
 
   const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(3000000)
+  const [maxPrice, setMaxPrice] = useState(300000)
 
   const handleApply = (min: number, max: number) => {
     setPrice(max.toString());
@@ -320,7 +320,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Price</div>
               <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
-                  <span className='text-[14px]'>£{price}/week</span>
+                  <span className='text-[14px]'>£{Number(price).toLocaleString("en-US")}/week</span>
                 </div>
                 <IoIosArrowDown className='text-[20px] text-[#121212]' />
               </div>

@@ -39,15 +39,15 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
     const [isSubmitted, setIsSubmitted] = useState(false)
 
     const parseLocalDate = (dateStr: string) => {
-  const [year, month, day] = dateStr.split('-').map(Number);
-  return new Date(year, month - 1, day); // local date, no UTC conversion
-};
+        const [year, month, day] = dateStr.split('-').map(Number);
+        return new Date(year, month - 1, day); // local date, no UTC conversion
+    };
 
-const allowedDates = dateRanges.map((date) => ({
-  start: parseLocalDate(date.start),
-  end: parseLocalDate(date.end),
-  price: date.price,
-}));
+    const allowedDates = dateRanges.map((date) => ({
+        start: parseLocalDate(date.start),
+        end: parseLocalDate(date.end),
+        price: date.price,
+    }));
 
     const getMatchingRange = (date: Date | null) => {
         if (!date) return undefined
@@ -67,17 +67,17 @@ const allowedDates = dateRanges.map((date) => ({
             setIsSubmitting(true);
 
             const formData = {
-                name:data.firstName + " " + data.lastName,
-                email:data.email,
-                phone:data.phone,
-                interestedIn:data.subject,
-                accommodationName:name,
+                name: data.firstName + " " + data.lastName,
+                email: data.email,
+                phone: data.phone,
+                interestedIn: data.subject,
+                accommodationName: name,
                 location,
                 accommodationType,
-                checkIn:data.checkIn,
-                checkOut:data.checkOut,
-                message:data.message,
-                numberOfPeople:data.people
+                checkIn: data.checkIn,
+                checkOut: data.checkOut,
+                message: data.message,
+                numberOfPeople: data.people
             }
 
             const response = await fetch('https://elite-experience-backend.onrender.com/api/accommodationEnquiry/save', {
@@ -98,7 +98,7 @@ const allowedDates = dateRanges.map((date) => ({
             setIsSubmitted(true);
         } catch (error) {
             alert('Submission failed ');
-            
+
         } finally {
             setIsSubmitting(false);
         }
@@ -114,15 +114,15 @@ const allowedDates = dateRanges.map((date) => ({
 
     return (
         <div>
-           <h2 className="md:text-[32px] sm:text-[24px] text-[20px] text-[#121212] font-semibold">
-  €{parseFloat(rate || (dateRanges[0]?.price ?? "0"))
-    .toFixed(0)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / Week
-</h2>
+            <h2 className="text-[20px] text-[#121212] font-semibold">
+                €{parseFloat(rate || (dateRanges[0]?.price ?? "0"))
+                    .toFixed(0)
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / Week
+            </h2>
 
-            <div className="h-[1px] bg-[#e3e3e3] w-full my-3"></div>
+            <div className="h-[1px] bg-[#e3e3e3] w-full my-2"></div>
 
-            <div className="font-large text-[#121212] font-[600] mb-1">Make an Enquiry</div>
+            <div className="text-[12px] text-[#121212] font-[600] mb-1">Make an Enquiry</div>
 
             <Form<FormValues>
                 defaultValues={{ checkIn: null, checkOut: null }}
@@ -136,7 +136,7 @@ const allowedDates = dateRanges.map((date) => ({
 
                     return (
                         <>
-                            <div className='flex items-center gap-3 w-full'>
+                            <div className='flex items-center gap-2 w-full'>
                                 {/* Check-in date only allows start dates */}
                                 <DateInput
                                     icon={<FaRegCalendarMinus />}
@@ -186,7 +186,7 @@ const allowedDates = dateRanges.map((date) => ({
                                 icon={<FaRegUserCircle />}
                             />
 
-                            <div className='flex items-center gap-3'>
+                            <div className='flex items-center gap-2'>
                                 <FormInput
                                     label="First name"
                                     register={register('firstName', { required: 'First name is required' })}
@@ -204,7 +204,7 @@ const allowedDates = dateRanges.map((date) => ({
                                 />
                             </div>
 
-                            <div className='flex items-center gap-3'>
+                            <div className='flex items-center gap-2'>
                                 <FormInput
                                     label="Email"
                                     register={register('email', { required: 'Email is required' })}
@@ -243,10 +243,11 @@ const allowedDates = dateRanges.map((date) => ({
                                 <input
                                     type="checkbox"
                                     id="policy"
+                                    className='w-[13px] h-[13px]'
                                     checked={agreed}
                                     onChange={(e) => setAgreed(e.target.checked)}
                                 />
-                                <label htmlFor="policy" className="text-[#475467] font-regular">
+                                <label htmlFor="policy" className="text-[#475467] text-[11px]">
                                     You agree to our friendly privacy policy.
                                 </label>
                             </div>
@@ -254,7 +255,7 @@ const allowedDates = dateRanges.map((date) => ({
                             <button
                                 type="submit"
                                 disabled={!agreed || isSubmitting}
-                                className={`font-medium font-[600] w-full text-white sm:py-3 py-2 rounded-[12px] transition-all duration-200 ${agreed && !isSubmitting ? 'bg-[#0074ec] cursor-pointer' : 'bg-blue-400 cursor-not-allowed'
+                                className={`text-[11px] font-[600] w-full text-white sm:py-3 py-2 rounded-[12px] transition-all duration-200 ${agreed && !isSubmitting ? 'bg-[#0074ec] cursor-pointer' : 'bg-blue-400 cursor-not-allowed'
                                     }`}
                             >
                                 {isSubmitting ? 'Sending...' : 'Send'}
@@ -268,3 +269,38 @@ const allowedDates = dateRanges.map((date) => ({
 }
 
 export default AccommodationForm
+
+
+
+//  <div className='flex items-center gap-2 my-1'>
+//                                 <input
+//                                     type="checkbox"
+//                                     id="policy"
+//                                     checked={agreed}
+//                                     onChange={(e) => setAgreed(e.target.checked)}
+//                                 />
+//                                 <label htmlFor="policy" className="text-[#475467] font-regular">
+//                                     You agree to our friendly privacy policy.
+//                                 </label>
+//                             </div>
+
+//                             <button
+//                                 type="submit"
+//                                 disabled={!agreed || isSubmitting}
+//                                 className={`font-medium font-[600] w-full text-white sm:py-3 py-2 rounded-[12px] transition-all duration-200 ${agreed && !isSubmitting ? 'bg-[#0074ec] cursor-pointer' : 'bg-blue-400 cursor-not-allowed'
+//                                     }`}
+//                             >
+//                                 {isSubmitting ? 'Sending...' : 'Send'}
+//                             </button>
+
+
+
+{/* <h2 className="md:text-[32px] sm:text-[24px] text-[20px] text-[#121212] font-semibold">
+                €{parseFloat(rate || (dateRanges[0]?.price ?? "0"))
+                    .toFixed(0)
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / Week
+            </h2>
+
+            <div className="h-[1px] bg-[#e3e3e3] w-full my-3"></div>
+
+            <div className="font-large text-[#121212] font-[600] mb-1">Make an Enquiry</div> */}

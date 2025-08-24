@@ -252,15 +252,15 @@ useEffect(() => {
                                                     >
                                                         Slide your Budget
                                                     </label>
-                                                    <Box className="w-full h-[65px] pl-[20px] pr-[40px] overflow-hidden">
+                                                    <Box className="w-full h-[65px] pl-[23px] pr-[40px] overflow-hidden">
                                                         <Slider
                                                             value={price}
                                                             onChange={handlePriceChange}
                                                             min={5000}
                                                             max={300000}
-                                                            step={5000}
+                                                            step={10000}
                                                             valueLabelDisplay="on"
-                                                            valueLabelFormat={(value) => `€${value}`}
+                                                            valueLabelFormat={(value) => `€${value.toLocaleString()}`}
                                                             sx={{
                                                                 "& .MuiSlider-thumb": {
                                                                     backgroundColor: "#ffffff",

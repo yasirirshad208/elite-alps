@@ -21,7 +21,7 @@ const Navbar = () => {
 
     return (
         <>
-            <header className='z-20 fixed rounded-[9999px] md:top-[20px] top-[15px] left-1/2 -translate-x-1/2 lg:w-[985px] md:w-[80%] sm:w-[90%] w-[95%] bg-white h-[52px] md:h-auto py-[8px] px-[16px] border border-[#E3E3E3]'>
+            <header className='z-20 absolute rounded-[9999px] md:top-[20px] top-[15px] left-1/2 -translate-x-1/2 lg:w-[985px] md:w-[80%] sm:w-[90%] w-[95%] bg-white h-[52px] md:h-auto py-[8px] px-[16px] border border-[#E3E3E3]'>
                 <div className='flex justify-between h-full items-center'>
                     <div>
                         <Link href={"/"}>

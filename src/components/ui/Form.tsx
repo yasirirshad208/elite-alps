@@ -20,7 +20,7 @@ export const Form = <T extends FieldValues>({
   const methods = useForm<T>({ defaultValues })
 
   return (
-    <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-2">
+    <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-1">
       {children(methods)}
     </form>
   )

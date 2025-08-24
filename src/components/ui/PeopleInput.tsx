@@ -34,11 +34,11 @@ const PeopleInput = ({ label, register, error, icon, ...rest }: FormInputProps) 
 
   return (
     <div className="w-full">
-      <label className="font-[600] text-[#121212] font-regular">{label}</label>
-      <div className="mt-1 w-full border border-[#E3E3E3] rounded-[8px] flex items-center justify-between pr-4">
+      <label className="font-[600] text-[#121212] text-[10px]">{label}</label>
+      <div className="mt-[1px] w-full border border-[#E3E3E3] rounded-[8px] flex items-center justify-between pr-4">
         <div className="flex items-center">
           {icon && (
-            <div className="text-[#666D80] border-r border-[#e3e3e3] text-[16px] px-3">
+            <div className="text-[#666D80] border-r border-[#e3e3e3] text-[13px] px-2">
               {icon}
             </div>
           )}
@@ -55,19 +55,19 @@ const PeopleInput = ({ label, register, error, icon, ...rest }: FormInputProps) 
               register.onChange(e)
             }}
             value={people === 0 ? '' : people}
-            className={`text-[#121212] pl-3 pr-4 py-3 font-regular placeholder:text-[14px] placeholder:text-[#666D80] bg-transparent w-full focus:outline-none`}
+            className={`text-[#121212] pl-2 pr-2.5 py-2 text-[10px] placeholder:text-[10px] placeholder:text-[#666D80] bg-transparent w-full focus:outline-none`}
             type="number"
           />
         </div>
 
         <div className="flex items-center gap-2">
           <FiMinus
-            className="rounded-[9999px] p-1 border border-[#e3e3e3] text-[20px] cursor-pointer"
+            className="rounded-[9999px] p-0.5 border border-[#e3e3e3] text-[16px] cursor-pointer"
             onClick={() => updatePeople(Math.max(0, people - 1))}
           />
           <span className="text-[14px] text-[#666D80]">{people}</span>
           <IoIosAdd
-            className="rounded-[9999px] p-1 border border-[#e3e3e3] text-[24px] cursor-pointer"
+            className="rounded-[9999px] p-0.5 border border-[#e3e3e3] text-[18px] cursor-pointer"
             onClick={() => updatePeople(people + 1)}
           />
         </div>
@@ -78,3 +78,49 @@ const PeopleInput = ({ label, register, error, icon, ...rest }: FormInputProps) 
 }
 
 export default PeopleInput
+
+
+
+// return (
+//     <div className="w-full">
+//       <label className="font-[600] text-[#121212] font-regular">{label}</label>
+//       <div className="mt-1 w-full border border-[#E3E3E3] rounded-[8px] flex items-center justify-between pr-4">
+//         <div className="flex items-center">
+//           {icon && (
+//             <div className="text-[#666D80] border-r border-[#e3e3e3] text-[16px] px-3">
+//               {icon}
+//             </div>
+//           )}
+//           <input
+//             {...register}
+//             {...rest}
+//             ref={(e) => {
+//               register.ref(e)
+//               inputRef.current = e // Save ref for manual updates
+//             }}
+//             onChange={(e) => {
+//               const value = Number(e.target.value)
+//               setPeople(value)
+//               register.onChange(e)
+//             }}
+//             value={people === 0 ? '' : people}
+//             className={`text-[#121212] pl-3 pr-4 py-3 font-regular placeholder:text-[14px] placeholder:text-[#666D80] bg-transparent w-full focus:outline-none`}
+//             type="number"
+//           />
+//         </div>
+
+//         <div className="flex items-center gap-2">
+//           <FiMinus
+//             className="rounded-[9999px] p-1 border border-[#e3e3e3] text-[20px] cursor-pointer"
+//             onClick={() => updatePeople(Math.max(0, people - 1))}
+//           />
+//           <span className="text-[14px] text-[#666D80]">{people}</span>
+//           <IoIosAdd
+//             className="rounded-[9999px] p-1 border border-[#e3e3e3] text-[24px] cursor-pointer"
+//             onClick={() => updatePeople(people + 1)}
+//           />
+//         </div>
+//       </div>
+//       {error && <p className="text-red-500 text-sm mt-0.5">{error}</p>}
+//     </div>
+//   )

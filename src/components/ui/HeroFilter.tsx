@@ -18,7 +18,7 @@ const HeroFilter = () => {
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null)
   const [accommodationType, setAccommodationType] = useState('Chalets')
   const [location, setLocation] = useState('Courchevel 1850')
-  const [price, setPrice] = useState('3000000')
+  const [price, setPrice] = useState('300000')
   
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,7 +41,7 @@ const HeroFilter = () => {
   }, []);
 
   const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(3000000)
+  const [maxPrice, setMaxPrice] = useState(300000)
 
   const handleApply = (min: number, max: number) => {
     setPrice(max.toString());
@@ -245,7 +245,7 @@ const HeroFilter = () => {
                             fill="#121212"
                           />
                         </svg>
-                        <span className="sm:text-[16px] text-[12px]">£{price}/week</span>
+                        <span className="sm:text-[16px] text-[12px]">£{Number(price).toLocaleString("en-US")}/week</span>
                       </div>
                       <IoIosArrowDown className="sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]" />
                     </div>
