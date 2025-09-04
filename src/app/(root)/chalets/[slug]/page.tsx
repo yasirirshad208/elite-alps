@@ -3,6 +3,7 @@
 import ExperienceMedia from "@/components/ExperienceMedia";
 import MapComponent from "@/components/MapComponent";
 import ShareBtn from "@/components/ShareBtn";
+import BookAccommodationSkeleton from "@/components/skeletons/BookAccommodationSkeleton";
 import AccommodationForm from "@/components/ui/Accommodation/AccommodationForm";
 import ChaletsKeyFeatures from "@/components/ui/ChaletsKeyFeatures";
 import ChaletsSlider from "@/components/ui/ChaletsSlider";
@@ -46,7 +47,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
         fetchData();
     }, [params.slug]);
 
-    if (loading) return <div className="text-center md:mt-20 mt-12">Loading...</div>;
+    if (loading) return <BookAccommodationSkeleton/>;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 

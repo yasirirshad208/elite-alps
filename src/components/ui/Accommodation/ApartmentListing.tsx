@@ -7,6 +7,7 @@ import CountResults from '../CountResults';
 import SeeMore from '../SeeMore';
 import AccommodationIconsFilter from './AccommodationFilters';
 import SortBy from '../SortBy';
+import AccommodationCardSkeleton from '@/components/skeletons/AccommodationCardSkeleton';
 
 const ApartmentListing = ({
   location,
@@ -25,49 +26,60 @@ const ApartmentListing = ({
   checkout: string;
   page: string;
 }) => {
-  const { apartments, loading, error, fetchApartments, countApartments } = usePropertyStore();
- const [sort, setSort] = useState<string>('recommended');
+  const { apartments, error, fetchApartments, countApartments } = usePropertyStore();
+  const [sort, setSort] = useState<string>('recommended');
+  const [loading, setLoading] = useState<Boolean>(true);
   // Fetch unfiltered data from backend
-    useEffect(() => {
-   fetchApartments({
-  location,
-  price,
-  guest,
-  feature,
-  checkin,
-  checkout,
-  page,
-});
+  useEffect(() => {
+    const loadData = async () => {
+      if (apartments.length === 0) {
+        setLoading(true)
+        await fetchApartments({
+          location,
+          price,
+          guest,
+          feature,
+          checkin,
+          checkout,
+          page,
+        });
+        setLoading(false)
+      } else {
+        setLoading(false)
+      }
+    }
+    loadData()
+
   }, [page, checkin, checkout, location, price, guest, feature]);
 
 
- const icons = [
-  { name: "All", iconKey: "IoMenu" },
-  { name: "Wood fireplace", iconKey: "GiWoodPile" },
-  { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
-  { name: "Ski locker", iconKey: "GiSkiBoot" }, // separate icon
-  { name: "Parking space", iconKey: "FaParking" }, // separate icon
-  { name: "Elevator", iconKey: "BiBuildingHouse" },
-  { name: "Garage", iconKey: "PiGarageFill" },
+  const icons = [
+    { name: "All", iconKey: "IoMenu" },
+    { name: "Wood fireplace", iconKey: "GiWoodPile" },
+    { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
+    { name: "Ski locker", iconKey: "GiSkiBoot" }, // separate icon
+    { name: "Parking space", iconKey: "FaParking" }, // separate icon
+    { name: "Elevator", iconKey: "BiBuildingHouse" },
+    { name: "Garage", iconKey: "PiGarageFill" },
 
-  // New features
-  { name: "Fitness room", iconKey: "FaDumbbell" },
-  { name: "Hammam", iconKey: "GiSteam" },
-  { name: "Indoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
-  { name: "Outdoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
-  { name: "Nordic bath", iconKey: "GiBathtub" },
-  { name: "Swimming pool", iconKey: "FaSwimmingPool" },
-  { name: "Snooker", iconKey: "GiEightBall" }, // replaced invalid
-  { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
+    // New features
+    { name: "Fitness room", iconKey: "FaDumbbell" },
+    { name: "Hammam", iconKey: "GiSteam" },
+    { name: "Indoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
+    { name: "Outdoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
+    { name: "Nordic bath", iconKey: "GiBathtub" },
+    { name: "Swimming pool", iconKey: "FaSwimmingPool" },
+    { name: "Snooker", iconKey: "GiEightBall" }, // replaced invalid
+    { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
 
-  // Locations
-  { name: "Centre", iconKey: "MdLocationOn" },
-  { name: "Near slopes", iconKey: "GiMountains" },
-  { name: "Near the center", iconKey: "MdLocationCity" },
-  { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" } // replaced invalid
-];
+    // Locations
+    { name: "Centre", iconKey: "MdLocationOn" },
+    { name: "Near slopes", iconKey: "GiMountains" },
+    { name: "Near the center", iconKey: "MdLocationCity" },
+    { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" } // replaced invalid
+  ];
 
-const sortedApartments = useMemo(() => {
+  const sortedApartments = useMemo(() => {
     const data = [...apartments];
     switch (sort) {
       case 'price_asc':
@@ -95,7 +107,7 @@ const sortedApartments = useMemo(() => {
           <div className="overflow-hidden w-full">
             <AccommodationIconsFilter icons={icons} />
           </div>
-           <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
+          <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
             <CountResults number={countApartments} />
             <SortBy
               list={[
@@ -110,23 +122,27 @@ const sortedApartments = useMemo(() => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {sortedApartments.map((item: any, index: number) => (
-            <AccommodationCard
-              key={index}
-              title={item.name}
-              area={item.surface}
-              persons={item.adults}
-              location={item.station}
-              bedrooms={item.rooms}
-              price={item.winterPrice}
-              images={item.allImages.slice(0,7)}
-              id={item.propertyId}
-              link={`/chalets/${item.propertyId}`}
-            />
-          ))}
+          {loading
+            ? Array.from({ length: 8 }).map((_, i) => (
+              <AccommodationCardSkeleton key={i} />
+            ))
+            : sortedApartments.map((item: any, index: number) => (
+              <AccommodationCard
+                key={index}
+                title={item.name}
+                area={item.surface}
+                persons={item.adults}
+                location={item.station}
+                bedrooms={item.rooms}
+                price={item.winterPrice}
+                images={item.allImages.slice(0, 7)}
+                id={item.propertyId}
+                link={`/apartments/${item.propertyId}`}
+              />
+            ))}
         </div>
 
-         {parseInt(page || "1") * 12 < countApartments && <SeeMore />}
+        {parseInt(page || "1") * 12 < countApartments && <SeeMore />}
       </div>
     </section>
   );

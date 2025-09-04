@@ -7,6 +7,7 @@ import CountResults from '../CountResults';
 import SeeMore from '../SeeMore';
 import AccommodationIconsFilter from './AccommodationFilters';
 import SortBy from '../SortBy';
+import AccommodationCardSkeleton from '@/components/skeletons/AccommodationCardSkeleton';
 
 const ChaletListing = ({
   location,
@@ -26,20 +27,31 @@ const ChaletListing = ({
   page: string;
 }) => {
   const [sort, setSort] = useState<string>('recommended');
+  const [loading, setLoading] = useState<Boolean>(true);
 
-  const { chalets, loading, error, fetchChalets, countChalets } = usePropertyStore();
+  const { chalets, error, fetchChalets, countChalets } = usePropertyStore();
 
   // Fetch data (filters only)
   useEffect(() => {
-    fetchChalets({
-      location,
-      price,
-      guest,
-      feature,
-      checkin,
-      checkout,
-      page,
-    });
+    const loadData = async () => {
+      if (chalets.length === 0) {
+        setLoading(true)
+        await fetchChalets({
+          location,
+          price,
+          guest,
+          feature,
+          checkin,
+          checkout,
+          page,
+        });
+        setLoading(false)
+      } else {
+        setLoading(false)
+      }
+    }
+loadData()
+   
   }, [page, checkin, checkout, location, price, guest, feature]);
 
   // Frontend sorting
@@ -59,31 +71,31 @@ const ChaletListing = ({
     }
   }, [chalets, sort]);
 
- const icons = [
-  { name: "All", iconKey: "IoMenu" },
-  { name: "Wood fireplace", iconKey: "GiWoodPile" },
-  { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
-  { name: "Ski locker", iconKey: "GiSkiBoot" }, // separate icon
-  { name: "Parking space", iconKey: "FaParking" }, // separate icon
-  { name: "Elevator", iconKey: "BiBuildingHouse" },
-  { name: "Garage", iconKey: "PiGarageFill" },
+  const icons = [
+    { name: "All", iconKey: "IoMenu" },
+    { name: "Wood fireplace", iconKey: "GiWoodPile" },
+    { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
+    { name: "Ski locker", iconKey: "GiSkiBoot" }, // separate icon
+    { name: "Parking space", iconKey: "FaParking" }, // separate icon
+    { name: "Elevator", iconKey: "BiBuildingHouse" },
+    { name: "Garage", iconKey: "PiGarageFill" },
 
-  // New features
-  { name: "Fitness room", iconKey: "FaDumbbell" },
-  { name: "Hammam", iconKey: "GiSteam" },
-  { name: "Indoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
-  { name: "Outdoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
-  { name: "Nordic bath", iconKey: "GiBathtub" },
-  { name: "Swimming pool", iconKey: "FaSwimmingPool" },
-  { name: "Snooker", iconKey: "GiEightBall" }, // replaced invalid
-  { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
+    // New features
+    { name: "Fitness room", iconKey: "FaDumbbell" },
+    { name: "Hammam", iconKey: "GiSteam" },
+    { name: "Indoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
+    { name: "Outdoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
+    { name: "Nordic bath", iconKey: "GiBathtub" },
+    { name: "Swimming pool", iconKey: "FaSwimmingPool" },
+    { name: "Snooker", iconKey: "GiEightBall" }, // replaced invalid
+    { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
 
-  // Locations
-  { name: "Centre", iconKey: "MdLocationOn" },
-  { name: "Near slopes", iconKey: "GiMountains" },
-  { name: "Near the center", iconKey: "MdLocationCity" },
-  { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" } // replaced invalid
-];
+    // Locations
+    { name: "Centre", iconKey: "MdLocationOn" },
+    { name: "Near slopes", iconKey: "GiMountains" },
+    { name: "Near the center", iconKey: "MdLocationCity" },
+    { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" } // replaced invalid
+  ];
 
 
   // if (loading) return <div>Loading...</div>;
@@ -114,20 +126,24 @@ const ChaletListing = ({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {sortedChalets.map((item: any, index: number) => (
-            <AccommodationCard
-              key={index}
-              title={item.name}
-              area={item.surface}
-              persons={item.adults}
-              location={item.station}
-              bedrooms={item.rooms}
-              price={item.winterPrice}
-              images={item.allImages.slice(0, 7)}
-              id={item.propertyId}
-              link={`/chalets/${item.propertyId}`}
-            />
-          ))}
+          {loading
+            ? Array.from({ length: 8 }).map((_, i) => (
+              <AccommodationCardSkeleton key={i} />
+            ))
+            : sortedChalets.map((item: any, index: number) => (
+              <AccommodationCard
+                key={index}
+                title={item.name}
+                area={item.surface}
+                persons={item.adults}
+                location={item.station}
+                bedrooms={item.rooms}
+                price={item.winterPrice}
+                images={item.allImages.slice(0, 7)}
+                id={item.propertyId}
+                link={`/chalets/${item.propertyId}`}
+              />
+            ))}
         </div>
 
         {parseInt(page || "1") * 12 < countChalets && <SeeMore />}

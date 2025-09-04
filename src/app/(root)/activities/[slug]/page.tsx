@@ -2,6 +2,7 @@
 import ExperienceMedia from "@/components/ExperienceMedia";
 import MapComponent from "@/components/MapComponent";
 import ShareBtn from "@/components/ShareBtn";
+import BookActivitySkeleton from "@/components/skeletons/BookActivitySkeleton";
 import ActivitySlider from "@/components/ui/Experience/ActivitySlider";
 import ExperienceForm from "@/components/ui/Experience/ExperienceForm";
 import RestaurantKeyFeatures from "@/components/ui/Experience/RestaurantKeyFeatures";
@@ -58,7 +59,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
         }
     };
 
-    if (loading) return <div className="text-center md:mt-20 mt-12">Loading...</div>;
+    if (loading) return <BookActivitySkeleton/>;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 

@@ -8,6 +8,7 @@ import BookingVehicle from "@/components/ui/Transfer/BookingVehicle";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import TransferForm from "@/components/ui/Transfer/TransferForm";
+import BookVehicleSkeleton from "@/components/skeletons/BookVehicleSkeleton";
 
 export default function BookJet({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -35,7 +36,7 @@ export default function BookJet({ params }: { params: { slug: string } }) {
     <>
       
 
-      {loading && <div className="text-center md:mt-20">Loading...</div>}
+      {loading && <BookVehicleSkeleton/>}
       {error && <p className="text-center text-red-500">{error}</p>}
 
       {jet && (

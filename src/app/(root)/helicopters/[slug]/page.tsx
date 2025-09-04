@@ -8,6 +8,7 @@ import BookingVehicle from "@/components/ui/Transfer/BookingVehicle";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import TransferForm from "@/components/ui/Transfer/TransferForm";
+import BookVehicleSkeleton from "@/components/skeletons/BookVehicleSkeleton";
 
 export default function BookHelicopter({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -33,7 +34,7 @@ export default function BookHelicopter({ params }: { params: { slug: string } })
   }, [slug]);
 
   if (loading) {
-    return <div className="text-center md:mt-20 mt-12"><span className="loader"></span></div>;
+    return <BookVehicleSkeleton/>;
   }
 
   if (error) {

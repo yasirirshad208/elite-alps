@@ -8,6 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import AccommodationCard from './AccommodationCard';
 import { usePropertyStore } from '@/stores/PropertyStore';
+import AccommodationCardSkeleton from '../skeletons/AccommodationCardSkeleton';
 
 const ApartmentSlider = () => {
     const {
@@ -20,6 +21,8 @@ const ApartmentSlider = () => {
             fetchSliderApartments();
         }
     }, [fetchSliderApartments, sliderApartments.length]);
+
+    const isLoading = sliderApartments.length === 0;
 
     return (
         <section className='md:mt-8 mt-6'>
@@ -67,21 +70,27 @@ const ApartmentSlider = () => {
                             nextEl: '.magazine-next',
                         }}
                     >
-                        {sliderApartments.map((item, i) => (
-                            <SwiperSlide key={i}>
-                                <AccommodationCard
-              title={item.name}
-              area={item.surface}
-              persons={item.adults}
-              location={item.station}
-              bedrooms={item.rooms}
-              price={item.winterPrice}
-              images={item.allImages.slice(0,7)}
-              id={item.propertyId}
-              link={`/chalets/${item.propertyId}`}
-                                />
-                            </SwiperSlide>
-                        ))}
+                        {isLoading
+                ? Array.from({ length: 4 }).map((_, i) => (
+                    <SwiperSlide key={i}>
+                      <AccommodationCardSkeleton />
+                    </SwiperSlide>
+                  ))
+                : sliderApartments.map((item, i) => (
+                    <SwiperSlide key={i}>
+                      <AccommodationCard
+                        title={item.name}
+                        area={item.surface}
+                        persons={item.adults}
+                        location={item.station}
+                        bedrooms={item.rooms}
+                        price={item.winterPrice}
+                        images={item.allImages.slice(0, 7)}
+                        id={item.propertyId}
+                        link={`/apartments/${item.propertyId}`}
+                      />
+                    </SwiperSlide>
+                  ))}
                     </Swiper>
 
 

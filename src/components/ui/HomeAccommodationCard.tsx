@@ -42,19 +42,6 @@ const HomeAccommodationCard = ({ title, image, showHandle = true, id, location, 
     return (
         <div className='rounded-[12px] border border-[#E3E3E3] p-[6px] cursor-pointer'>
 
-{/* 
-            <div className="relative z-0 w-full md:h-[360px] sm:h-[300px] h-[200px]">
-                <Image
-                    src={image}
-                    alt="Accommodation Card Image"
-                    fill
-                    sizes="(max-width: 768px) 100vw,
-                        (max-width: 1024px) 50vw,
-                        25vw"
-                    className="object-cover rounded-[9px]"
-                />
-            </div> */}
-
             {image && (
                 <div className="relative z-0 w-full md:h-[360px] sm:h-[300px] h-[200px]">
                     <Image

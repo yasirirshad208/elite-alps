@@ -1,3 +1,5 @@
+"use client"
+import RestaurantCardSkeleton from "@/components/skeletons/RetaurantCardSkeleton";
 import CountResults from "@/components/ui/CountResults";
 import ExperienceHero from "@/components/ui/Experience/ExperienceHero";
 import ExperiencSlider from "@/components/ui/Experience/ExperienceSlider";
@@ -5,6 +7,7 @@ import RestaurantCard from "@/components/ui/Experience/RestaurantCard";
 import RestaurantIconsFilter from "@/components/ui/Experience/RestaurantIconsFilter";
 import MagazineListing from "@/components/ui/MagazineListing";
 import SeeMore from "@/components/ui/SeeMore";
+import { useEffect, useState } from "react";
 
 
 export type Restaurant = {
@@ -23,41 +26,50 @@ type SearchParams = {
   page?: string;
 };
 
-export default async function Restaurants({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | undefined }>; // allow any key
-}) {
-  const rawParams = await searchParams;
+export default function Restaurants({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+  const [data, setData] = useState<{ restaurants: any[]; countTotalRestaurants: number }>({
+    restaurants: [],
+    countTotalRestaurants: 1,
+  });
+  const [loading, setLoading] = useState(true);
 
-  // Map "opening time" to camelCase
+  // Resolve camelCase params
   const resolvedParams: SearchParams = {
-    location: rawParams.location,
-    openingTime: rawParams["opening time"] || rawParams.openingTime,
-    feature: rawParams.feature,
-    page: rawParams.page || "1",
+    location: searchParams.location,
+    openingTime: searchParams["opening time"] || searchParams.openingTime,
+    feature: searchParams.feature,
+    page: searchParams.page || "1",
   };
 
-  const params = new URLSearchParams();
-  if (resolvedParams.location) params.append("location", resolvedParams.location);
-  if (resolvedParams.openingTime) params.append("openingTime", resolvedParams.openingTime);
-  if (resolvedParams.feature) params.append("feature", resolvedParams.feature);
-  if (resolvedParams.page) params.append("page", resolvedParams.page);
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      setLoading(true);
 
-  // Fetch with query string
-  let data = { restaurants: [], countTotalRestaurants: 1 };
+      const params = new URLSearchParams();
+      if (resolvedParams.location) params.append("location", resolvedParams.location);
+      if (resolvedParams.openingTime) params.append("openingTime", resolvedParams.openingTime);
+      if (resolvedParams.feature) params.append("feature", resolvedParams.feature);
+      if (resolvedParams.page) params.append("page", resolvedParams.page);
 
-  try {
-    const response = await fetch(
-      `https://elite-experience-backend.onrender.com/api/restaurants/all?${params.toString()}`
-    );
+      try {
+        const response = await fetch(
+          `https://elite-experience-backend.onrender.com/api/restaurants/all?${params.toString()}`
+        );
 
-    if (!response.ok) throw new Error('Failed to fetch restaurants');
+        if (!response.ok) throw new Error("Failed to fetch restaurants");
 
-    data = await response.json();
-  } catch (error) {
-    console.error('API Error:', error);
-  }
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.error("API Error:", error);
+        setData({ restaurants: [], countTotalRestaurants: 0 });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRestaurants();
+  }, [searchParams]); // refetch when searchParams change
 
   const japanese = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <mask id="mask0_140_13312" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -195,9 +207,13 @@ export default async function Restaurants({
         </div>
         <div className="container">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {data.restaurants.map((item: Restaurant) => (
-              <RestaurantCard key={item._id} cardUrl={`/restaurants/${item.slug}`} title={item.name} restaurantType={item.price} image={item.images} showLocation={true} location={item.location} />
-            ))}
+            {loading
+  ? Array.from({ length: 8 }).map((_, i) => <RestaurantCardSkeleton key={i} />)
+  : data.restaurants.map((item:Restaurant) => (
+     <RestaurantCard key={item._id} cardUrl={`/restaurants/${item.slug}`} title={item.name} restaurantType={item.price} image={item.images} showLocation={true} location={item.location} />
+    ))
+}
+
           </div>
 
           {parseInt(resolvedParams.page || "1") * 12 < data.countTotalRestaurants && <SeeMore />}

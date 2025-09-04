@@ -1,3 +1,5 @@
+'use client'
+
 import AccommodationCard from "@/components/ui/AccommodationCard";
 import CountResults from "@/components/ui/CountResults";
 import ActivityCard from "@/components/ui/Experience/ActivityCard";
@@ -9,7 +11,11 @@ import RestaurantIconsFilter from "@/components/ui/Experience/RestaurantIconsFil
 import MagazineListing from "@/components/ui/MagazineListing";
 import SeeMore from "@/components/ui/SeeMore";
 import { FaTree, FaHome, FaUsers, FaMountain, FaSpa, FaHeart, FaSmile, FaLandmark, FaConciergeBell } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import ActivityCardSkeleton from "@/components/skeletons/ActivityCardSkeleton";
 
+// Define Activity type
 export type Activity = {
   _id: string;
   slug: string;
@@ -19,41 +25,47 @@ export type Activity = {
   images: string[];
 };
 
-type SearchParams = {
-  location?: string;
-  openingTime?: string;
-  feature?: string;
-  page?: string;
-};
+export default function Page() {
+  const searchParams = useSearchParams();
+  const [data, setData] = useState({ activities: [], totalActivities: 0 });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | undefined }>; // allow any key
-}) {
-  const rawParams = await searchParams;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
 
-  // Map "opening time" to camelCase
-  const resolvedParams: SearchParams = {
-    location: rawParams.location,
-    openingTime: rawParams["opening time"] || rawParams.openingTime,
-    feature: rawParams.feature,
-    page: rawParams.page || "1",
-  };
+        const params = new URLSearchParams();
+        const location = searchParams.get("location");
+        const openingTime = searchParams.get("openingTime") || searchParams.get("opening time");
+        const feature = searchParams.get("feature");
+        const page = searchParams.get("page") || "1";
 
-  const params = new URLSearchParams();
-  if (resolvedParams.location) params.append("location", resolvedParams.location);
-  if (resolvedParams.openingTime) params.append("openingTime", resolvedParams.openingTime);
-  if (resolvedParams.feature) params.append("feature", resolvedParams.feature);
-  if (resolvedParams.page) params.append("page", resolvedParams.page);
+        if (location) params.append("location", location);
+        if (openingTime) params.append("openingTime", openingTime);
+        if (feature) params.append("feature", feature);
+        if (page) params.append("page", page);
 
+        const response = await fetch(
+          `https://elite-experience-backend.onrender.com/api/activity/all?${params}&isPublic=true`,
+        );
 
-  // Fetch with query string
-  const response = await fetch(
-    `https://elite-experience-backend.onrender.com/api/activity/all?${params}&isPublic=true`,
-    // { cache: 'no-store' }
-  );
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
 
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (e: any) {
+        setError(e.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [searchParams]);
 
   const fun = `<svg xmlns="http://www.w3.org/2000/svg" width="23" height="21" viewBox="0 0 23 21" fill="none">
 <path d="M0.833984 20.5354L5.83398 6.5354L14.834 15.5354L0.833984 20.5354ZM4.13398 17.2354L11.184 14.7354L6.63399 10.1854L4.13398 17.2354ZM13.384 11.0854L12.334 10.0354L17.934 4.4354C18.4673 3.90207 19.109 3.6354 19.859 3.6354C20.609 3.6354 21.2507 3.90207 21.784 4.4354L22.384 5.0354L21.334 6.0854L20.734 5.4854C20.5007 5.25207 20.209 5.1354 19.859 5.1354C19.509 5.1354 19.2173 5.25207 18.984 5.4854L13.384 11.0854ZM9.38399 7.0854L8.33398 6.0354L8.93398 5.4354C9.16732 5.20207 9.28399 4.91873 9.28399 4.5854C9.28399 4.25207 9.16732 3.96873 8.93398 3.7354L8.28399 3.0854L9.33399 2.0354L9.98398 2.6854C10.5173 3.21873 10.784 3.85207 10.784 4.5854C10.784 5.31873 10.5173 5.95207 9.98398 6.4854L9.38399 7.0854ZM11.384 9.0854L10.334 8.0354L13.934 4.4354C14.1673 4.20207 14.284 3.9104 14.284 3.5604C14.284 3.2104 14.1673 2.91873 13.934 2.6854L12.334 1.0854L13.384 0.0354004L14.984 1.6354C15.5173 2.16873 15.784 2.8104 15.784 3.5604C15.784 4.3104 15.5173 4.95207 14.984 5.4854L11.384 9.0854ZM15.384 13.0854L14.334 12.0354L15.934 10.4354C16.4673 9.90207 17.109 9.6354 17.859 9.6354C18.609 9.6354 19.2507 9.90207 19.784 10.4354L21.384 12.0354L20.334 13.0854L18.734 11.4854C18.5007 11.2521 18.209 11.1354 17.859 11.1354C17.509 11.1354 17.2173 11.2521 16.984 11.4854L15.384 13.0854Z" fill="#666D80"/>
@@ -110,29 +122,32 @@ export default async function Page({
 </g>
 </svg>`
   const cultural = `<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-<mask id="mask0_156_4045" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
-<rect x="0.833984" y="0.5354" width="24" height="24" fill="#D9D9D9"/>
+<mask id="mask0_156_4045" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24" fill="#D9D9D9"/>
 </mask>
 <g mask="url(#mask0_156_4045)">
 <path d="M10.584 22.5354L8.88398 19.5354H5.58398L3.33398 15.5354L5.03398 12.5354L3.33398 9.5354L5.58398 5.5354H8.88398L10.584 2.5354H15.084L16.784 5.5354H20.084L22.334 9.5354L20.634 12.5354L22.334 15.5354L20.084 19.5354H16.784L15.084 22.5354H10.584ZM16.784 11.5354H18.934L20.034 9.5354L18.934 7.5354H16.784L15.659 9.5354L16.784 11.5354ZM11.784 14.5354H13.884L15.009 12.5354L13.884 10.5354H11.784L10.659 12.5354L11.784 14.5354ZM11.784 8.5354H13.884L15.034 6.5104L13.909 4.5354H11.759L10.634 6.5104L11.784 8.5354ZM6.75898 11.5354H8.88398L10.009 9.5354L8.88398 7.5354H6.75898L5.63398 9.5354L6.75898 11.5354ZM6.75898 17.5354H8.88398L10.009 15.5354L8.88398 13.5354H6.73398L5.63398 15.5354L6.75898 17.5354ZM11.759 20.5354H13.909L15.034 18.5604L13.884 16.5354H11.784L10.634 18.5604L11.759 20.5354ZM16.784 17.5354H18.909L20.034 15.5354L18.909 13.5354H16.784L15.659 15.5354L16.784 17.5354Z" fill="#666D80"/>
 </g>
 </svg>`
 
-
   const icons = [
     { name: "Fun", svg: fun },
     { name: "Outdoor", svg: outdoor },
     { name: "Indoor", svg: indoor },
-    { name: "Family Friendly", familyFriendly },
+    { name: "Family Friendly", svg: familyFriendly },
     { name: "Extreme", svg: extreme },
     { name: "Well-being", svg: wellBeing },
     { name: "For couples", svg: forCouples },
-
     { name: "Cultural", svg: cultural },
   ];
 
 
-  const data = await response.json();
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const resolvedParams = {
+    page: searchParams.get("page") || "1",
+  };
 
   return (
     <>
@@ -156,9 +171,11 @@ export default async function Page({
         </div>
         <div className="container">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {data.activities.map((item: Activity) => (
+            {isLoading?Array.from({ length: 8 }).map((_, i) => <ActivityCardSkeleton key={i} />):
+            data.activities.map((item: Activity) => (
               <ActivityCard key={item._id} link={`/activities/${item.slug}`} title={item.name} persons="10" hours="2" time="December March" distance="5" price={item.price} location={item.location} images={item.images} />
-            ))}
+            ))
+            }
           </div>
 
           {parseInt(resolvedParams.page || "1") * 12 < data.totalActivities && <SeeMore />}
@@ -172,5 +189,5 @@ export default async function Page({
 
       <MagazineListing bgColor={false} />
     </>
-  )
+  );
 }

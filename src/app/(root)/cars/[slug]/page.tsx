@@ -1,4 +1,5 @@
 "use client"
+import BookVehicleSkeleton from "@/components/skeletons/BookVehicleSkeleton";
 import MagazineListing from "@/components/ui/MagazineListing";
 import BookingVehicle from "@/components/ui/Transfer/BookingVehicle";
 import TransferForm from "@/components/ui/Transfer/TransferForm";
@@ -30,7 +31,7 @@ export default function BookCar({ params }: { params: { slug: string } }) {
   }, [slug]);
 
   if (loading) {
-    return <div className="text-center md:mt-20 mt-12"><span className="loader"></span></div>;
+    return <BookVehicleSkeleton/>;
   }
 
   if (!car) {

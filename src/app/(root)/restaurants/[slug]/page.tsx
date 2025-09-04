@@ -3,6 +3,7 @@
 import ExperienceMedia from "@/components/ExperienceMedia";
 import MapComponent from "@/components/MapComponent";
 import ShareBtn from "@/components/ShareBtn";
+import BookRestaurantSkeleton from "@/components/skeletons/BookRestaurantSkeleton";
 import ExperienceForm from "@/components/ui/Experience/ExperienceForm";
 import ExperiencSlider from "@/components/ui/Experience/ExperienceSlider";
 import RestaurantKeyFeatures from "@/components/ui/Experience/RestaurantKeyFeatures";
@@ -56,7 +57,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
     };
 
 
-    if (loading) return <div className="text-center md:mt-20 mt-12">Loading...</div>;
+    if (loading) return <BookRestaurantSkeleton />;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 
@@ -188,7 +189,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
                         Restaurant Location
                     </h2>
 
-                    <MapComponent addresss={data.address || "45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA"} latitude={data.latitude ||"4546"} longitude={data.longitude || "43543"} />
+                    <MapComponent addresss={data.address || "45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA"} latitude={data.latitude || "4546"} longitude={data.longitude || "43543"} />
 
 
                 </div>
