@@ -29,8 +29,8 @@ type SearchParams = {
     page?: string;
 };
 
-export default function Page() {
-    const searchParams = useSearchParams();
+export default function Page({ searchParams }: { searchParams:SearchParams}) {
+
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -51,10 +51,10 @@ export default function Page() {
 
             // Access search parameters using useSearchParams
             const resolvedParams: SearchParams = {
-                location: searchParams.get("location") || undefined,
-                openingTime: searchParams.get("opening time") || searchParams.get("openingTime") || undefined,
-                feature: searchParams.get("feature") || undefined,
-                page: searchParams.get("page") || "1",
+                location: searchParams.location || undefined,
+                openingTime: searchParams.openingTime || undefined,
+                feature: searchParams.feature || undefined,
+                page: searchParams.page || "1",
             };
 
             const params = new URLSearchParams();
@@ -105,7 +105,7 @@ export default function Page() {
     };
 
     const totalEvents = data?.countTotalEvents || 0;
-    const currentPage = parseInt(searchParams.get("page") || "1");
+    const currentPage = parseInt(searchParams.page || "1");
 
     return (
         <>
