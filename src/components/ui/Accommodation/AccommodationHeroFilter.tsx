@@ -292,7 +292,7 @@ const AccommodationHeroFilter = ({ page }: { page: string }) => {
             </div>
             <Dropdown top='top-[calc(100%+6px)]' onClose={() => setOpenDropdown(null)} isOpen={openDropdown === 'location'} border={true}>
               <div className='w-full'>
-                {['Courchevel 1850', 'Courchevel Moriond (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
+                {['Courchevel 1850', 'Courchevel Morinod (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
                   <div
                     key={item}
                     className='hover:bg-[#F6F8FA] px-3 py-2 text-[#121212] cursor-pointer'
