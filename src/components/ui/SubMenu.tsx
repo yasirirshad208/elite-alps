@@ -14,7 +14,7 @@ type SubMenuProps = {
 
 const SubMenu: React.FC<SubMenuProps> = ({ items, activeId, onClick }) => {
     return (
-       <div className="container ">
+    //    <div className="container ">
          <div className='flex items-center sm:my-[24px] mb-[20px]'>
             {items.map((item) => (
                 <div
@@ -28,7 +28,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ items, activeId, onClick }) => {
                     {item.label}
                 </div>
             ))}
-        </div>
+        {/* </div> */}
        </div>
 
     );

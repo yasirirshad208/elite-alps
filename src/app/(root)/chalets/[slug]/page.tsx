@@ -229,12 +229,13 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                 </span>
             </div>
 
-            <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
+            
 
             <section >
                 <div className="container mx-auto">
                     <div className="flex gap-10 md:justify-between md:flex-row flex-col">
-                        <div className=" w-full md:max-w-[888px] pl-3">
+                        <div className=" w-full md:max-w-[888px] md:pl-3">
+                            <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
                             <div id="details">
                                 <h2 className="text-[#121212] font-large font-semibold mb-4">
                                     About The Chalet
@@ -349,7 +350,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                             </div>
                         </div>
 
-                        <div className="md:max-w-[484px] sm:block hidden w-full">
+                        <div className="md:max-w-[444px] sm:block hidden w-full mt-[30px]">
                             <div
                                 className="border border-[#e3e3e3] bg-white rounded-[12px] p-3.5 md:sticky md:top-[10px]"
                                 style={{ boxShadow: "0px 4px 12px 0px #9A9A9A1A" }}
