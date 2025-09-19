@@ -11,18 +11,18 @@ interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const FormInput = ({ label, register, error, icon, ...rest }: FormInputProps) => {
-  return (
+   return (
     <div className='w-full'>
-      <label className="font-[600] text-[11px] text-[#121212]">{label}</label>
-      <div className="mt-[1px] w-full  border border-[#E3E3E3] rounded-[8px] flex items-center">
-        {icon && <div className="text-[#666D80] border-r border-[#e3e3e3] text-[13px] px-2">{icon}</div>}
+      <label className="font-[600] text-[#121212] font-regular ">{label}</label>
+      <div className="mt-1 w-full  border border-[#E3E3E3] rounded-[8px] flex items-center">
+        {icon && <div className="text-[#666D80] border-r border-[#e3e3e3] text-[16px] px-3">{icon}</div>}
         <input
           {...register}
           {...rest}
-          className={`text-[#121212] pl-2 pr-2.5 py-2 text-[10px] placeholder:text-[#666D80] placeholder:text-[10px] bg-transparent w-full focus:outline-none`}
+          className={`text-[#121212] pl-3 pr-4 py-3 font-regular placeholder:text-[#666D80] placeholder:text-[14px] bg-transparent w-full focus:outline-none`}
         />
       </div>
-      {error && <p className="text-red-500 text-[10px] mt-0.5">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-0.5">{error}</p>}
     </div>
   )
 }
@@ -31,17 +31,3 @@ export default FormInput
 
 
 
-//  return (
-//     <div className='w-full'>
-//       <label className="font-[600] text-[#121212] font-regular ">{label}</label>
-//       <div className="mt-1 w-full  border border-[#E3E3E3] rounded-[8px] flex items-center">
-//         {icon && <div className="text-[#666D80] border-r border-[#e3e3e3] text-[16px] px-3">{icon}</div>}
-//         <input
-//           {...register}
-//           {...rest}
-//           className={`text-[#121212] pl-3 pr-4 py-3 font-regular placeholder:text-[#666D80] placeholder:text-[14px] bg-transparent w-full focus:outline-none`}
-//         />
-//       </div>
-//       {error && <p className="text-red-500 text-sm mt-0.5">{error}</p>}
-//     </div>
-//   )

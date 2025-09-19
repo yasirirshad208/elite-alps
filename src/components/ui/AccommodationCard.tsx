@@ -1,6 +1,7 @@
 "use client"
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { CiRuler } from 'react-icons/ci';
 import { FaRegUser } from 'react-icons/fa';
@@ -23,98 +24,104 @@ type AccommodationCard = {
 };
 
 const AccommodationCard = ({ title, image, id, stars, showHandle = true, images, location, price, persons, bedrooms, area, link }: AccommodationCard) => {
-    const [activeImageIndex, setActiveImageIndex] = useState(0); // State to track the active image
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
 
+  const handleDotClick = (e: React.MouseEvent, index: number) => {
+    e.stopPropagation(); // prevent navigation
+    e.preventDefault();
+    setActiveImageIndex(index);
+  };
 
-    const handleDotClick = (index: number) => {
-        setActiveImageIndex(index); // Update the active image index when a dot is clicked
-    };
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  };
 
-    const handleIndex = () => {
-        if (!images || images.length === 0) return; // guard clause
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (!images || images.length === 0) return;
+    setActiveImageIndex((prev) =>
+      prev === images.length - 1 ? prev : prev + 1
+    );
+  };
 
-        if (activeImageIndex === images.length - 1) {
-            setActiveImageIndex(0);
-            return;
-        }
+  return (
+    <div className="rounded-[12px] bg-white border border-[#E3E3E3] p-[6px] cursor-pointer">
+      {/* Image / Slider wrapped in Link */}
+      <Link href={link}>
+        {image && (
+          <div className="relative z-0 w-full h-[223px]">
+            <Image
+              src={image}
+              alt="Accommodation Card Image"
+              fill
+              sizes="(max-width: 768px) 100vw,
+                      (max-width: 1024px) 50vw,
+                      25vw"
+              className="object-cover rounded-[9px]"
+            />
+          </div>
+        )}
 
-        setActiveImageIndex(activeImageIndex + 1);
-    };
-
-    return (
-        <div className='rounded-[12px] bg-white border border-[#E3E3E3] p-[6px] cursor-pointer'>
-
-
-            {image && (
-                <div className="relative z-0 w-full h-[223px]">
-                    <Image
-                        src={image}
-                        alt="Accommodation Card Image"
-                        fill
-                        sizes="(max-width: 768px) 100vw,
-                        (max-width: 1024px) 50vw,
-                        25vw"
-                        className="object-cover rounded-[9px]"
+        {images && (
+          <div className="relative z-0 group cursor-pointer">
+            <div className="overflow-hidden h-[223px] w-full">
+              <div
+                className="flex transition-transform duration-500 ease-in-out w-full h-full"
+                style={{
+                  transform: `translateX(-${activeImageIndex * 100}%)`,
+                }}
+              >
+                {images.map((img, idx) => (
+                  <div key={idx} className="w-full flex-shrink-0 h-full">
+                    <img
+                      src={`https://admin.cimalpes.com/photos/bien/${id}/${img}`}
+                      alt={title}
+                      className="object-cover rounded-[9px] w-full h-full"
                     />
-                </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {showHandle && (
+              <>
+                {activeImageIndex > 0 && (
+                  <div
+                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
+                    onClick={handlePrev}
+                  >
+                    <IoIosArrowBack className="mr-[2px]" />
+                  </div>
+                )}
+                {images.length - 1 !== activeImageIndex && (
+                  <div
+                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
+                    onClick={handleNext}
+                  >
+                    <IoIosArrowForward className="ml-[3px]" />
+                  </div>
+                )}
+              </>
             )}
 
-            {images && (
-                <div>
-                    <div className="relative z-0 group cursor-pointer">
-                        <div className="overflow-hidden h-[223px] w-full">
-                            <div
-                                className="flex transition-transform duration-500 ease-in-out w-full h-full"
-                                style={{
-                                    transform: `translateX(-${activeImageIndex * 100}%)`,
-                                }}
-                            >
-                                {images.map((img, idx) => (
-                                    <div key={idx} className="w-full flex-shrink-0 h-full">
-                                        <img
-                                            src={`https://admin.cimalpes.com/photos/bien/${id}/${img}`}
-                                            alt={title}
-                                            className="object-cover rounded-[9px] w-full h-full"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-
-                        </div>
-                        {showHandle && (
-                            <>
-                                {activeImageIndex > 0 && (
-                                    <div
-                                        className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
-                                        onClick={() => setActiveImageIndex(activeImageIndex - 1)}
-                                    >
-                                        <IoIosArrowBack className="mr-[2px]" />
-                                    </div>
-                                )}
-                                {images.length - 1 !== activeImageIndex && (
-                                    <div
-                                        className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
-                                        onClick={handleIndex}
-                                    >
-                                        <IoIosArrowForward className="ml-[3px]" />
-                                    </div>
-                                )}
-                            </>
-                        )}
-                        {/* Dots */}
-                        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1">
-                            {images.map((_, index) => (
-                                <div
-                                    key={index}
-                                    className={`w-[5.5px] h-[5.5px] rounded-full cursor-pointer ${activeImageIndex === index ? "bg-white" : "bg-[#b0b0b0]"
-                                        }`}
-                                    onClick={() => handleDotClick(index)}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* Dots */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1">
+              {images.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-[5.5px] h-[5.5px] rounded-full cursor-pointer ${
+                    activeImageIndex === index ? "bg-white" : "bg-[#b0b0b0]"
+                  }`}
+                  onClick={(e) => handleDotClick(e, index)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </Link>
 
 
 

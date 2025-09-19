@@ -8,6 +8,7 @@ import SeeMore from '../SeeMore';
 import AccommodationIconsFilter from './AccommodationFilters';
 import SortBy from '../SortBy';
 import AccommodationCardSkeleton from '@/components/skeletons/AccommodationCardSkeleton';
+import NoRecord from '../NoRecord';
 
 const ChaletListing = ({
   location,
@@ -34,25 +35,22 @@ const ChaletListing = ({
   // Fetch data (filters only)
   useEffect(() => {
     const loadData = async () => {
-      if (chalets.length === 0) {
-        setLoading(true)
-        await fetchChalets({
-          location,
-          price,
-          guest,
-          feature,
-          checkin,
-          checkout,
-          page,
-        });
-        setLoading(false)
-      } else {
-        setLoading(false)
-      }
-    }
-loadData()
-   
+      setLoading(true);
+      await fetchChalets({
+        location,
+        price,
+        guest,
+        feature,
+        checkin,
+        checkout,
+        page,
+      });
+      setLoading(false);
+    };
+
+    loadData();
   }, [page, checkin, checkout, location, price, guest, feature]);
+
 
   // Frontend sorting
   const sortedChalets = useMemo(() => {
@@ -110,7 +108,7 @@ loadData()
           <div className="overflow-hidden w-full">
             <AccommodationIconsFilter icons={icons} />
           </div>
-          <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
+          <div className="sm:w-auto w-full flex sm:justify-center gap-2 justify-between">
             <CountResults number={countChalets} />
             <SortBy
               list={[
@@ -126,11 +124,17 @@ loadData()
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {loading
-            ? Array.from({ length: 8 }).map((_, i) => (
+          {loading ? (
+            Array.from({ length: 8 }).map((_, i) => (
               <AccommodationCardSkeleton key={i} />
             ))
-            : sortedChalets.map((item: any, index: number) => (
+          ) : sortedChalets.length === 0 ? (
+            <div className='col-span-full'>
+              <NoRecord page='chalets' />
+            </div>
+
+          ) : (
+            sortedChalets.map((item: any, index: number) => (
               <AccommodationCard
                 key={index}
                 title={item.name}
@@ -143,8 +147,10 @@ loadData()
                 id={item.propertyId}
                 link={`/chalets/${item.propertyId}`}
               />
-            ))}
+            ))
+          )}
         </div>
+
 
         {parseInt(page || "1") * 12 < countChalets && <SeeMore />}
       </div>

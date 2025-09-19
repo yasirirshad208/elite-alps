@@ -13,10 +13,10 @@ interface CustomPhoneInputProps {
 
 const CustomPhoneInput = ({ label, name, control, error }: CustomPhoneInputProps) => {
     return (
-        <div className="relative w-full">
-            <label className="font-[600] text-[#121212] text-[11px]">{label}</label>
+       <div className="relative w-full">
+            <label className="font-[600] text-[#121212] font-regular">{label}</label>
 
-            <div className="mt-[1px]">
+            <div className="mt-1">
                 <Controller
                     name={name}
                     control={control}
@@ -25,7 +25,7 @@ const CustomPhoneInput = ({ label, name, control, error }: CustomPhoneInputProps
                         <PhoneInputLib
                             country={'us'}
                             {...field}
-                            inputClass="!w-full !bg-transparent !border !border-[#E3E3E3] !text-[10px] !rounded-[8px] !pl-14 !pr-2 !py-3 placeholder:text-[#666D80] placeholder:text-[10px] text-[#121212]"
+                            inputClass="!w-full !bg-transparent !border !border-[#E3E3E3] !rounded-[8px] !pl-14 !pr-4 !py-6 placeholder:text-[#666D80] placeholder:text-[14px] text-[#121212]"
                             buttonClass="!bg-transparent"
                             containerClass="!w-full"
                             dropdownClass="!text-[#121212]"
@@ -34,7 +34,7 @@ const CustomPhoneInput = ({ label, name, control, error }: CustomPhoneInputProps
                 />
             </div>
 
-            {error && <p className="text-red-500 text-[10px] mt-0.5">{error.message}</p>}
+            {error && <p className="text-red-500 text-sm mt-0.5">{error.message}</p>}
         </div>
     )
 }
@@ -43,26 +43,3 @@ export default CustomPhoneInput
 
 
 
-//  <div className="relative w-full">
-//             <label className="font-[600] text-[#121212] font-regular">{label}</label>
-
-//             <div className="mt-1">
-//                 <Controller
-//                     name={name}
-//                     control={control}
-//                     rules={{ required: 'Phone number is required' }}
-//                     render={({ field }) => (
-//                         <PhoneInputLib
-//                             country={'us'}
-//                             {...field}
-//                             inputClass="!w-full !bg-transparent !border !border-[#E3E3E3] !rounded-[8px] !pl-14 !pr-4 !py-6 placeholder:text-[#666D80] placeholder:text-[14px] text-[#121212]"
-//                             buttonClass="!bg-transparent"
-//                             containerClass="!w-full"
-//                             dropdownClass="!text-[#121212]"
-//                         />
-//                     )}
-//                 />
-//             </div>
-
-//             {error && <p className="text-red-500 text-sm mt-0.5">{error.message}</p>}
-//         </div>

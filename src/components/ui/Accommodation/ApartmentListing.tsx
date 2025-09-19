@@ -8,6 +8,7 @@ import SeeMore from '../SeeMore';
 import AccommodationIconsFilter from './AccommodationFilters';
 import SortBy from '../SortBy';
 import AccommodationCardSkeleton from '@/components/skeletons/AccommodationCardSkeleton';
+import NoRecord from '../NoRecord';
 
 const ApartmentListing = ({
   location,
@@ -32,7 +33,6 @@ const ApartmentListing = ({
   // Fetch unfiltered data from backend
   useEffect(() => {
     const loadData = async () => {
-      if (apartments.length === 0) {
         setLoading(true)
         await fetchApartments({
           location,
@@ -44,9 +44,7 @@ const ApartmentListing = ({
           page,
         });
         setLoading(false)
-      } else {
-        setLoading(false)
-      }
+     
     }
     loadData()
 
@@ -107,7 +105,7 @@ const ApartmentListing = ({
           <div className="overflow-hidden w-full">
             <AccommodationIconsFilter icons={icons} />
           </div>
-          <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
+          <div className="sm:w-auto w-full flex sm:justify-center gap-2 justify-between">
             <CountResults number={countApartments} />
             <SortBy
               list={[
@@ -122,25 +120,32 @@ const ApartmentListing = ({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {loading
-            ? Array.from({ length: 8 }).map((_, i) => (
-              <AccommodationCardSkeleton key={i} />
-            ))
-            : sortedApartments.map((item: any, index: number) => (
-              <AccommodationCard
-                key={index}
-                title={item.name}
-                area={item.surface}
-                persons={item.adults}
-                location={item.station}
-                bedrooms={item.rooms}
-                price={item.winterPrice}
-                images={item.allImages.slice(0, 7)}
-                id={item.propertyId}
-                link={`/apartments/${item.propertyId}`}
-              />
-            ))}
-        </div>
+  {loading ? (
+    Array.from({ length: 8 }).map((_, i) => (
+      <AccommodationCardSkeleton key={i} />
+    ))
+  ) : sortedApartments.length === 0 ? (
+     <div className='col-span-full'>
+              <NoRecord page='apartments' />
+            </div>
+  ) : (
+    sortedApartments.map((item: any, index: number) => (
+      <AccommodationCard
+        key={index}
+        title={item.name}
+        area={item.surface}
+        persons={item.adults}
+        location={item.station}
+        bedrooms={item.rooms}
+        price={item.winterPrice}
+        images={item.allImages.slice(0, 7)}
+        id={item.propertyId}
+        link={`/apartments/${item.propertyId}`}
+      />
+    ))
+  )}
+</div>
+
 
         {parseInt(page || "1") * 12 < countApartments && <SeeMore />}
       </div>

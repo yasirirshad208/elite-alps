@@ -120,9 +120,9 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / Week
             </h2>
 
-            <div className="h-[1px] bg-[#e3e3e3] w-full my-2"></div>
+            <div className="h-[1px] bg-[#e3e3e3] w-full my-3"></div>
 
-            <div className="text-[12px] text-[#121212] font-[600] mb-1">Make an Enquiry</div>
+            <div className="tetxt-[16px] font-semibold text-[#121212] font-[600] mb-2.5">Make an Enquiry</div> 
 
             <Form<FormValues>
                 defaultValues={{ checkIn: null, checkOut: null }}
@@ -136,7 +136,7 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
 
                     return (
                         <>
-                            <div className='flex items-center gap-2 w-full'>
+                            <div className='flex items-center gap-3 w-full'>
                                 {/* Check-in date only allows start dates */}
                                 <DateInput
                                     icon={<FaRegCalendarMinus />}
@@ -186,7 +186,7 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                                 icon={<FaRegUserCircle />}
                             />
 
-                            <div className='flex items-center gap-2'>
+                            <div className='flex items-center gap-3'>
                                 <FormInput
                                     label="First name"
                                     register={register('firstName', { required: 'First name is required' })}
@@ -204,7 +204,7 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                                 />
                             </div>
 
-                            <div className='flex items-center gap-2'>
+                            <div className='flex items-center gap-3'>
                                 <FormInput
                                     label="Email"
                                     register={register('email', { required: 'Email is required' })}
@@ -239,15 +239,15 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                             />
 
 
-                            <div className='flex items-center gap-2 my-1'>
+                           
+ <div className='flex items-center gap-2 my-1'>
                                 <input
                                     type="checkbox"
                                     id="policy"
-                                    className='w-[13px] h-[13px]'
                                     checked={agreed}
                                     onChange={(e) => setAgreed(e.target.checked)}
                                 />
-                                <label htmlFor="policy" className="text-[#475467] text-[11px]">
+                                <label htmlFor="policy" className="text-[#475467] text-[14px]">
                                     You agree to our friendly privacy policy.
                                 </label>
                             </div>
@@ -255,11 +255,12 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                             <button
                                 type="submit"
                                 disabled={!agreed || isSubmitting}
-                                className={`text-[13px] font-[600] w-full text-white sm:py-3 py-2 rounded-[12px] transition-all duration-200 ${agreed && !isSubmitting ? 'bg-[#0074ec] cursor-pointer' : 'bg-blue-400 cursor-not-allowed'
+                                className={`font-medium font-[600] w-full text-white sm:py-3 py-2 rounded-[12px] transition-all duration-200 ${agreed && !isSubmitting ? 'bg-[#0074ec] cursor-pointer' : 'bg-blue-400 cursor-not-allowed'
                                     }`}
                             >
                                 {isSubmitting ? 'Sending...' : 'Send'}
                             </button>
+
                         </>
                     )
                 }}
@@ -272,35 +273,5 @@ export default AccommodationForm
 
 
 
-//  <div className='flex items-center gap-2 my-1'>
-//                                 <input
-//                                     type="checkbox"
-//                                     id="policy"
-//                                     checked={agreed}
-//                                     onChange={(e) => setAgreed(e.target.checked)}
-//                                 />
-//                                 <label htmlFor="policy" className="text-[#475467] font-regular">
-//                                     You agree to our friendly privacy policy.
-//                                 </label>
-//                             </div>
-
-//                             <button
-//                                 type="submit"
-//                                 disabled={!agreed || isSubmitting}
-//                                 className={`font-medium font-[600] w-full text-white sm:py-3 py-2 rounded-[12px] transition-all duration-200 ${agreed && !isSubmitting ? 'bg-[#0074ec] cursor-pointer' : 'bg-blue-400 cursor-not-allowed'
-//                                     }`}
-//                             >
-//                                 {isSubmitting ? 'Sending...' : 'Send'}
-//                             </button>
 
 
-
-{/* <h2 className="md:text-[32px] sm:text-[24px] text-[20px] text-[#121212] font-semibold">
-                €{parseFloat(rate || (dateRanges[0]?.price ?? "0"))
-                    .toFixed(0)
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / Week
-            </h2>
-
-            <div className="h-[1px] bg-[#e3e3e3] w-full my-3"></div>
-
-            <div className="font-large text-[#121212] font-[600] mb-1">Make an Enquiry</div> */}

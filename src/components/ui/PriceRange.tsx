@@ -106,36 +106,46 @@ const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose, min, ma
       </div>
 
       {/* Inputs */}
-      <div className="flex flex-wrap md:gap-[40px] gap-[20px] mt-10">
-        <div className="flex flex-col flex-1 min-w-[140px] gap-2">
-  <label className="text-[14px] text-[#121212] font-[600]">Minimum</label>
-  <input
-    type="text"
-    value={Number(values[0]).toLocaleString()}   // always number → formatted
-    onChange={(e) => {
-      const raw = e.target.value.replace(/,/g, ""); // remove commas
-      handleInputChange(0, raw === "" ? "0" : raw); // pass string, parser handles it
-    }}
-    max={300000}
-    className="border border-[#e3e3e3] rounded-[999px] px-[18px] py-3 w-full"
-  />
+     <div className="flex flex-wrap md:gap-[40px] gap-[20px] mt-10">
+  {/* Minimum */}
+  <div className="flex flex-col flex-1 min-w-[140px] gap-2">
+    <label className="text-[14px] text-[#121212] font-[600]">Minimum</label>
+    <div className="relative w-full">
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#121212] font-medium">£</span>
+      <input
+        type="text"
+        inputMode="numeric"
+        value={Number(values[0]).toLocaleString()}
+        onChange={(e) => {
+          const raw = e.target.value.replace(/,/g, "");
+          handleInputChange(0, raw === "" ? "0" : raw);
+        }}
+        max={300000}
+        className="border border-[#e3e3e3] rounded-[999px] pl-8 pr-[18px] py-3 w-full"
+      />
+    </div>
+  </div>
+
+  {/* Maximum */}
+  <div className="flex flex-col flex-1 min-w-[140px] gap-2">
+    <label className="text-[14px] text-[#121212] font-[600]">Maximum</label>
+    <div className="relative w-full">
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#121212] font-medium">£</span>
+      <input
+        type="text"
+        inputMode="numeric"
+        value={Number(values[1]).toLocaleString()}
+        onChange={(e) => {
+          const raw = e.target.value.replace(/,/g, "");
+          handleInputChange(1, raw === "" ? "0" : raw);
+        }}
+        max={300000}
+        className="border border-[#e3e3e3] rounded-[999px] pl-8 pr-[18px] py-3 w-full"
+      />
+    </div>
+  </div>
 </div>
 
-<div className="flex flex-col flex-1 min-w-[140px] gap-2">
-  <label className="text-[14px] text-[#121212] font-[600]">Maximum</label>
-  <input
-    type="text"
-    value={Number(values[1]).toLocaleString()}
-    onChange={(e) => {
-      const raw = e.target.value.replace(/,/g, "");
-      handleInputChange(1, raw === "" ? "0" : raw);
-    }}
-     max={300000}
-    className="border border-[#e3e3e3] rounded-[999px] px-[18px] py-3 w-full"
-  />
-</div>
-
-      </div>
 
 
       {/* Apply Button */}
