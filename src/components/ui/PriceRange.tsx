@@ -111,7 +111,7 @@ const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose, min, ma
   <div className="flex flex-col flex-1 min-w-[140px] gap-2">
     <label className="text-[14px] text-[#121212] font-[600]">Minimum</label>
     <div className="relative w-full">
-      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#121212] font-medium">£</span>
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#121212] font-medium">€</span>
       <input
         type="text"
         inputMode="numeric"
@@ -130,7 +130,7 @@ const PriceRange: React.FC<PriceRangeProps> = ({ onApplyFilter, onClose, min, ma
   <div className="flex flex-col flex-1 min-w-[140px] gap-2">
     <label className="text-[14px] text-[#121212] font-[600]">Maximum</label>
     <div className="relative w-full">
-      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#121212] font-medium">£</span>
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#121212] font-medium">€</span>
       <input
         type="text"
         inputMode="numeric"
