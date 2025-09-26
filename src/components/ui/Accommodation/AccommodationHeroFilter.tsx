@@ -295,7 +295,9 @@ const AccommodationHeroFilter = ({ page, locationVal="", guestsVal=0, minPriceVa
           location !== "" ? "truncate" : "whitespace-nowrap"
         }`}
       >
-        {location === "" ? "Choose Destination" : location}
+       {location === "" 
+  ? "Choose Destination" 
+  : location.replace(/\b\w/g, (char) => char.toUpperCase())}
       </span>
 
       {/* Arrow */}
