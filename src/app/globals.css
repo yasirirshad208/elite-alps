@@ -1,0 +1,257 @@
+
+@import "tailwindcss";
+/* In your global styles or layout.tsx */
+@import 'react-datepicker/dist/react-datepicker.css';
+
+
+/* @font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova/proximanova_regular.ttf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('/fonts/ProximaNova/proximanova_bold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+} */
+
+/* Base font */
+.react-datepicker {
+  font-family: inherit;
+  border: none !important;
+  box-shadow: 0 11.654px 39.884px 0 rgba(0, 0, 0, 0.07),
+              0 1px 3px 0 rgba(0, 0, 0, 0.10),
+              0 1px 2px -1px rgba(0, 0, 0, 0.10) !important;
+}
+
+/* Header (month/year area) */
+.react-datepicker__header {
+  background-color: #fff !important; /* White background */
+  border-bottom: none !important;
+  color: #000 !important; /* Black text */
+  box-shadow: none !important;
+}
+
+/* Month + Year text */
+.react-datepicker__current-month {
+  font-size: 13px !important;
+  font-weight: 600 !important; /* semibold */
+  color: #000 !important;
+}
+
+/* Weekday labels (Sun, Mon, ...) */
+.react-datepicker__day-names {
+  margin-top: 4px;
+}
+
+.react-datepicker__day-name {
+  color: #666D80 !important; /* Muted gray */
+  font-weight: 500;
+}
+
+/* Selected day */
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #0074ec !important; /* Main blue */
+  color: #fff !important;
+  border-radius: 6px;
+}
+
+/* Hover day */
+.react-datepicker__day:hover {
+  background-color: #66aefb !important; /* Light blue */
+  color: #fff !important;
+  border-radius: 6px;
+}
+
+/* Today highlight */
+.react-datepicker__day--today {
+  border: 1px solid #0074ec !important;
+  color: #0074ec !important;
+  font-weight: bold;
+  border-radius: 6px;
+}
+
+/* Navigation (prev/next handles) */
+.react-datepicker__navigation {
+  top: 12px;
+}
+
+/* Remove background from handles */
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Make default arrows black */
+.react-datepicker__navigation-icon::before {
+  border-color: #000 !important; /* Black arrows */
+  border-width: 2px 2px 0 0 !important; /* Thicker for better visibility */
+}
+
+.react-datepicker__navigation--previous:hover,
+.react-datepicker__navigation--next:hover {
+  background: #f5f5f5 !important; /* Light gray hover */
+}
+
+
+
+
+body {
+  font-family: 'Proxima Nova', sans-serif;
+}
+.font-regular{
+  font-size: 16px;
+}
+.font-medium{
+  font-size: 18px;
+}
+.font-large{
+  font-size: 20px;
+}
+.heading-h1{
+  font-size: 56px;
+  font-weight: 600;
+  color: #121212;
+}
+.container-padding{
+  margin: 0 auto!important;
+}
+.container{
+  margin: 0 auto!important;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.swiper {
+  transform: none !important;
+}
+
+
+/* Hide number input spinner arrows (Firefox) */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield; /* fallback */
+}
+
+.article-blocks p{
+margin-bottom: 24px!important;
+color: #666D80;
+}
+
+.article-blocks ul,
+.article-blocks ol {
+  padding-left: 1.5rem; /* space for bullets/numbers */
+  margin-bottom: 1rem;
+}
+
+.article-blocks ul {
+  list-style-type: disc;
+}
+
+.article-blocks ol {
+  list-style-type: decimal;
+}
+
+.article-blocks li {
+  margin-bottom: 0.5rem;
+  color: #121212;
+  line-height: 1.6;
+}
+
+.article-blocks hr {
+  margin-bottom: 24px !important;
+  border: none;
+  border-top: 1px solid #e3e3e3;
+  height: 0; 
+}
+.article-blocks img {
+  margin-bottom: 24px !important;
+  width: 100%;
+  height: 425px;
+  border-radius: 18px;
+}
+.article-blocks h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem); /* 32px–40px */
+  color: #121212;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.article-blocks h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem); /* 24px–32px */
+  color: #121212;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.article-blocks h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem); /* 20px–24px */
+  color: #121212;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.article-blocks h4 {
+  font-size: clamp(1.125rem, 2vw, 1.25rem); /* 18px–20px */
+  color: #121212;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.article-blocks h5 {
+  font-size: clamp(1rem, 1.5vw, 1.125rem); /* 16px–18px */
+  color: #121212;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.article-blocks h6 {
+  font-size: clamp(0.875rem, 1vw, 1rem); /* 14px–16px */
+  color: #121212;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+@media(max-width:1024){
+  .heading-h1{
+  font-size: 48px;
+}
+}
+@media (max-width: 767px) {
+      .heading-stroke {
+        -webkit-text-stroke-width: 2px !important;
+        letter-spacing: -0.46px !important;
+      }
+    }
+@media(max-width:600px){
+  .font-regular{
+  font-size: 14px;
+}
+.font-medium{
+  font-size: 16px;
+}
+.font-large{
+  font-size: 18px;
+}
+.heading-h1{
+  font-size: 36px;
+}
+  .container-padding{
+    padding-left: 16px !important;
+    padding-right: 16px!important;
+  }
+  .container{
+    padding-left: 16px !important;
+    padding-right: 16px!important;
+  }
+}
+
