@@ -65,7 +65,7 @@ export default function Page({ searchParams }: { searchParams:SearchParams}) {
 
             try {
                 const response = await fetch(
-                    `http://localhost:5000/api/events/all?${params.toString()}`
+                    `https://elite-experience-backend.onrender.com/api/events/all?${params.toString()}`
                 );
                 const result = await response.json();
                 setData(result);

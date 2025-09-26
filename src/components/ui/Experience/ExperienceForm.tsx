@@ -59,7 +59,7 @@ const handleSubmit = async (data: FormValues) => {
                 people:data.people
             }
 
-            const response = await fetch('http://localhost:5000/api/experienceEnquiry/save', {
+            const response = await fetch('https://elite-experience-backend.onrender.com/api/experienceEnquiry/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

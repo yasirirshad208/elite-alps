@@ -25,7 +25,7 @@ export default function Magazine({ params }: { params: { slug: string } }) {
         const fetchData = async () => {
             try {
                 const [magazineResponse] = await Promise.all([
-                    axios.get(`http://localhost:5000/api/magazine/${params.slug}`)
+                    axios.get(`https://elite-experience-backend.onrender.com/api/magazine/${params.slug}`)
                 ]);
 
                 setData(magazineResponse.data);
@@ -87,7 +87,7 @@ export default function Magazine({ params }: { params: { slug: string } }) {
 
                         <div className="font-inter flex items-center gap-3 mt-6">
                             <img
-                                src={"http://localhost:5000/" + data.author.image}
+                                src={"https://elite-experience-backend.onrender.com/" + data.author.image}
                                 className="w-[32px] h-[32px] rounded-full"
                                 alt=""
                             />
@@ -117,7 +117,7 @@ export default function Magazine({ params }: { params: { slug: string } }) {
                     <div className="lg:w-[66%] w-full">
                         <div className="w-full">
                             <img
-                                src={"http://localhost:5000/" + data.image}
+                                src={"https://elite-experience-backend.onrender.com/" + data.image}
                                 className="w-full h-[420px] object-cover rounded-[20px]"
                                 alt=""
                             />
@@ -151,7 +151,7 @@ export default function Magazine({ params }: { params: { slug: string } }) {
                                             <div className="flex gap-3" key={item._id}>
                                             <div>
                                                 <img
-                                                    src={"http://localhost:5000/" + item.image}
+                                                    src={"https://elite-experience-backend.onrender.com/" + item.image}
                                                     className="w-[120px] h-[80px] rounded-[8px] object-cover"
                                                 />
                                             </div>

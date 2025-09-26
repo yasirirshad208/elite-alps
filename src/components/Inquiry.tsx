@@ -60,7 +60,7 @@ const [price, setPrice] = useState<number[]>([5000, 300000]);
                 message:data.message,
             }
 
-            const response = await fetch('http://localhost:5000/api/quickEnquiry/save', {
+            const response = await fetch('https://elite-experience-backend.onrender.com/api/quickEnquiry/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

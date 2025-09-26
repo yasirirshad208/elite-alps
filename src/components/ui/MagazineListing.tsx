@@ -78,7 +78,7 @@ const MagazineListing = ({ bgColor = true, heading, headline }: { bgColor?: bool
                                     <SwiperSlide key={i}>
                                         <ArticleCard
                                             description={item.blogDetails}
-                                            image={`http://localhost:5000/${item.image}`}
+                                            image={`https://elite-experience-backend.onrender.com/${item.image}`}
                                             category={item.category}
                                             title={item.title}
                                             slug={item.slug}

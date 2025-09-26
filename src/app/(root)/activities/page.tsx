@@ -94,7 +94,7 @@ export default function Page({ searchParams }: { searchParams: { location: strin
 
         const response = await fetch(
 
-          `http://localhost:5000/api/activity/all?${params}&isPublic=true`,
+          `https://elite-experience-backend.onrender.com/api/activity/all?${params}&isPublic=true`,
 
         );
 

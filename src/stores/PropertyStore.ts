@@ -78,7 +78,7 @@ fetchChalets: async (filters = {}) => {
     }
 
     const response = await axios.get(
-      `http://localhost:5000/api/accommodations/properties/get/all?${params.toString()}`
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
@@ -108,7 +108,7 @@ fetchSliderChalets: async () => {
     params.set("page", page);
 
     const response = await axios.get(
-      `http://localhost:5000/api/accommodations/properties/get/all?${params.toString()}`
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
@@ -149,7 +149,7 @@ fetchSliderChalets: async () => {
     }
 
     const response = await axios.get(
-      `http://localhost:5000/api/accommodations/properties/get/all?${params.toString()}`
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
@@ -180,7 +180,7 @@ fetchSliderApartments: async () => {
     params.set("page", page);
 
     const response = await axios.get(
-      `http://localhost:5000/api/accommodations/properties/get/all?${params.toString()}`
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
     );
 
     const newData = response.data.properties || [];

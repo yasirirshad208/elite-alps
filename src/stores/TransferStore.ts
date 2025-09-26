@@ -53,7 +53,7 @@ export const useTransferStore = create<TransportState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/jet/all',
+        'https://elite-experience-backend.onrender.com/api/jet/all',
         {
           params: { departure, destination, passengers, page },
         }
@@ -76,7 +76,7 @@ export const useTransferStore = create<TransportState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/helicopter/all',
+        'https://elite-experience-backend.onrender.com/api/helicopter/all',
         {
           params: { departure, destination, passengers, page },
         }
@@ -106,7 +106,7 @@ export const useTransferStore = create<TransportState>((set, get) => ({
       }).toString();
 
       const response = await fetch(
-        `http://localhost:5000/api/car/all?${params}`
+        `https://elite-experience-backend.onrender.com/api/car/all?${params}`
       );
       const result = await response.json();
       const newData = result?.cars || [];

@@ -17,7 +17,7 @@ export default function BookCar({ params }: { params: { slug: string } }) {
     const fetchCar = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:5000/api/car/${slug}`);
+        const response = await fetch(`https://elite-experience-backend.onrender.com/api/car/${slug}`);
         const data = await response.json();
         setCar(data);
       } catch (error) {

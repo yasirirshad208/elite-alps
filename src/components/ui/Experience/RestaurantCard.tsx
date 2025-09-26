@@ -67,7 +67,7 @@ const RestaurantCard = ({
                             {images.map((img, idx) => (
                                 <Image
                                     key={idx}
-                                    src={`http://localhost:5000/${img}`}
+                                    src={`https://elite-experience-backend.onrender.com/${img}`}
                                     className=" flex-shrink-0 object-cover rounded-[12px]"
                                     alt={title}
                                     fill
