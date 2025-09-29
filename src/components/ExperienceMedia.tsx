@@ -7,7 +7,7 @@ interface ExperienceMediaProps {
   imageString?: string[]
   url?: string
 }
-const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceMediaProps) => {
+const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onrender.com/" }: ExperienceMediaProps) => {
   // const [isPlaying, setIsPlaying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -16,13 +16,13 @@ const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceM
   const itemImages: string[] = images ?? [];
 
   useEffect(() => {
-  if (isModalOpen && itemImages.length > 0) {
-    itemImages.forEach((src) => {
-      const img = new Image();
-      img.src = url + src;
-    });
-  }
-}, [isModalOpen, itemImages, url]);
+    if (isModalOpen && itemImages.length > 0) {
+      itemImages.forEach((src) => {
+        const img = new Image();
+        img.src = url + src;
+      });
+    }
+  }, [isModalOpen, itemImages, url]);
 
 
 
@@ -47,14 +47,14 @@ const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceM
         <div className="flex-1 h-full">
           <div className="relative flex-1 h-full">
             <img
-  src={itemImages[0] ? url + itemImages[0] : "https://via.placeholder.com/150"}
-  alt="Image"
-  className="h-full w-full sm:rounded-[12px] object-cover"
-  onClick={() => {
-    setCurrentSlide(0); // open the clicked image
-    openModal();
-  }}
-/>
+              src={itemImages[0] ? url + itemImages[0] : "https://via.placeholder.com/150"}
+              alt="Image"
+              className="h-full w-full sm:rounded-[12px] object-cover"
+              onClick={() => {
+                setCurrentSlide(0); // open the clicked image
+                openModal();
+              }}
+            />
 
             {/* See All Images Button for Small Screens */}
             <div
@@ -69,48 +69,48 @@ const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceM
         {/* Grid of Images (Only for md and up) */}
         <div className="flex-1 md:grid grid-cols-2 grid-rows-2 gap-3 h-full relative hidden md:block">
           {itemImages.slice(1, 5).map((image, index) => {
-  const actualIndex = index + 1; // because slice starts from 1
+            const actualIndex = index + 1; // because slice starts from 1
 
-  // For the 5th image (overlay "See all images")
-  if (index === 3) {
-    return (
-      <div
-        className="h-full w-full relative rounded-[12px] overflow-hidden"
-        key={index}
-        style={{
-          background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(0, 0, 0, 0.41)), url(${url + image}) center/cover no-repeat`,
-        }}
-      >
-        <div
-          className="absolute inset-0 flex items-center justify-center text-black font-inter text-[14px] cursor-pointer"
-          onClick={() => {
-            setCurrentSlide(actualIndex);
-            openModal();
-          }}
-        >
-          <button className="bg-white/70 px-3 py-1.5 rounded-[24px] cursor-pointer">
-            See all images
-          </button>
-        </div>
-      </div>
-    );
-  }
+            // For the 5th image (overlay "See all images")
+            if (index === 3) {
+              return (
+                <div
+                  className="h-full w-full relative rounded-[12px] overflow-hidden"
+                  key={index}
+                  style={{
+                    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(0, 0, 0, 0.41)), url(${url + image}) center/cover no-repeat`,
+                  }}
+                >
+                  <div
+                    className="absolute inset-0 flex items-center justify-center text-black font-inter text-[14px] cursor-pointer"
+                    onClick={() => {
+                      setCurrentSlide(actualIndex);
+                      openModal();
+                    }}
+                  >
+                    <button className="bg-white/70 px-3 py-1.5 rounded-[24px] cursor-pointer">
+                      See all images
+                    </button>
+                  </div>
+                </div>
+              );
+            }
 
-  // Other images
-  return (
-    <div className="h-full w-full" key={index}>
-      <img
-        src={url + image}
-        className="h-full w-full object-cover rounded-[12px]"
-        alt={`Slide ${actualIndex}`}
-        onClick={() => {
-          setCurrentSlide(actualIndex); // open this image
-          openModal();
-        }}
-      />
-    </div>
-  );
-})}
+            // Other images
+            return (
+              <div className="h-full w-full" key={index}>
+                <img
+                  src={url + image}
+                  className="h-full w-full object-cover rounded-[12px]"
+                  alt={`Slide ${actualIndex}`}
+                  onClick={() => {
+                    setCurrentSlide(actualIndex); // open this image
+                    openModal();
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -127,7 +127,7 @@ const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceM
               <div className="relative">
                 {/* ❌ Close Icon on Image */}
                 <button
-                  className="absolute top-2 right-2 text-black bg-white rounded-full sm:w-[48px] sm:h-[48px] w-[30px] h-[30px] flex justify-center items-center z-10"
+                  className="absolute top-2 right-2 text-black bg-white rounded-full sm:w-[48px] sm:h-[48px] w-[30px] h-[30px] flex justify-center items-center z-30"
                   onClick={closeModal}
                   aria-label="Close Modal"
                 >
@@ -148,11 +148,18 @@ const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceM
                 </button>
 
                 {/* 📷 Image */}
-                <img
-                  src={url + itemImages[currentSlide]}
-                  className="md:h-[450px] h-[273px] w-full rounded-[15px] object-cover"
-                  alt={`Slide ${currentSlide}`}
-                />
+                <div className="relative md:h-[450px] h-[273px] w-full rounded-[15px] overflow-hidden">
+                  {itemImages.map((src, index) => (
+                    <img
+                      key={index}
+                      src={url + src}
+                      className={`absolute top-0 left-0 h-full w-full object-cover transition-opacity duration-300 ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+                        }`}
+                      alt={`Slide ${index}`}
+                    />
+                  ))}
+                </div>
+
               </div>
 
               {/* 🔢 Slide Number */}
