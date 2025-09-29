@@ -7,7 +7,7 @@ interface ExperienceMediaProps {
   imageString?: string[]
   url?: string
 }
-const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceMediaProps) => {
+const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onrender.com/" }: ExperienceMediaProps) => {
   // const [isPlaying, setIsPlaying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);

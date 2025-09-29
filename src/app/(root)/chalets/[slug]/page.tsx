@@ -34,7 +34,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
         const fetchData = async () => {
             try {
                 const { data: propertyData } = await axios.get(
-                    `http://localhost:5000/api/accommodations/property/detail/${slug}`
+                    `https://elite-experience-backend.onrender.com/api/accommodations/property/detail/${slug}`
                 );
                 setData(propertyData);
             } catch (err) {

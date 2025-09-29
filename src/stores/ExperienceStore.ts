@@ -38,7 +38,7 @@ export const useExperienceStore = create<TransportState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/restaurants/all',
+        'https://elite-experience-backend.onrender.com/api/restaurants/all',
         
       );
       const newData = response.data.restaurants || [];
@@ -59,7 +59,7 @@ export const useExperienceStore = create<TransportState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/activity/all?isPublic=true',
+        'https://elite-experience-backend.onrender.com/api/activity/all?isPublic=true',
         
       );
       const newData = response.data.activities || [];
@@ -80,7 +80,7 @@ export const useExperienceStore = create<TransportState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/events/all',
+        'https://elite-experience-backend.onrender.com/api/events/all',
         
       );
       const newData = response.data.events || [];
@@ -101,7 +101,7 @@ export const useExperienceStore = create<TransportState>((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/magazine?isPublic=true',
+        'https://elite-experience-backend.onrender.com/api/magazine?isPublic=true',
         
       );
       const newData = response.data.data || [];
