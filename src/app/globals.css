@@ -67,14 +67,6 @@
   border-radius: 6px;
 }
 
-/* Today highlight */
-.react-datepicker__day--today {
-  border: 1px solid #0074ec !important;
-  color: #0074ec !important;
-  font-weight: bold;
-  border-radius: 6px;
-}
-
 /* Navigation (prev/next handles) */
 .react-datepicker__navigation {
   top: 12px;

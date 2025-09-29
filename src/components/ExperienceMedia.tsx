@@ -144,7 +144,11 @@ const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceM
 <img
   key={currentSlide}
   src={url + itemImages[currentSlide]}
-  className="md:h-[450px] h-[273px] w-full rounded-[15px] object-cover"
+  className="md:h-[450px] h-[273px] w-full rounded-[15px] object-cover opacity-0 scale-105 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]"
+  onLoad={(e) => {
+    e.currentTarget.style.opacity = "1";
+    e.currentTarget.style.transform = "scale(1)";
+  }}
   alt={`Slide ${currentSlide}`}
 />
 
