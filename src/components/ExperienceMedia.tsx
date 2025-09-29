@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 interface ExperienceMediaProps {
@@ -7,7 +7,7 @@ interface ExperienceMediaProps {
   imageString?: string[]
   url?: string
 }
-const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onrender.com/" }: ExperienceMediaProps) => {
+const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceMediaProps) => {
   // const [isPlaying, setIsPlaying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -15,7 +15,14 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
 
   const itemImages: string[] = images ?? [];
 
-  console.log("ExperienceMedia images:", images);
+  useEffect(() => {
+  if (isModalOpen && itemImages.length > 0) {
+    itemImages.forEach((src) => {
+      const img = new Image();
+      img.src = url + src;
+    });
+  }
+}, [isModalOpen, itemImages, url]);
 
 
 
@@ -141,22 +148,11 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                 </button>
 
                 {/* 📷 Image */}
-<img
-  key={currentSlide}
-  src={url + itemImages[currentSlide]}
-  className="md:h-[450px] h-[273px] w-full rounded-[15px] object-cover opacity-0 scale-105 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]"
-  onLoad={(e) => {
-    e.currentTarget.style.opacity = "1";
-    e.currentTarget.style.transform = "scale(1)";
-  }}
-  alt={`Slide ${currentSlide}`}
-/>
-
-
-
-
-
-
+                <img
+                  src={url + itemImages[currentSlide]}
+                  className="md:h-[450px] h-[273px] w-full rounded-[15px] object-cover"
+                  alt={`Slide ${currentSlide}`}
+                />
               </div>
 
               {/* 🔢 Slide Number */}
