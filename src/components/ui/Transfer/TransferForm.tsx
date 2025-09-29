@@ -61,7 +61,7 @@ const handleSubmit = async (data: FormValues) => {
                 passengers:data.passengers
             }
 
-            const response = await fetch('https://elite-experience-backend.onrender.com/api/vehicleEnquiry/save', {
+            const response = await fetch('http://localhost:5000/api/vehicleEnquiry/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

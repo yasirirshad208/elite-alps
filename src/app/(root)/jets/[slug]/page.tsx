@@ -21,7 +21,7 @@ export default function BookJet({ params }: { params: { slug: string } }) {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(`https://elite-experience-backend.onrender.com/api/jet/${slug}`);
+        const response = await axios.get(`http://localhost:5000/api/jet/${slug}`);
         setJet(response.data);
       } catch (err) {
         setError("Failed to fetch jet details");

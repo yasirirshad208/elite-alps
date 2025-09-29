@@ -71,7 +71,7 @@ const BookingVehicle = ({ hImages, name, details, isHelicopter, seats, gearType,
             {/* Display the current image */}
             {/* <div className="w-full h-auto overflow-hidden relative flex justify-center">
         <img
-          src={"https://elite-experience-backend.onrender.com/" + hImages[currentIndex]} // Default to first image if images are not available
+          src={"http://localhost:5000/" + hImages[currentIndex]} // Default to first image if images are not available
           className="rounded-[20px] w-full object-cover lg:h-[400px] md:h-[320px] sm:h-[270px] lg:h-[240px] transition-all duration-500"
           alt={`Slide ${currentIndex + 1}`}
         />
@@ -109,7 +109,7 @@ const BookingVehicle = ({ hImages, name, details, isHelicopter, seats, gearType,
                             {hImages.map((img, idx) => (
                                 <img
                                     key={idx}
-                                    src={"https://elite-experience-backend.onrender.com/" + img}
+                                    src={"http://localhost:5000/" + img}
                                     alt={name}
                                     className="w-full h-full object-cover flex-shrink-0"
                                 />

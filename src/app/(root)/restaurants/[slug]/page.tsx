@@ -29,7 +29,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
         const fetchData = async () => {
             try {
                 const { data: propertyData } = await axios.get(
-                    `https://elite-experience-backend.onrender.com/api/restaurants/${slug}`
+                    `http://localhost:5000/api/restaurants/${slug}`
                 );
                 setData(propertyData);
             } catch (err) {
@@ -130,7 +130,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
 
 
 
-                    <ExperienceMedia images={data.images} url={`https://elite-experience-backend.onrender.com/`} />
+                    <ExperienceMedia images={data.images} url={`http://localhost:5000/`} />
                 </div>
             </section>
 

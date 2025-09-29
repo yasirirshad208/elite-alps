@@ -40,7 +40,7 @@ export const useAccommodationStore = create<AccommodationState>((set) => ({
 
     try {
       const response = await axios.get(
-        'https://elite-experience-backend.onrender.com/api/accommodations/properties/get'
+        'http://localhost:5000/api/accommodations/properties/get'
       );
 
       const accommodationsData =
@@ -80,7 +80,7 @@ export const useAccommodationStore = create<AccommodationState>((set) => ({
 
     try {
       const response = await axios.get(
-        'https://elite-experience-backend.onrender.com/api/accommodations/properties/get'
+        'http://localhost:5000/api/accommodations/properties/get'
       );
 
       const accommodationsData =

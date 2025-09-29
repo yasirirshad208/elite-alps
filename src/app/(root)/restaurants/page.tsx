@@ -53,7 +53,7 @@ export default function Restaurants({ searchParams }: { searchParams: { [key: st
 
       try {
         const response = await fetch(
-          `https://elite-experience-backend.onrender.com/api/restaurants/all?${params.toString()}`
+          `http://localhost:5000/api/restaurants/all?${params.toString()}`
         );
 
         if (!response.ok) throw new Error("Failed to fetch restaurants");

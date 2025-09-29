@@ -45,7 +45,7 @@ const HotelListing = ({ hotels }: { hotels: Hotel[] }) => {
                             title={item.title}
                             location={item.location}
                             price={item.price.highSeason.toString()}
-                            image={`https://elite-experience-backend.onrender.com/${item.images[0]}`}
+                            image={`http://localhost:5000/${item.images[0]}`}
                             stars={item.stars || "4"}
                             link={`/hotels/${item.slug}`}
                         />

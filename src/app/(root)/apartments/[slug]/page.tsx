@@ -38,7 +38,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
 
                 // Fetch property details
                 const { data: propertyData } = await axios.get(
-                    `https://elite-experience-backend.onrender.com/api/accommodations/property/detail/${slug}`
+                    `http://localhost:5000/api/accommodations/property/detail/${slug}`
                 );
 
 

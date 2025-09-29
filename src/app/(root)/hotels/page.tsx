@@ -28,7 +28,7 @@ export default async function Hotels({ searchParams }: { searchParams: Promise<{
   }).toString();
 
   const response = await fetch(
-    `https://elite-experience-backend.onrender.com/api/accommodations/all/hotel?${queryString}`
+    `http://localhost:5000/api/accommodations/all/hotel?${queryString}`
   );
 
   const data = await response.json()
@@ -123,7 +123,7 @@ export default async function Hotels({ searchParams }: { searchParams: Promise<{
                 title={item.title}
                 location={item.location}
                 price={item.price.highSeason.toString()}
-                image={`https://elite-experience-backend.onrender.com/${item.images[0]}`}
+                image={`http://localhost:5000/${item.images[0]}`}
                 stars={item.stars || "4"}
                 link={`/hotels/${item.slug}`}
               />

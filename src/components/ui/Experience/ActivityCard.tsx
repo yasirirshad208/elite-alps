@@ -26,7 +26,7 @@ const ActivityCard = ({ title, images, location, price, time, persons, hours, di
 
                 <div className="relative w-full h-[223px]">
                     <Image
-                        src={`https://elite-experience-backend.onrender.com/${images[0]}`}
+                        src={`http://localhost:5000/${images[0]}`}
                         alt="Activity Card Image"
                         fill
                         sizes="(max-width: 768px) 100vw,

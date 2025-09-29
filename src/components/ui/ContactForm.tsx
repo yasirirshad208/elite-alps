@@ -43,7 +43,7 @@ const ContactForm = () => {
                 message:data.message,
             }
 
-            const response = await fetch('https://elite-experience-backend.onrender.com/api/contact/save', {
+            const response = await fetch('http://localhost:5000/api/contact/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

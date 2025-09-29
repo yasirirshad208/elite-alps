@@ -20,7 +20,7 @@ export default function BookHelicopter({ params }: { params: { slug: string } })
     const fetchHelicopter = async () => {
       try {
         const response = await axios.get(
-          `https://elite-experience-backend.onrender.com/api/helicopter/${slug}`
+          `http://localhost:5000/api/helicopter/${slug}`
         );
         setHelicopter(response.data);
       } catch (err) {

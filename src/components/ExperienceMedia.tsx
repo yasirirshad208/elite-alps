@@ -7,13 +7,15 @@ interface ExperienceMediaProps {
   imageString?: string[]
   url?: string
 }
-const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onrender.com/" }: ExperienceMediaProps) => {
+const ExperienceMedia = ({ images, url = "http://localhost:5000/" }: ExperienceMediaProps) => {
   // const [isPlaying, setIsPlaying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
 
 
   const itemImages: string[] = images ?? [];
+
+  console.log("ExperienceMedia images:", images);
 
 
 
@@ -139,11 +141,18 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                 </button>
 
                 {/* 📷 Image */}
-                <img
-                  src={url + itemImages[currentSlide]}
-                  className="md:h-[450px] h-[273px] w-full rounded-[15px] object-cover"
-                  alt={`Slide ${currentSlide}`}
-                />
+<img
+  key={currentSlide}
+  src={url + itemImages[currentSlide]}
+  className="md:h-[450px] h-[273px] w-full rounded-[15px] object-cover"
+  alt={`Slide ${currentSlide}`}
+/>
+
+
+
+
+
+
               </div>
 
               {/* 🔢 Slide Number */}

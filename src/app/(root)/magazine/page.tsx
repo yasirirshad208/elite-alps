@@ -19,7 +19,7 @@ export default async function Page({
     });
 
     const response = await fetch(
-        `https://elite-experience-backend.onrender.com/api/magazine?${query.toString()}`,
+        `http://localhost:5000/api/magazine?${query.toString()}`,
         { cache: 'no-store' }
     );
 
@@ -63,7 +63,7 @@ export default async function Page({
                         {data.data.map((item:any) => {
                            return <ArticleCard key={item._id}
                                 description={item.blogDetails}
-                                image={`https://elite-experience-backend.onrender.com/${item.image}`}
+                                image={`http://localhost:5000/${item.image}`}
                                 category={item.category}
                                 title={item.title}
                                 slug={item.slug} />

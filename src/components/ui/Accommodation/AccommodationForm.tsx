@@ -80,7 +80,7 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                 numberOfPeople: data.people
             }
 
-            const response = await fetch('https://elite-experience-backend.onrender.com/api/accommodationEnquiry/save', {
+            const response = await fetch('http://localhost:5000/api/accommodationEnquiry/save', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

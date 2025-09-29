@@ -88,7 +88,7 @@ const VehicleCard = ({ name, passengers, speed, gearType, fuelType, seats, engin
                 {images.map((img, idx) => (
                   <img
                     key={idx}
-                    src={"https://elite-experience-backend.onrender.com/" + img}
+                    src={"http://localhost:5000/" + img}
                     alt={name}
                     className="w-full h-full object-cover flex-shrink-0"
                   />
