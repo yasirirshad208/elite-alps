@@ -83,6 +83,7 @@ const DateInput = (props: FormInputProps) => {
                             <div className="flex items-center justify-between px-1 py-2 bg-white">
                                 {/* Prev Button */}
                                 <button
+                                type='button'
                                     onClick={decreaseMonth}
                                     disabled={prevMonthButtonDisabled}
                                     className="p-1 disabled:opacity-40 cursor-pointer"
@@ -100,6 +101,7 @@ const DateInput = (props: FormInputProps) => {
 
                                 {/* Next Button */}
                                 <button
+                                type='button'
                                     onClick={increaseMonth}
                                     disabled={nextMonthButtonDisabled}
                                     className="p-1 disabled:opacity-40 cursor-pointer"

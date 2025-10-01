@@ -61,10 +61,33 @@
 }
 
 /* Hover day */
-.react-datepicker__day:hover {
-  background-color: #66aefb !important; /* Light blue */
+.react-datepicker__day {
+  background-color: #0074ec !important;
   color: #fff !important;
   border-radius: 6px;
+  font-size: 13px !important;
+}
+
+/* Still keep disabled days different */
+.react-datepicker__day--disabled {
+  background: transparent !important;
+  color: #000 !important;
+  cursor: not-allowed !important;
+  font-size: 13px !important;
+}
+
+/* Optional: keep hover effect subtle */
+/* Hover only for active (non-disabled) days */
+.react-datepicker__day:not(.react-datepicker__day--disabled):hover {
+  background-color: #005ec2 !important;
+  color: #fff !important;
+}
+
+/* Make sure disabled days never change on hover */
+.react-datepicker__day--disabled:hover {
+  background: transparent !important;
+  color: #000 !important;
+  cursor: not-allowed !important;
 }
 
 /* Navigation (prev/next handles) */
@@ -90,6 +113,8 @@
 .react-datepicker__navigation--next:hover {
   background: #f5f5f5 !important; /* Light gray hover */
 }
+
+
 
 
 

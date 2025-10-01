@@ -49,6 +49,8 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
         price: date.price,
     }));
 
+    // allowedDates.map((d)=>console.log(d))
+
     const getMatchingRange = (date: Date | null) => {
         if (!date) return undefined
         return allowedDates.find(
