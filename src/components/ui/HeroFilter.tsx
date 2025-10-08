@@ -13,19 +13,39 @@ type DropdownType = 'accommodation' | 'location' | 'guests' | 'price' | 'transfe
 
 const HeroFilter = () => {
   const [toggle, setToggle] = useState(false)
-  const [guest, setGuest] = useState(1)
-  const [passengers, setPassengers] = useState(1)
+  const [guest, setGuest] = useState(0)
+  const [passengers, setPassengers] = useState(0)
   const [openDropdown, setOpenDropdown] = useState<DropdownType>(null)
-  const [accommodationType, setAccommodationType] = useState('Chalets')
-  const [location, setLocation] = useState('Courchevel 1850')
+  const [accommodationType, setAccommodationType] = useState('')
+  const [location, setLocation] = useState('')
   const [price, setPrice] = useState('300000')
-  
+  const [locations, setLocations] = useState<string[]>([]);
+
   const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [transferType, setTransferType] = useState('Helicopters')
-  const [destination, setDestination] = useState('Courchevel')
-  const [departure, setDeparture] = useState('Grena')
+  const [transferType, setTransferType] = useState('')
+  const [destination, setDestination] = useState('')
+  const [departure, setDeparture] = useState('')
+
+  const handleLocationToggle = (item: string) => {
+    setLocations((prev) => {
+      let updated;
+
+      if (prev.includes(item)) {
+        // Remove if already selected
+        updated = prev.filter((loc) => loc !== item);
+      } else {
+        // Add if not selected
+        updated = [...prev, item];
+      }
+
+      // Update the single "location" state based on the new array
+      setLocation(updated.length > 0 ? updated[0] : "");
+
+      return updated;
+    });
+  };
 
   const handleDropdownToggle = (dropdown: DropdownType) => {
     setOpenDropdown(prev => (prev === dropdown ? null : dropdown))
@@ -51,7 +71,7 @@ const HeroFilter = () => {
     setIsModalOpen(false);
   };
 
-   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -98,9 +118,9 @@ const HeroFilter = () => {
                 {/* Accommodation Type */}
                 <div className="relative">
                   <div className='cursor-pointer w-full' onMouseDown={(e) => {
-    e.stopPropagation();
-    handleDropdownToggle("accommodation");
-  }}>
+                    e.stopPropagation();
+                    handleDropdownToggle("accommodation");
+                  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Accommodation Type</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -110,12 +130,14 @@ const HeroFilter = () => {
                           <path d="M5.25 15.6279C5.15149 15.6278 5.05394 15.6472 4.96292 15.6848C4.8719 15.7225 4.7892 15.7778 4.71954 15.8474C4.64989 15.9171 4.59464 15.9998 4.55697 16.0908C4.5193 16.1818 4.49994 16.2794 4.5 16.3779V19.3779C4.5 19.5768 4.57902 19.7675 4.71967 19.9082C4.86032 20.0489 5.05109 20.1279 5.25 20.1279C5.44891 20.1279 5.63968 20.0489 5.78033 19.9082C5.92098 19.7675 6 19.5768 6 19.3779V16.3779C6.00006 16.2794 5.9807 16.1818 5.94303 16.0908C5.90536 15.9998 5.85011 15.9171 5.78046 15.8474C5.7108 15.7778 5.6281 15.7225 5.53708 15.6848C5.44606 15.6472 5.34851 15.6278 5.25 15.6279Z" fill="#121212" />
                           <path d="M11.9985 13.3779C11.9 13.3778 11.8025 13.3972 11.7115 13.4348C11.6204 13.4725 11.5377 13.5278 11.4681 13.5974C11.3984 13.6671 11.3432 13.7498 11.3055 13.8408C11.2678 13.9318 11.2485 14.0294 11.2485 14.1279V18.6279C11.2485 18.8268 11.3276 19.0175 11.4682 19.1582C11.6089 19.2989 11.7996 19.3779 11.9985 19.3779C12.1974 19.3779 12.3882 19.2989 12.5289 19.1582C12.6695 19.0175 12.7485 18.8268 12.7485 18.6279V14.1279C12.7486 14.0294 12.7292 13.9318 12.6916 13.8408C12.6539 13.7498 12.5986 13.6671 12.529 13.5974C12.4593 13.5278 12.3766 13.4725 12.2856 13.4348C12.1946 13.3972 12.097 13.3778 11.9985 13.3779Z" fill="#121212" />
                         </svg>
-                        <span className='sm:text-[16px] text-[12px]'>{accommodationType}</span>
+                        <span className='sm:text-[15px] text-[12px]'>{accommodationType === ""
+                          ? "Select Accommodation"
+                          : accommodationType.replace(/\b\w/g, (char) => char.toUpperCase())}</span>
                       </div>
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'accommodation'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={() => setOpenDropdown(null)} isOpen={openDropdown === 'accommodation'} border={true}>
                     <div className='w-full'>
                       {['Chalets', 'Apartments', 'Hotels'].map((item) => (
                         <div
@@ -137,9 +159,9 @@ const HeroFilter = () => {
                 {/* Location */}
                 <div className="relative">
                   <div className='cursor-pointer w-full' onMouseDown={(e) => {
-    e.stopPropagation();
-    handleDropdownToggle("location");
-  }}>
+                    e.stopPropagation();
+                    handleDropdownToggle("location");
+                  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Location</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -155,23 +177,41 @@ const HeroFilter = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        <span className='sm:text-[16px] text-[12px]'>{location}</span>
+                        <span
+                          className={`sm:text-[15px] max-w-[140px] text-[12px] ${location !== "" ? "truncate" : "whitespace-nowrap"
+                            }`}
+                        >
+                          {location === ""
+                            ? "Choose Destination"
+                            : location === "Courchevel 1850" ? location+"..." : location.replace(/\b\w/g, (char) => char.toUpperCase())}
+                        </span>
                       </div>
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'location'} border={true}>
-                    <div className='w-full'>
-                      {['Courchevel 1850', 'Courchevel Moriond (1650)', "Courchevel Village (1550)", "Courchevel Le Praz (1300)", 'Meribel', 'Val Thorens'].map((item) => (
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={() => setOpenDropdown(null)} isOpen={openDropdown === 'location'} border={true}>
+                    <div className="w-full">
+                      {[
+                        "Courchevel 1850",
+                        "Courchevel Moriond (1650)",
+                        "Courchevel Village (1550)",
+                        "Courchevel Le Praz (1300)",
+                        "Meribel",
+                        "Val Thorens",
+                      ].map((item) => (
                         <div
                           key={item}
-                          className='hover:bg-[#F6F8FA] px-3 py-2 text-[#121212] cursor-pointer'
-                          onClick={() => {
-                            setLocation(item)
-                            setOpenDropdown(null)
-                          }}
+                          className="hover:bg-[#F6F8FA] flex items-center justify-between gap-8 px-3 py-3 text-[#121212] cursor-pointer"
+                          onClick={() => handleLocationToggle(item)}
                         >
                           {item}
+                          <input
+                            type="checkbox"
+                            checked={locations.includes(item)}
+                            onChange={() => handleLocationToggle(item)}
+                            className="w-[16px] h-[16px] cursor-pointer"
+                            onClick={(e) => e.stopPropagation()} // prevent double toggle
+                          />
                         </div>
                       ))}
                     </div>
@@ -215,10 +255,10 @@ const HeroFilter = () => {
                 <div className="relative inline-block">
                   <div
                     className="cursor-pointer w-full"
-                   onMouseDown={(e) => {
-    e.stopPropagation();
-    handleDropdownToggle("price");
-  }}
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      handleDropdownToggle("price");
+                    }}
                   >
                     {/* Trigger */}
                     <div className="mb-2 font-regular font-[600] text-[#121212]">Price</div>
@@ -245,7 +285,13 @@ const HeroFilter = () => {
                             fill="#121212"
                           />
                         </svg>
-                        <span className="sm:text-[16px] text-[12px]">£{Number(price).toLocaleString("en-US")}/week</span>
+                        <span
+                          className="sm:text-[15px] text-[12px] whitespace-nowrap overflow-hidden text-ellipsis block sm:max-w-[140px] max-w-[110px]"
+                        >
+                          {minPrice === 0 && maxPrice === 300000
+                            ? "All Prices"
+                            : `€${minPrice.toLocaleString("en-US")} - €${maxPrice.toLocaleString("en-US")}/week`}
+                        </span>
                       </div>
                       <IoIosArrowDown className="sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]" />
                     </div>
@@ -256,8 +302,8 @@ const HeroFilter = () => {
                   {!isMobile && openDropdown === "price" ? (
                     // Desktop / Tablet View
                     <div
-                     ref={dropdownRef}
-                                        className="
+                      ref={dropdownRef}
+                      className="
                         fixed
                         top-[calc(90%)]
                         mb-2
@@ -274,8 +320,8 @@ const HeroFilter = () => {
                       {isMobile && openDropdown === "price" && (
                         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
                           <div className="w-[90%] max-w-md px-[12px]">
-                            <PriceRange onApplyFilter={handleApply} min={minPrice} max={maxPrice}  onClose={() => { setOpenDropdown(null) }} />
-                           
+                            <PriceRange onApplyFilter={handleApply} min={minPrice} max={maxPrice} onClose={() => { setOpenDropdown(null) }} />
+
                           </div>
                         </div>
                       )}
@@ -301,19 +347,21 @@ const HeroFilter = () => {
                 {/* Accommodation Type */}
                 <div className="relative">
                   <div className='cursor-pointer w-full' onMouseDown={(e) => {
-    e.stopPropagation();
-    handleDropdownToggle("transfer");
-  }}>
+                    e.stopPropagation();
+                    handleDropdownToggle("transfer");
+                  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Transfer Type</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
                         <TbTransferVertical className='text-[20px] text-[#121212]' />
-                        <span className='sm:text-[16px] text-[12px]'>{transferType}</span>
+                        <span className='sm:text-[15px] text-[12px]'>{transferType === ""
+                          ? "Select Transfer Type"
+                          : transferType.replace(/\b\w/g, (char) => char.toUpperCase())}</span>
                       </div>
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'transfer'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={() => setOpenDropdown(null)} isOpen={openDropdown === 'transfer'} border={true}>
                     <div className='w-full'>
                       {['Helicopters', 'Cars', 'Jets'].map((item) => (
                         <div
@@ -335,9 +383,9 @@ const HeroFilter = () => {
                 {/* Location */}
                 <div className="relative">
                   <div className='cursor-pointer w-full' onMouseDown={(e) => {
-    e.stopPropagation();
-    handleDropdownToggle("departure");
-  }}>
+                    e.stopPropagation();
+                    handleDropdownToggle("departure");
+                  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Departure</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -353,12 +401,14 @@ const HeroFilter = () => {
                             </clipPath>
                           </defs>
                         </svg>
-                        <span className='sm:text-[16px] text-[12px]'>{departure}</span>
+                        <span className='sm:text-[15px] text-[12px]'>{departure === ""
+                          ? "Choose Departure"
+                          : departure.replace(/\b\w/g, (char) => char.toUpperCase())}</span>
                       </div>
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'departure'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={() => setOpenDropdown(null)} isOpen={openDropdown === 'departure'} border={true}>
                     <div className='w-full'>
                       {["Grena", "Lyon", "Chambery",].map((item) => (
                         <div
@@ -379,9 +429,9 @@ const HeroFilter = () => {
                 {/* Price */}
                 <div className="relative">
                   <div className='cursor-pointer w-full' onMouseDown={(e) => {
-    e.stopPropagation();
-    handleDropdownToggle("destination");
-  }}>
+                    e.stopPropagation();
+                    handleDropdownToggle("destination");
+                  }}>
                     <div className='mb-2 font-regular font-[600] text-[#121212]'>Destination</div>
                     <div className='sm:px-4.5 px-3 sm:py-3 py-2.5 border border-[#e3e3e3] rounded-[999px] flex items-center justify-between'>
                       <div className='flex items-center gap-2'>
@@ -403,12 +453,14 @@ const HeroFilter = () => {
                           </defs>
                         </svg>
 
-                        <span className='sm:text-[16px] text-[12px]'>{destination}</span>
+                        <span className='sm:text-[15px] text-[12px]'>{destination === ""
+                          ? "Choose Destination"
+                          : destination.replace(/\b\w/g, (char) => char.toUpperCase())}</span>
                       </div>
                       <IoIosArrowDown className='sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] text-[#121212]' />
                     </div>
                   </div>
-                  <Dropdown top='top-[calc(100%+6px)]' onClose={()=>setOpenDropdown(null)}  isOpen={openDropdown === 'destination'} border={true}>
+                  <Dropdown top='top-[calc(100%+6px)]' onClose={() => setOpenDropdown(null)} isOpen={openDropdown === 'destination'} border={true}>
                     <div className='w-full'>
                       {['Courchevel'].map((item) => (
                         <div
