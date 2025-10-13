@@ -4,12 +4,7 @@ import ExperienceMedia from "@/components/ExperienceMedia";
 import MapComponent from "@/components/MapComponent";
 import ShareBtn from "@/components/ShareBtn";
 import BookEventSkeleton from "@/components/skeletons/BookEventSkeleton";
-import AccommodationForm from "@/components/ui/Accommodation/AccommodationForm";
-import ChaletsKeyFeatures from "@/components/ui/ChaletsKeyFeatures";
-import ChaletsSlider from "@/components/ui/ChaletsSlider";
 import ActivitySlider from "@/components/ui/Experience/ActivitySlider";
-import ExperienceForm from "@/components/ui/Experience/ExperienceForm";
-import ExperiencSlider from "@/components/ui/Experience/ExperienceSlider";
 import RestaurantKeyFeatures from "@/components/ui/Experience/RestaurantKeyFeatures";
 import SubMenu from "@/components/ui/SubMenu";
 import axios from "axios";
@@ -65,7 +60,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
     };
 
 
-    if (loading) return <BookEventSkeleton/>;
+    if (loading) return <BookEventSkeleton />;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 
@@ -126,11 +121,11 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
                 </div>
             </div>
 
-            <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
+
             <section >
                 <div className="container mx-auto">
-                    <div className=" w-full  pl-3">
-
+                    <div className=" w-full  md:pl-3">
+                        <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
                         <div >
                             <h2 className="text-[#121212] font-large font-semibold mb-4">
                                 About The Activity

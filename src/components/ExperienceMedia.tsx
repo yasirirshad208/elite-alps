@@ -49,7 +49,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
             <img
               src={itemImages[0] ? url + itemImages[0] : "https://via.placeholder.com/150"}
               alt="Image"
-              className="h-full w-full sm:rounded-[12px] object-cover"
+              className="h-full w-full sm:rounded-[12px] object-cover cursor-pointer"
               onClick={() => {
                 setCurrentSlide(0); // open the clicked image
                 openModal();
@@ -75,7 +75,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
             if (index === 3) {
               return (
                 <div
-                  className="h-full w-full relative rounded-[12px] overflow-hidden"
+                  className="h-full w-full relative rounded-[12px] overflow-hidden cursor-pointer"
                   key={index}
                   style={{
                     background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(0, 0, 0, 0.41)), url(${url + image}) center/cover no-repeat`,
@@ -101,7 +101,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
               <div className="h-full w-full" key={index}>
                 <img
                   src={url + image}
-                  className="h-full w-full object-cover rounded-[12px]"
+                  className="h-full w-full object-cover rounded-[12px] cursor-pointer"
                   alt={`Slide ${actualIndex}`}
                   onClick={() => {
                     setCurrentSlide(actualIndex); // open this image
@@ -127,7 +127,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
               <div className="relative">
                 {/* ❌ Close Icon on Image */}
                 <button
-                  className="absolute top-2 right-2 text-black bg-white rounded-full sm:w-[48px] sm:h-[48px] w-[30px] h-[30px] flex justify-center items-center z-30"
+                  className="absolute top-2 right-2 text-black bg-white rounded-full sm:w-[48px] sm:h-[48px] w-[30px] h-[30px] flex justify-center items-center z-30 cursor-pointer"
                   onClick={closeModal}
                   aria-label="Close Modal"
                 >
@@ -174,7 +174,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
 
               {/* ⬅️ Prev Slide Button (Outside Image) */}
               <button
-                className="absolute top-1/2 lg:left-14 left-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white sm:text-[22px] text-[18px] flex items-center justify-center"
+                className="absolute top-1/2 lg:left-14 left-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white sm:text-[22px] text-[18px] flex items-center justify-center cursor-pointer"
                 onClick={prevSlide}
               >
                 <BsArrowLeft />
@@ -182,7 +182,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
 
               {/* ➡️ Next Slide Button (Outside Image) */}
               <button
-                className="absolute top-1/2 lg:right-14 right-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white  sm:text-[22px] text-[18px] flex items-center justify-center"
+                className="absolute top-1/2 lg:right-14 right-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white  sm:text-[22px] text-[18px] flex items-center justify-center cursor-pointer"
                 onClick={nextSlide}
               >
                 <BsArrowRight />

@@ -142,12 +142,12 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
                     <GrLocation className="w-[21px] h-[21px]" />  <span className="font-large">{data.address || "45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA"}</span>
                 </div>
             </div>
-            <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
+            
             <section id="details">
                 <div className="container mx-auto">
                     <div className="flex gap-10  md:flex-row flex-col">
-                        <div className=" w-full  pl-3">
-
+                        <div className=" w-full  md:pl-3">
+<SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
                             <div >
                                 <h2 className="text-[#121212] font-large font-semibold mb-4">
                                     About The Restaurant

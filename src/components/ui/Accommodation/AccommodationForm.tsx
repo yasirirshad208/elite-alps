@@ -117,14 +117,17 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
     return (
         <div>
             <h2 className="text-[20px] text-[#121212] font-semibold">
-                €{parseFloat(rate || (dateRanges[0]?.price ?? "0"))
-                    .toFixed(0)
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} / Week
+                {rate
+                    ? "€" + parseFloat(rate)
+                        .toFixed(0)
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    : "xxxx"} / Week
+
             </h2>
 
             <div className="h-[1px] bg-[#e3e3e3] w-full my-3"></div>
 
-            <div className="tetxt-[16px] font-semibold text-[#121212] font-[600] mb-2.5">Make an Enquiry</div> 
+            <div className="tetxt-[16px] font-semibold text-[#121212] font-[600] mb-2.5">Make an Enquiry</div>
 
             <Form<FormValues>
                 defaultValues={{ checkIn: null, checkOut: null }}
@@ -224,12 +227,24 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                             </div>
 
                             <SelectField
-                                label="Subject"
+                                label="I'm Also Interested In"
                                 register={register('subject')}
                                 error={errors.subject?.message}
-                                options={['Option 1', 'Option 2', 'Option 3']}
+                                multipleSections={true}
+                                options={[
+                                    'Ski Instructor',
+                                    'Helicopter Transfer',
+                                    'Car Transfer',
+                                    'Private Chef',
+                                    'Private Party',
+                                    'Babysitter',
+                                    'Bodyguard',
+                                    'Special Occasion Organization',
+                                    'Private Photographer',
+                                ]}
                                 icon={<LuMessageSquareText />}
                             />
+
 
 
 
@@ -241,8 +256,8 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                             />
 
 
-                           
- <div className='flex items-center gap-2 my-1'>
+
+                            <div className='flex items-center gap-2 my-1'>
                                 <input
                                     type="checkbox"
                                     id="policy"

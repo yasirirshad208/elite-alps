@@ -208,11 +208,11 @@ export default function Restaurants({ searchParams }: { searchParams: { [key: st
         <div className="container">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {loading
-  ? Array.from({ length: 8 }).map((_, i) => <RestaurantCardSkeleton key={i} />)
-  : data.restaurants.map((item:Restaurant) => (
-     <RestaurantCard key={item._id} cardUrl={`/restaurants/${item.slug}`} title={item.name} restaurantType={item.price} image={item.images} showLocation={true} location={item.location} />
-    ))
-}
+              ? Array.from({ length: 8 }).map((_, i) => <RestaurantCardSkeleton key={i} />)
+              : data.restaurants.map((item: Restaurant) => (
+                <RestaurantCard key={item._id} cardUrl={`/restaurants/${item.slug}`} title={item.name} restaurantType={item.price} image={item.images} showLocation={true} location={item.location} />
+              ))
+            }
 
           </div>
 
