@@ -39,8 +39,9 @@ type IconType = {
 };
 
 const iconMap: Record<string, React.ElementType> = {
-  IoMenu,
+ 
   FaConciergeBell,
+   IoMenu,
   FaFish,
   FaMusic,
   FaPizzaSlice,
