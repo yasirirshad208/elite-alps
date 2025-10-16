@@ -147,6 +147,10 @@
   display: none !important;
 }
 
+/* Apply grey background only to in-range days that are NOT selected */
+.react-datepicker__day--in-range:not(.react-datepicker__day--selected) {
+  background-color: #DFE1E7 !important;
+}
 
 
 

@@ -127,7 +127,7 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
 
             <div className="h-[1px] bg-[#e3e3e3] w-full my-3"></div>
 
-            <div className="tetxt-[16px] font-semibold text-[#121212] font-[600] mb-2.5">Make an Enquiry</div>
+            <div className="text-[16px] font-semibold text-[#121212] font-[600] mb-2.5">Make an Enquiry</div>
 
             <Form<FormValues>
                 defaultValues={{ checkIn: null, checkOut: null }}

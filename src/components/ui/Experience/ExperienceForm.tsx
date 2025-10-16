@@ -113,7 +113,7 @@ if (isSubmitted) {
 
             {price &&(
             <>
-            <h2 className="md:text-[32px] sm:text-[24px] text-[20px] text-[#121212] font-semibold">
+            <h2 className="text-[20px] text-[#121212] font-semibold">
                 €{parseFloat(price || "20")
                     .toFixed(0) // remove decimal
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} / Person
@@ -123,7 +123,7 @@ if (isSubmitted) {
             </>
             )}
 
-            <div className="font-large text-[#121212] font-[600] mb-1">Need help in booking?</div>
+            <div className="text-[16px] font-semibold text-[#121212] font-[600] mb-2.5">Need help in booking?</div>
 
             <Form<FormValues>
                 // defaultValues={{ checkIn: null, checkOut: null }}

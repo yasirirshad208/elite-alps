@@ -47,8 +47,9 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
     }, [params.slug]);
     const sections = [
         { id: 'details', label: 'Details' },
-        { id: 'faqs', label: 'Faqs' },
+        
         { id: 'location', label: 'Location' },
+        { id: 'faqs', label: 'Faqs' },
     ];
 
     const handleScrollTo = (id: string) => {
@@ -59,7 +60,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
         }
     };
 
-    if (loading) return <BookActivitySkeleton/>;
+    if (loading) return <BookActivitySkeleton />;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 
@@ -144,12 +145,12 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
                     <GrLocation className="w-[21px] h-[21px]" />  <span className="font-large">{data.address || "45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA"}</span>
                 </div>
             </div>
-            
+
             <section id="details">
                 <div className="container mx-auto">
                     <div className="flex gap-10  md:flex-row flex-col">
-                        <div className="md:w-[50%] w-full  md:pl-3">
-<SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
+                        <div className=" w-full md:max-w-[888px]  md:pl-3">
+                            <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
                             <div>
                                 <h2 className="text-[#121212] font-large font-semibold mb-4">
                                     About The Activity
@@ -199,9 +200,11 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
 
                         </div>
 
-                        <div className="md:max-w-[487px] sm:block hidden w-full">
-                            <div className="border border-[#e3e3e3] bg-white rounded-[12px] p-4 " style={{ "boxShadow": "0px 4px 12px 0px #9A9A9A1A" }}>
-
+                    <div className="md:max-w-[444px] sm:block hidden w-full mt-[30px]">
+                            <div
+                                className="border border-[#e3e3e3] bg-white rounded-[12px] p-3.5 md:sticky md:top-[10px]"
+                                style={{ boxShadow: "0px 4px 12px 0px #9A9A9A1A" }}
+                            >
 
                                 {/* <AccommodationForm accommodationType="Chalet" dateRanges={dateRanges} name={data.data.propertyDetail.message.detail[0].nom_bien_en[0]} location={data.data.propertyDetail.message.detail[0].secteur[1]._} id={data.data.propertyDetail.message.detail[0].id_bien} /> */}
                                 <ExperienceForm location={data.location} price={data.price} timeOptions={["Day Time", "Night Time"]} experienceType="Activity" name={data.name} />

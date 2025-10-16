@@ -12,6 +12,7 @@ import SelectField from './ui/SelectField';
 import { LuContact } from 'react-icons/lu';
 import FormTextarea from './ui/FormTextarea';
 import { Box, Slider } from '@mui/material';
+import DateRange from './ui/DateRange';
 
 type FormValues = {
     name: string
@@ -19,7 +20,8 @@ type FormValues = {
     preferedContactMethod: string
     phone: string
     location: number
-    dateOfTravel: Date | null
+    startDate: Date | null
+    endDate: Date | null
     twoWeeksStay: string
     budget: string
     message: string
@@ -29,7 +31,7 @@ const InquiryModal = () => {
     const { isInquiryOpen, closeInquiry } = useModalStore();
     const [agreed, setAgreed] = useState(false)
     const [interestedInTwoWeeksStay, setInterestedInTwoWeeksStay] = useState(false);
-const [price, setPrice] = useState<number[]>([5000, 300000]);
+    const [price, setPrice] = useState<number[]>([5000, 300000]);
 
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
@@ -49,15 +51,16 @@ const [price, setPrice] = useState<number[]>([5000, 300000]);
             setIsSubmitting(true);
 
             const formData = {
-                name:data.name,
-                email:data.email,
-                phone:data.phone,
-                contactMethod:data.preferedContactMethod,
-                location:data.location,
-                dateOfTravel:data.dateOfTravel,
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                contactMethod: data.preferedContactMethod,
+                location: data.location,
+                startDate: data.startDate,
+                endDate: data.endDate,
                 interestedInTwoWeeksStay,
-                budget:`€${price[0]} to €${price[1]}`,
-                message:data.message,
+                budget: `€${price[0]} to €${price[1]}`,
+                message: data.message,
             }
 
             const response = await fetch('https://elite-experience-backend.onrender.com/api/quickEnquiry/save', {
@@ -79,7 +82,7 @@ const [price, setPrice] = useState<number[]>([5000, 300000]);
             setIsSubmitted(true);
         } catch (error) {
             alert('Submission error');
-            
+
         } finally {
             setIsSubmitting(false);
         }
@@ -87,19 +90,19 @@ const [price, setPrice] = useState<number[]>([5000, 300000]);
 
     const modalRef = useRef<HTMLDivElement>(null);
 
-useEffect(() => {
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      closeInquiry();
-      setIsSubmitted(false);
-    }
-  };
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+                closeInquiry();
+                setIsSubmitted(false);
+            }
+        };
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, [closeInquiry]);
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [closeInquiry]);
 
 
     if (!isInquiryOpen) return null;
@@ -107,14 +110,14 @@ useEffect(() => {
         if (isMobile) {
             return (
                 <div className="fixed  inset-0 z-[9999] bg-[rgba(0,0,0,0.4)] flex justify-center items-center">
-                    <div ref={modalRef}  className="bg-white rounded-xl max-w-sm w-[90%] p-4">
+                    <div ref={modalRef} className="bg-white rounded-xl max-w-sm w-[90%] p-4">
                         <TransferSuccessCard onClose={handleCloseModal} />
                     </div>
                 </div>
             )
         } else {
             return <div className="fixed  inset-0 z-[9999] bg-[rgba(0,0,0,0.4)] flex justify-center items-center">
-                <div ref={modalRef}  className=" bg-white w-full h-full md:h-auto max-w-[706px] md:p-6 p-4 md:rounded-[12px] relative">
+                <div ref={modalRef} className=" bg-white w-full h-full md:h-auto max-w-[706px] md:p-6 p-4 md:rounded-[12px] relative">
                     <>
                         <div className='flex justify-between'>
 
@@ -167,12 +170,11 @@ useEffect(() => {
                             <div className='mt-6'>
 
                                 <Form<FormValues>
-                                    // defaultValues={{ checkIn: null, checkOut: null }}
                                     onSubmit={(data) => {
                                         handleSubmit(data)
                                     }}
                                 >
-                                    {({ register, formState: { errors }, control }) => {
+                                    {({ register, formState: { errors }, control, setValue }) => {
 
                                         return (
                                             <>
@@ -223,13 +225,18 @@ useEffect(() => {
                                                         icon={<IoLocationOutline />}
                                                     />
 
-                                                    <FormInput
+                                                    <DateRange
                                                         label="Date of travel"
-                                                        type='date'
-                                                        register={register('dateOfTravel', { required: 'Date is required' })}
-                                                        error={errors.dateOfTravel?.message}
-                                                        placeholder="Select date"
+                                                        type="date"
+                                                        dateRange={true}
+                                                        startDateFieldName="startDate"
+                                                        endDateFieldName="endDate"
+                                                        register={register('startDate')}
+                                                        error={errors.startDate?.message}
                                                         icon={<FaRegCalendarMinus />}
+                                                        minDate={new Date()}
+                                                        maxDate={new Date(new Date().setMonth(new Date().getMonth() + 6))}
+                                                        setValue={setValue}
                                                     />
                                                 </div>
 
@@ -238,7 +245,7 @@ useEffect(() => {
                                                         type="checkbox"
                                                         id="twoWeeksStay"
                                                         checked={interestedInTwoWeeksStay}
-  onChange={(e) => setInterestedInTwoWeeksStay(e.target.checked)}
+                                                        onChange={(e) => setInterestedInTwoWeeksStay(e.target.checked)}
                                                     />
                                                     <label htmlFor="twoWeeksStay" className="text-[#475467] text-[14px]">
                                                         Interested in a 2 weeeks stay?

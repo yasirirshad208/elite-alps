@@ -150,24 +150,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
                     </div>
                 </div>
             </section>
-
-            <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
-
-            <section
-                className="mt-[40px] md:mt-[60px] lg:mt-[80px]"
-                id="location"
-            >
-                <div className="container mx-auto">
-                    <h2 className="text-[#121212] font-medium font-semibold lg:mb-5 mb-4">
-                        Event Location
-                    </h2>
-
-                    <MapComponent addresss={data.address || "45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA"} latitude={data.latitude || "4546"} longitude={data.longitude || "43543"} />
-
-
-                </div>
-            </section>
-            <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
+               <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
             <section
                 // className="mt-[40px] md:mt-[60px] lg:mt-[80px]"
                 id="date"
@@ -200,6 +183,24 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
 
                 </div>
             </section>
+
+            <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
+
+            <section
+                className="mt-[40px] md:mt-[60px] lg:mt-[80px]"
+                id="location"
+            >
+                <div className="container mx-auto">
+                    <h2 className="text-[#121212] font-medium font-semibold lg:mb-5 mb-4">
+                        Event Location
+                    </h2>
+
+                    <MapComponent addresss={data.address || "45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA"} latitude={data.latitude || "4546"} longitude={data.longitude || "43543"} />
+
+
+                </div>
+            </section>
+         
 
 
             <section className="mt-[40px] sm:mt-[50px]">
