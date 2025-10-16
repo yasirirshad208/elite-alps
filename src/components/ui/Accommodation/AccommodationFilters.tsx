@@ -39,9 +39,9 @@ type IconType = {
 };
 
 const iconMap: Record<string, React.ElementType> = {
- 
+
   FaConciergeBell,
-   IoMenu,
+  IoMenu,
   FaFish,
   FaMusic,
   FaPizzaSlice,
@@ -75,7 +75,7 @@ const iconMap: Record<string, React.ElementType> = {
   PiGarageFill,
   FaGamepad,
 
-    // New ones
+  // New ones
   GiSkiBoot,
   FaParking,
   FaDumbbell,
@@ -169,58 +169,61 @@ const AccommodationIconsFilter = ({ icons }: { icons: IconType[] }) => {
   }, []);
 
   return (
-    <div className="relative w-full">
-      <div
-        ref={scrollRef}
-        className="grid grid-flow-col auto-cols-9 gap-[4px] items-center text-black w-[90%] mx-auto overflow-x-auto whitespace-nowrap no-scrollbar"
-        style={{ scrollbarWidth: "none" }}
-      >
-        {icons.map(({ name, iconKey, svg }) => {
-          const Icon = iconKey ? iconMap[iconKey] : null;
-          const isActive = selected.includes(name);
+ <div className="relative w-full">
+  <div
+    ref={scrollRef}
+    className="flex gap-[4px] items-center text-black w-[90%] mx-auto overflow-x-auto no-scrollbar"
+    style={{ scrollbarWidth: "none" }}
+  >
+    {icons.map(({ name, iconKey, svg }) => {
+      const Icon = iconKey ? iconMap[iconKey] : null;
+      const isActive = selected.includes(name);
 
-          return (
-            <span
-              key={name}
-              onClick={() => handleSelect(name)}
-              className={`py-3 px-1 w-[103px] flex flex-col items-center justify-center gap-1 text-[#666D80] text-[14px] cursor-pointer text-center ${
-                isActive ? "border-b-2 border-[#0074ec] bg-[#e6f0fd]" : ""
-              }`}
-            >
-              {svg ? (
-                typeof svg === "string" ? (
-                  <span
-                    className="w-[20px] h-[20px]"
-                    dangerouslySetInnerHTML={{ __html: svg }}
-                  />
-                ) : (
-                  <span className="w-[20px] h-[20px]">{svg}</span>
-                )
-              ) : (
-                Icon && <Icon className="w-[20px] h-[20px]" />
-              )}
-              {name}
-            </span>
-          );
-        })}
-      </div>
-
-      {showBack && (
-        <div className="absolute top-1/2 left-[3%] border border-[#e3e3e3] -translate-y-1/2 flex items-center justify-center z-10 bg-white w-[32px] h-[32px] rounded-full cursor-pointer">
-          <IoIosArrowBack
-            onClick={scrollBack}
-            className="text-[#121212] w-[16px] h-[16px]"
-          />
+      return (
+        <div
+          key={name}
+          onClick={() => handleSelect(name)}
+          className={`py-3 px-2 min-w-[103px] flex-shrink-0 inline-flex flex-col items-center justify-center gap-1 text-[#666D80] text-[14px] cursor-pointer text-center ${isActive ? "border-b-2 border-[#0074ec] bg-[#e6f0fd]" : ""
+            }`}
+          style={{ width: "fit-content" }}
+        >
+          {svg ? (
+            typeof svg === "string" ? (
+              <span
+                className="w-[20px] h-[20px]"
+                dangerouslySetInnerHTML={{ __html: svg }}
+              />
+            ) : (
+              <span className="w-[20px] h-[20px]">{svg}</span>
+            )
+          ) : (
+            Icon && <Icon className="w-[20px] h-[20px]" />
+          )}
+          <span className="whitespace-nowrap">{name}</span>
         </div>
-      )}
+      );
+    })}
+  </div>
 
-      <div className="absolute top-1/2 right-[3%] border border-[#e3e3e3] -translate-y-1/2 flex items-center justify-center z-0 bg-white w-[32px] h-[32px] rounded-full cursor-pointer">
-        <IoIosArrowForward
-          onClick={scrollNext}
-          className="text-[#121212] w-[16px] h-[16px]"
-        />
-      </div>
+  {showBack && (
+    <div className="absolute top-1/2 left-[3%] border border-[#e3e3e3] -translate-y-1/2 flex items-center justify-center z-10 bg-white w-[32px] h-[32px] rounded-full cursor-pointer">
+      <IoIosArrowBack
+        onClick={scrollBack}
+        className="text-[#121212] w-[16px] h-[16px]"
+      />
     </div>
+  )}
+
+  <div className="absolute top-1/2 right-[3%] border border-[#e3e3e3] -translate-y-1/2 flex items-center justify-center z-0 bg-white w-[32px] h-[32px] rounded-full cursor-pointer">
+    <IoIosArrowForward
+      onClick={scrollNext}
+      className="text-[#121212] w-[16px] h-[16px]"
+    />
+  </div>
+</div>
+
+
+
   );
 };
 

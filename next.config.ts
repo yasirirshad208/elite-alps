@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
    images: {
-    domains: ['admin.cimalpes.com', 'elite-experience-backend.onrender.com', "localhost"], 
+    domains: ['admin.cimalpes.com', 'elite-experience-backend.onrender.com', "localhost", "res.cloudinary.com"], 
   },
    eslint: {
     ignoreDuringBuilds: true,

@@ -121,6 +121,8 @@
   font-size: 13px;
 }
 
+
+
 /* Force selected day text to stay white */
 .react-datepicker__day--selected,
 .react-datepicker__day--selected:hover,
@@ -128,6 +130,23 @@
   background-color: #0074ec !important; /* Keep blue background */
   color: #fff !important; /* White text */
 }
+
+
+.react-datepicker--two-months.side-by-side .react-datepicker__month-container {
+  display: inline-block !important;
+  vertical-align: top;
+}
+
+.react-datepicker--two-months.side-by-side {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 16px;
+}
+/* Hide the top arrow of the datepicker */
+.react-datepicker__triangle {
+  display: none !important;
+}
+
 
 
 
