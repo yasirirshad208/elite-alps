@@ -20,7 +20,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
   useEffect(() => {
     if (latitude && longitude) {
-      // Fetch address using Google Maps Geocoding API
       const fetchAddress = async () => {
         try {
           const response = await fetch(
@@ -36,7 +35,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
           setAddress("Unable to fetch address");
         }
       };
-
       fetchAddress();
     }
   }, [latitude, longitude]);
@@ -53,6 +51,12 @@ const MapComponent: React.FC<MapComponentProps> = ({
   });
 
   const position: [number, number] = [latitude, longitude];
+
+  // 🚀 Open Google Maps in new tab
+  const openInGoogleMaps = () => {
+    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    window.open(url, "_blank");
+  };
 
   return (
     <div className="bg-white border border-[#e3e3e3] rounded-[12px] p-2">
@@ -85,10 +89,19 @@ const MapComponent: React.FC<MapComponentProps> = ({
         </Marker>
       </MapContainer>
 
-      {/* 📍 Address Display */}
-      <div className="font-large font-[600] text-[#666D80] md:px-4 px-3 md:py-6 py-4 flex items-center gap-3">
-        <IoMapSharp className="text-[#121212] text-[20px]" />
-        {addresss || address}
+      {/* 📍 Address + Button */}
+      <div className="flex justify-between items-center flex-col sm:flex-row sm:mt-1.5 mt-3 gap-x-10 gap-y-6 px-3 py-3">
+        <div className="font-large font-[600] text-[#666D80] flex items-center gap-3">
+          <IoMapSharp className="text-[#121212] text-[16px]" />
+          {addresss || address}
+        </div>
+
+        <button
+          onClick={openInGoogleMaps}
+          className="flex cursor-pointer w-full sm:w-auto justify-center items-center gap-2 px-4 py-2.5 rounded-[12px] bg-[#0074EC] text-white font-[16px] font-[500] hover:bg-[#0066d6] transition-colors"
+        >
+          Open in Google Maps
+        </button>
       </div>
     </div>
   );
