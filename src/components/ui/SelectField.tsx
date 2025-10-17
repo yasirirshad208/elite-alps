@@ -99,7 +99,7 @@ const SelectField = ({
         border={true}
         onClose={() => setOpenDropdown(false)}
       >
-        <div className="w-full bg-white rounded shadow-sm max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="w-full rounded max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {options.map((item) => (
             <div
               key={item}
