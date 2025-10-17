@@ -117,7 +117,7 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
     return (
         <div>
             <h2 className="text-[20px] text-[#121212] font-semibold">
-                {rate
+                <span className='text-[18px]'>From</span> {rate
                     ? "€" + parseFloat(rate)
                         .toFixed(0)
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
