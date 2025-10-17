@@ -51,36 +51,36 @@ const ApartmentListing = ({
      
     }
     loadData()
-
+    
   }, [page, checkin, checkout, location,   minPrice,
          maxPrice, sort, guest, feature]);
 
 
   const icons = [
-    { name: "All", iconKey: "IoMenu" },
-    { name: "Wood fireplace", iconKey: "GiWoodPile" },
-    { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
-    { name: "Ski locker", iconKey: "GiSkiBoot" }, // separate icon
-    { name: "Parking space", iconKey: "FaParking" }, // separate icon
-    { name: "Elevator", iconKey: "BiBuildingHouse" },
-    { name: "Garage", iconKey: "PiGarageFill" },
+  // Based on your provided text (in the same order)
+  
+  { name: "All", iconKey: "IoMenu" },
+  { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" },
+  { name: "Near slopes", iconKey: "GiMountains" },
+  { name: "Near the center", iconKey: "MdLocationCity" },
+  { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
+  { name: "Swimming pool", iconKey: "FaSwimmingPool" },
+  { name: "Hammam", iconKey: "GiSteam" },
+  { name: "Nordic bath", iconKey: "GiBathtub" },
+  { name: "Indoor jacuzzi", iconKey: "FaHotTub" },
+  { name: "Outdoor jacuzzi", iconKey: "FaHotTub" },
+  { name: "Fitness room", iconKey: "FaDumbbell" },
+  { name: "Wood fireplace", iconKey: "GiWoodPile" },
+  { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
+  { name: "Snooker", iconKey: "GiEightBall" },
+  { name: "Garage", iconKey: "PiGarageFill" },
+  { name: "Parking space", iconKey: "FaParking" },
 
-    // New features
-    { name: "Fitness room", iconKey: "FaDumbbell" },
-    { name: "Hammam", iconKey: "GiSteam" },
-    { name: "Indoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
-    { name: "Outdoor jacuzzi", iconKey: "FaHotTub" }, // replaced invalid
-    { name: "Nordic bath", iconKey: "GiBathtub" },
-    { name: "Swimming pool", iconKey: "FaSwimmingPool" },
-    { name: "Snooker", iconKey: "GiEightBall" }, // replaced invalid
-    { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
-
-    // Locations
-    { name: "Centre", iconKey: "MdLocationOn" },
-    { name: "Near slopes", iconKey: "GiMountains" },
-    { name: "Near the center", iconKey: "MdLocationCity" },
-    { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" } // replaced invalid
-  ];
+  // Remaining ones (not mentioned in text)
+  { name: "Ski locker", iconKey: "GiSkiBoot" },
+  { name: "Elevator", iconKey: "BiBuildingHouse" },
+  { name: "Centre", iconKey: "MdLocationOn" }
+];
 
   // const sortedApartments = useMemo(() => {
   //   const data = [...apartments];

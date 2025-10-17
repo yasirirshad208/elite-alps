@@ -49,6 +49,16 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
         price: date.price,
     }));
 
+    // Get minimum price from all date ranges
+    const getMinimumPrice = () => {
+        if (allowedDates.length === 0) return "";
+        const prices = allowedDates.map(d => parseFloat(d.price)).filter(p => !isNaN(p));
+        if (prices.length === 0) return "";
+        return Math.min(...prices).toString();
+    };
+
+    const displayPrice = rate || getMinimumPrice();
+
     // allowedDates.map((d)=>console.log(d))
 
     const getMatchingRange = (date: Date | null) => {
@@ -117,8 +127,8 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
     return (
         <div>
             <h2 className="text-[20px] text-[#121212] font-semibold">
-                <span className='text-[18px]'>From</span> {rate
-                    ? "€" + parseFloat(rate)
+                <span className='text-[18px]'>{rate ? "":"From "} </span>€{displayPrice
+                    ? parseFloat(displayPrice)
                         .toFixed(0)
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : "xxxx"} / Week
@@ -287,8 +297,3 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
 }
 
 export default AccommodationForm
-
-
-
-
-

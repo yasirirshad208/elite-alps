@@ -332,11 +332,6 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                                             );
                                         })}
 
-
-
-
-
-
                                 </div>
                             </div>
 

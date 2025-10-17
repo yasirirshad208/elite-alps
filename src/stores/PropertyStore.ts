@@ -32,9 +32,9 @@ interface PropertyState {
   page?: string;
 }) => Promise<void>;
 
-fetchSliderChalets: () => Promise<void>;
+fetchSliderChalets: (price?: string) => Promise<void>;
 
-fetchSliderApartments: () => Promise<void>;
+fetchSliderApartments: (price?: string) => Promise<void>;
 
   fetchApartments: (filters?: {
    location?: string;
@@ -97,18 +97,20 @@ fetchChalets: async (filters = {}) => {
 }
 ,
 
-fetchSliderChalets: async () => {
+fetchSliderChalets: async (price?: string) => {
   set({ loading: true, error: null });
 
   try {
     const params = new URLSearchParams();
-    const page = "3";
 
     params.set("type", "chalet");
-    params.set("page", page);
+
+    if(price){
+      params.set("price", price);
+    }
 
     const response = await axios.get(
-      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/recommended?${params.toString()}`
     );
 
     const newData = response.data.properties || [];
@@ -157,6 +159,8 @@ fetchSliderChalets: async () => {
 
     const pageNum = parseInt(page);
 
+    console.log(newData);
+
     set((state) => ({
       apartments: pageNum > 1 ? [...state.apartments, ...newData] : newData,
       countApartments: total,
@@ -169,18 +173,19 @@ fetchSliderChalets: async () => {
 },
 
 
-fetchSliderApartments: async () => {
+fetchSliderApartments: async (price?: string) => {
   set({ loading: true, error: null });
 
   try {
     const params = new URLSearchParams();
-    const page = "3";
 
     params.set("type", "appartement");
-    params.set("page", page);
+    if(price){
+      params.set("price", price);
+    }
 
     const response = await axios.get(
-      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/all?${params.toString()}`
+      `https://elite-experience-backend.onrender.com/api/accommodations/properties/get/recommended?${params.toString()}`
     );
 
     const newData = response.data.properties || [];

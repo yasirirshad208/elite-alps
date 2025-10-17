@@ -15,7 +15,7 @@ const ChaletsSlider = () => {
 
   useEffect(() => {
     if (sliderChalets.length === 0) {
-      fetchSliderChalets();
+      fetchSliderChalets("19999");
     }
   }, [fetchSliderChalets, sliderChalets.length]);
 

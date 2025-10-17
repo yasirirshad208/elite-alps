@@ -212,9 +212,9 @@ const HotelCard = ({ name, location, star, showHandle = true, link, rooms, featu
 
                 </div>
 
-                <div className='mt-2 w-full sm:w-auto'>
-                    <Link href={link} className="w-full sm:w-auto">
-                        <button className="flex w-full px-4 py-1.5 justify-center items-center gap-2 rounded-xl bg-[#EDFAFF] cursor-pointer">
+                <div className='mt-2 w-full'>
+                    <Link href={link} className="w-full">
+                        <button className="flex w-full px-4 py-1.5 text-[#0074EC] hover:underline justify-center items-center gap-2 rounded-xl bg-[#EDFAFF] cursor-pointer">
                             See Details
                         </button>
                     </Link>
@@ -223,7 +223,7 @@ const HotelCard = ({ name, location, star, showHandle = true, link, rooms, featu
 
             </div>
 
-            <div className="py-3 hidden lg:block">
+            {/* <div className="py-3 hidden lg:block">
                 <Link href={link}>
                     <button
                         className="cursor-pointer flex px-4 py-2 justify-center items-center gap-2 self-stretch rounded-[12px] bg-[#0074EC] text-white"
@@ -232,7 +232,7 @@ const HotelCard = ({ name, location, star, showHandle = true, link, rooms, featu
                     </button>
                 </Link>
 
-            </div>
+            </div> */}
 
 
         </div >

@@ -9,47 +9,57 @@ import MagazineListing from "@/components/ui/MagazineListing";
 import SeeMore from "@/components/ui/SeeMore";
 import SortBy from "@/components/ui/SortBy";
 
-export default async function Hotels({ searchParams }: { searchParams: Promise<{ location?: string; price?: string; guest?: string; feature?: string; page?: string }> }) {
+export default async function Hotels({ searchParams }: { searchParams: Promise<{ location?: string; minPrice?: string; maxPrice?: string; guest?: string; feature?: string; page?: string; checkin?: string; checkout?: string }> }) {
   const params = await searchParams;
 
   const location = params.location || "";
-  const price = params.price || "";
-  const guest = params.guest || "1";
+   const minPrice = params.minPrice || "";
+  const maxPrice = params.maxPrice || "300000";
+  const guest = params.guest || "0";
   const feature = params.feature || ""
+  const checkin = params.checkin || ""
+  const checkout = params.checkout || ""
   const page = params.page || "1"
 
-  const queryString = new URLSearchParams({
-    location,
-    adults: guest,
-    price,
-    feature,
-    page,
-    isPublic: 'true',
-  }).toString();
+  // const queryString = new URLSearchParams({
+  //   location,
+  //   adults: guest,
+  //   feature,
+  //   page,
+  //   isPublic: 'true',
+  // }).toString();
 
-  const response = await fetch(
-    `https://elite-experience-backend.onrender.com/api/accommodations/all/hotel?${queryString}`
-  );
+  // const response = await fetch(
+  //   `https://elite-experience-backend.onrender.com/api/accommodations/all/hotel?${queryString}`
+  // );
 
-  const data = await response.json()
+  // const data = await response.json()
 
   const icons = [
-    { name: "All", iconKey: "IoMenu" },
-    { name: "Wood fireplace", iconKey: "GiWoodPile" },
-    { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
-    { name: "Gas fireplace", iconKey: "GiGasStove" },
-    { name: "Ski locker", iconKey: "FaCar" },
-    { name: "Parking space", iconKey: "FaCar" },
-    { name: "Boots heater", iconKey: "GiBootPrints" },
-    { name: "Without elevator", iconKey: "FaTimesCircle" },
-    { name: "Elevator", iconKey: "BiBuildingHouse" },
-    { name: "Outdoor furniture", iconKey: "MdOutlineChair" },
-    { name: "Baby cot", iconKey: "FaBaby" },
-    { name: "High chair", iconKey: "FaChild" },
-    { name: "Safe", iconKey: "BsSafe" },
-    { name: "Garage", iconKey: "PiGarageFill" },
-    { name: "Board games", iconKey: "FaGamepad" },
-  ];
+  // Based on your provided text (in the same order)
+  
+  { name: "All", iconKey: "IoMenu" },
+  { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" },
+  { name: "Near slopes", iconKey: "GiMountains" },
+  { name: "Near the center", iconKey: "MdLocationCity" },
+  { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
+  { name: "Swimming pool", iconKey: "FaSwimmingPool" },
+  { name: "Hammam", iconKey: "GiSteam" },
+  { name: "Nordic bath", iconKey: "GiBathtub" },
+  { name: "Indoor jacuzzi", iconKey: "FaHotTub" },
+  { name: "Outdoor jacuzzi", iconKey: "FaHotTub" },
+  { name: "Fitness room", iconKey: "FaDumbbell" },
+  { name: "Wood fireplace", iconKey: "GiWoodPile" },
+  { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
+  { name: "Snooker", iconKey: "GiEightBall" },
+  { name: "Garage", iconKey: "PiGarageFill" },
+  { name: "Parking space", iconKey: "FaParking" },
+
+  // Remaining ones (not mentioned in text)
+  { name: "Ski locker", iconKey: "GiSkiBoot" },
+  { name: "Elevator", iconKey: "BiBuildingHouse" },
+  { name: "Centre", iconKey: "MdLocationOn" }
+];
 
   const hotels = [
     {
@@ -90,7 +100,7 @@ export default async function Hotels({ searchParams }: { searchParams: Promise<{
 
   return (
     <>
-      <AccommodationHeader page="hotels" image='/hotel.png' text="Elevate Your Stay in our Luxury Hotels" />
+      <AccommodationHeader location={location} minPrice={minPrice} maxPrice={maxPrice} guest={guest} checkin={checkin} checkout={checkout} page="hotels" image='/hotel.png' text="Elevate Your Stay in our Luxury Hotels" />
 
       {/* <HotelListing hotels={data.accommodations} /> */}
       <section className='sm:mt-[100px] mt-[120px] mb-16 md:mb-12 mb-10'>
@@ -102,13 +112,13 @@ export default async function Hotels({ searchParams }: { searchParams: Promise<{
               <RestaurantIconsFilter icons={icons} />
             </div>
 
-            <div className="sm:w-auto w-full flex justify-center gap-2 sm:justify-between">
+            <div className="sm:w-auto w-full flex justify-end gap-2 sm:justify-between">
             <CountResults number={hotels.length} />
             {/* <SortBy
               list={[
                 { label: 'Recommended', value: 'recommended' },
               ]}
-              // onChange={() => {}}
+              onChange={() => {}}
             /> */}
           </div>
           </div>
@@ -136,7 +146,7 @@ export default async function Hotels({ searchParams }: { searchParams: Promise<{
             ))}
           </div>
 
-          {parseInt(page) * 12 < data.countTotalAccommodations && <SeeMore />}
+          {/* {parseInt(page) * 12 < data.countTotalAccommodations && <SeeMore />} */}
         </div>
       </section >
 

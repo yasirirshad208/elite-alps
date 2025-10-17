@@ -73,7 +73,7 @@ const FormInput = ({
             placeholderText="Select date range"
             minDate={minDate}
             maxDate={maxDate}
-            dateFormat="d MMM yyyy" // ✅ format like "18 Oct 2025"
+            dateFormat="MMM d yyyy" // ✅ format like "18 Oct 2025"
             renderCustomHeader={({
               date,
               decreaseMonth,

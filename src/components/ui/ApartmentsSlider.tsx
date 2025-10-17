@@ -18,7 +18,7 @@ const ApartmentSlider = () => {
 
     useEffect(() => {
         if (sliderApartments.length === 0) {
-            fetchSliderApartments();
+            fetchSliderApartments("19999");
         }
     }, [fetchSliderApartments, sliderApartments.length]);
 

@@ -6,8 +6,8 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
 interface MapComponentProps {
-  latitude: number;
-  longitude: number;
+  latitude: string | number;
+  longitude: string | number;
   addresss?: string;
 }
 
@@ -50,7 +50,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
       "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
   });
 
-  const position: [number, number] = [latitude, longitude];
+  const position: [number, number] = [parseFloat(latitude as string), parseFloat(longitude as string)];
 
   // 🚀 Open Google Maps in new tab
   const openInGoogleMaps = () => {

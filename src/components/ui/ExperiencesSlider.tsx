@@ -93,7 +93,6 @@ const ExperiencesSlider = () => {
     absolute bottom-4 left-4 
     text-white 
     text-[20px] font-semibold leading-[120%] 
-    font-['Proxima_Nova']
   "
                   style={{ letterSpacing: '-0.4px' }}
                 >
