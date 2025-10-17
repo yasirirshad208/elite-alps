@@ -64,8 +64,13 @@
 .react-datepicker__day {
   /* background-color: #0074ec !important; */
   color: #000 !important;
-  border-radius: 6px;
+  border-radius: 0px!important;
+ 
   font-size: 13px !important;
+   margin: 0 !important;
+  line-height: 2rem !important; /* adjust height of the date cells */
+  width: 2rem !important; /* keep square shape */
+  height: 2rem !important;
 }
 
 /* Still keep disabled days different */
@@ -81,6 +86,8 @@
 .react-datepicker__day:not(.react-datepicker__day--disabled):hover {
   background-color: #0074ec !important;
   color: #fff !important;
+   border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
 }
 
 /* Make sure disabled days never change on hover */
@@ -126,9 +133,12 @@
 /* Force selected day text to stay white */
 .react-datepicker__day--selected,
 .react-datepicker__day--selected:hover,
+.react-datepicker__day--highlighted,
 .react-datepicker__day--keyboard-selected:hover {
   background-color: #0074ec !important; /* Keep blue background */
   color: #fff !important; /* White text */
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
 }
 
 
@@ -150,6 +160,17 @@
 /* Apply grey background only to in-range days that are NOT selected */
 .react-datepicker__day--in-range:not(.react-datepicker__day--selected) {
   background-color: #DFE1E7 !important;
+}
+.react-datepicker__day--in-selecting-range:not(.react-datepicker__day--selected) {
+  background-color: #DFE1E7 !important;
+}
+.react-datepicker__day--selecting-range-end:not(.react-datepicker__day--selected):hover {
+  background-color: #0074ec !important;
+  color: #fff !important;
+  border-top-left-radius: 0px!important;
+  border-bottom-left-radius: 0px!important;
+  border-bottom-right-radius: 6px!important;
+  border-top-right-radius: 6px!important;
 }
 
 

@@ -15,7 +15,6 @@ import PriceRange from '../PriceRange'
 
 type DropdownType = 'accommodation' | 'location' | 'guests' | 'price' | 'checkIn' | 'checkOut' | null;
 
-
 const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPriceVal = 0, maxPriceVal = 300000, checkInVal = null, checkOutVal = null }: { page: string, locationVal?: string, guestsVal?: number, minPriceVal?: number, maxPriceVal?: number, checkInVal?: Date | null, checkOutVal?: Date | null }) => {
   const [toggle, setToggle] = useState(false)
   const [guest, setGuest] = useState(guestsVal)
@@ -32,27 +31,24 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
   const [checkIn, setCheckIn] = useState<Date | null>(checkInVal)
   const [checkOut, setCheckOut] = useState<Date | null>(checkOutVal)
   const [isMobile, setIsMobile] = useState(false);
-
+  const [isSelectingCheckIn, setIsSelectingCheckIn] = useState(true)
+  const [calendarKey, setCalendarKey] = useState(0)
 
   const handleLocationToggle = (item: string) => {
     setLocations((prev) => {
       let updated;
 
       if (prev.includes(item)) {
-        // Remove if already selected
         updated = prev.filter((loc) => loc !== item);
       } else {
-        // Add if not selected
         updated = [...prev, item];
       }
 
-      // Update the single "location" state based on the new array
       setLocation(updated.length > 0 ? updated[0] : "");
 
       return updated;
     });
   };
-
 
   const handleDropdownToggle = (dropdown: DropdownType) => {
     setOpenDropdown(prev => (prev === dropdown ? null : dropdown))
@@ -62,22 +58,11 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
     return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   };
 
-  // const filterCheckInDates = (date: Date) => {
-  //   const today = new Date()
-  //   return date >= today && isSaturday(date)
-  // }
-
-  // // Disable Saturdays after check-in date for check-out
-  // const filterCheckOutDates = (date: Date) => {
-  //   if (!checkIn) return false; // ⛔ don't allow any dates if no check-in selected
-  //   return isSaturday(date) && date > checkIn;
-  // }
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 767);
     };
-    handleResize(); // initial check
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -100,7 +85,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setOpenDropdown(null) // ✅ only call if provided
+        setOpenDropdown(null)
       }
     }
 
@@ -113,11 +98,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
     };
   }, [openDropdown === "price"]);
 
-
-
-  const [isSelectingCheckIn, setIsSelectingCheckIn] = useState(true)
-
-  // Keep these filter functions
   const filterCheckInDates = (date: Date) => {
     const today = new Date()
     return date >= today && isSaturday(date)
@@ -128,49 +108,37 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
     return isSaturday(date) && date > checkIn
   }
 
-  // Add this handler
   const handleDateSelect = (date: Date | null) => {
     if (!date) return
 
     const normalized = normalizeDateToUTC(date)
 
     if (isSelectingCheckIn) {
-      // Selecting Check-In date
       setCheckIn(normalized)
 
-      // If checkout exists and new checkin is AFTER checkout, reset checkout
       if (checkOut && normalized > checkOut) {
         setCheckOut(null)
-        setIsSelectingCheckIn(false) // User needs to select new checkout
+        setIsSelectingCheckIn(false)
       } else if (!checkOut) {
-        // If no checkout yet, switch to checkout selection mode
         setIsSelectingCheckIn(false)
       } else {
-        // If checkout is valid (after new checkin), keep it and close calendar
         setOpenDropdown(null)
         setIsSelectingCheckIn(true)
       }
-      // Calendar stays open for checkout selection
       setOpenDropdown('checkIn')
     } else {
-      // Second selection → set Check-Out
       setCheckOut(normalized)
-      setOpenDropdown(null) // Close calendar
-      setIsSelectingCheckIn(true) // Reset for next time
+      setOpenDropdown(null)
+      setIsSelectingCheckIn(true)
+      setCalendarKey(prev => prev + 1)
     }
   }
 
-  // Handle when clicking the calendar icon/input to reopen
   const handleCalendarOpen = () => {
     setOpenDropdown('checkIn')
-    // Only reset to check-in selection if no dates are selected yet
-    if (!checkIn) {
-      setIsSelectingCheckIn(true)
-    }
+    setIsSelectingCheckIn(true)
+    setCalendarKey(prev => prev + 1)
   }
-
-
-
 
   return (
     <div
@@ -183,7 +151,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             <button
               className={`sm:px-3 px-2 py-2 text-[16px] font-regular w-full font-[600] flex items-center sm:gap-2 gap-1 justify-center rounded-[12px] ${page === "chalets" ? "bg-white text-[#121212]" : "text-[#666D80]"} mr-2 cursor-pointer`}
             >
-              {/* <FaHouseDamage className={`text-[20px] ${page === "chalets" ? "text-[#121212]" : "text-[#666D80]"} `} /> Chalets */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -218,7 +185,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             <button
               className={`sm:px-3 px-2 py-2 text-[16px] font-regular w-full font-[600] flex items-center sm:gap-2 gap-1 justify-center rounded-[12px] ${page === "apartments" ? "bg-white text-[#121212]" : "text-[#666D80]"} mr-2 cursor-pointer`}
             >
-              {/* <MdApartment className={`text-[20px] ${page === "apartments" ? "text-[#121212]" : "text-[#666D80]"}`} /> */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -251,9 +217,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
           <Link href="/hotels" className='w-full'>
             <button
               className={`sm:px-3 px-2 py-2 text-[16px] font-regular w-full font-[600] flex items-center sm:gap-2 gap-1 justify-center rounded-[12px] ${page === "hotels" ? "bg-white text-[#121212]" : "text-[#666D80]"} mr-2 cursor-pointer`}
-
             >
-              {/* <RiHotelLine className={`text-[20px] ${page === "hotels" ? "text-[#121212]" : "text-[#666D80]"}`} /> */}
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none" className={`${page === "hotels" ? "text-[#121212]" : "text-[#666D80]"}`}>
                 <mask id="mask0_404_9056" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                   <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
@@ -268,10 +232,8 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
         </div>
       </div>
 
-      {/* lg:items-center lg:flex-row flex-col */}
       <div className='bg-white rounded-b-[12px] p-[12px] flex lg:flex-row flex-col gap-[24px]'>
         <div className='w-full grid grid-cols-2 lg:grid-cols-5 gap-[12px]'>
-
 
           {/* Check In */}
           <div className="relative">
@@ -281,22 +243,21 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
               <div className="flex items-center justify-between">
                 <div className="w-full">
                   <DatePicker
+                    key={calendarKey}
                     selected={checkIn}
                     onChange={handleDateSelect}
-                    filterDate={isSelectingCheckIn ? filterCheckInDates : filterCheckOutDates}
-                    placeholderText={isSelectingCheckIn ? "Select Dates" : "Select Dates"}
+                    filterDate={filterCheckInDates}
+                    placeholderText="Select Dates"
                     className="w-full bg-transparent placeholder:text-[#121212] text-[14px] text-[#121212] focus:outline-none"
                     dateFormat="MMM d yyyy"
                     open={openDropdown === 'checkIn'}
                     onClickOutside={() => setOpenDropdown(null)}
-                    onInputClick={() => {
-                      setOpenDropdown('checkIn')
-                      setIsSelectingCheckIn(true)
-                    }}
+                    onInputClick={() => handleCalendarOpen()}
                     calendarClassName={`!z-50 sm:ml-[120px] ml-[80px] ${isMobile ? '' : 'react-datepicker--two-months side-by-side'}`}
                     shouldCloseOnSelect={false}
                     monthsShown={isMobile ? 1 : 2}
-                    showPreviousMonths={false}   // ✅ ensures next month shows beside current
+                    showPreviousMonths={false}
+                    highlightDates={checkOut ? [checkOut] : []}
                     renderCustomHeader={({
                       date,
                       decreaseMonth,
@@ -305,9 +266,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                       nextMonthButtonDisabled,
                       customHeaderCount
                     }) => {
-                      // customHeaderCount = 0 for first month, 1 for second month
-                      const headerDate = new Date(date);
-                      headerDate.setMonth(date.getMonth() + customHeaderCount);
+                      const headerDate = new Date(date.getFullYear(), date.getMonth() + customHeaderCount, 1);
 
                       return (
                         <div className="flex items-center justify-between px-1 py-2 bg-white">
@@ -343,10 +302,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                         </div>
                       );
                     }}
-
                   />
-
-
                 </div>
 
                 {checkIn ? (
@@ -356,6 +312,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                       setCheckIn(null)
                       setCheckOut(null)
                       setIsSelectingCheckIn(true)
+                      setCalendarKey(prev => prev + 1)
                     }}
                   />
                 ) : (
@@ -379,12 +336,13 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                     : 'Select Dates'}
                 </span>
                 {checkOut ? (
-
                   <IoIosClose
                     className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
                     onClick={() => {
                       setCheckOut(null)
                       setCheckIn(null)
+                      setIsSelectingCheckIn(true)
+                      setCalendarKey(prev => prev + 1)
                     }}
                   />
                 ) : (
@@ -397,12 +355,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             </div>
           </div>
 
-
-
-
-
-
-          {/* Location */}
           {/* Location */}
           <div className="relative">
             <div
@@ -415,7 +367,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
               <div className="mb-2 font-regular font-[600] text-[#121212]">Location</div>
 
               <div className="flex items-center justify-between">
-                {/* Text */}
                 <span
                   className={`text-[14px] ${location !== "" ? "truncate" : "whitespace-nowrap"
                     }`}
@@ -425,7 +376,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                     : location.replace(/\b\w/g, (char) => char.toUpperCase())}
                 </span>
 
-                {/* Arrow */}
                 <IoIosArrowDown className="text-[20px] text-[#121212] ml-2 flex-shrink-0" />
               </div>
             </div>
@@ -456,17 +406,13 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                       checked={locations.includes(item)}
                       onChange={() => handleLocationToggle(item)}
                       className="w-[16px] h-[16px] cursor-pointer"
-                      onClick={(e) => e.stopPropagation()} // prevent double toggle
+                      onClick={(e) => e.stopPropagation()}
                     />
                   </div>
                 ))}
               </div>
             </Dropdown>
           </div>
-
-
-
-
 
           {/* Price */}
           <div className="relative">
@@ -477,7 +423,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Price</div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 min-w-0">
-                  {/* min-w-0 allows truncate to work properly inside flex */}
                   <span className="text-[14px] block max-w-[150px] truncate">
                     {minPrice === 0 && maxPrice === 300000
                       ? "All Prices"
@@ -490,7 +435,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             </div>
 
             {!isMobile && openDropdown === "price" ? (
-              // Desktop / Tablet View
               <div
                 ref={dropdownRef}
                 className="
@@ -505,7 +449,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                 <PriceRange min={minPrice} max={maxPrice} onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
               </div>
             ) : (
-              // Mobile: Button to open modal
               <>
                 {isMobile && openDropdown === "price" && (
                   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
@@ -519,7 +462,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             )}
 
           </div>
-
 
           {/* Guests */}
           <div className="relative col-span-2 lg:col-span-1">
@@ -558,7 +500,5 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
     </div>
   )
 }
-
-
 
 export default AccommodationHeroFilter
