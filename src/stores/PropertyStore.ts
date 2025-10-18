@@ -32,9 +32,9 @@ interface PropertyState {
   page?: string;
 }) => Promise<void>;
 
-fetchSliderChalets: (price?: string) => Promise<void>;
+fetchSliderChalets: (price?: string, location?: string) => Promise<void>;
 
-fetchSliderApartments: (price?: string) => Promise<void>;
+fetchSliderApartments: (price?: string, location?: string) => Promise<void>;
 
   fetchApartments: (filters?: {
    location?: string;
@@ -97,7 +97,7 @@ fetchChalets: async (filters = {}) => {
 }
 ,
 
-fetchSliderChalets: async (price?: string) => {
+fetchSliderChalets: async (price?: string, location?:string) => {
   set({ loading: true, error: null });
 
   try {
@@ -107,6 +107,10 @@ fetchSliderChalets: async (price?: string) => {
 
     if(price){
       params.set("price", price);
+    }
+
+    if(location){
+      params.set("location", location);
     }
 
     const response = await axios.get(
@@ -173,7 +177,7 @@ fetchSliderChalets: async (price?: string) => {
 },
 
 
-fetchSliderApartments: async (price?: string) => {
+fetchSliderApartments: async (price?: string, location?:string) => {
   set({ loading: true, error: null });
 
   try {
@@ -182,6 +186,10 @@ fetchSliderApartments: async (price?: string) => {
     params.set("type", "appartement");
     if(price){
       params.set("price", price);
+    }
+
+      if(location){
+      params.set("location", location);
     }
 
     const response = await axios.get(

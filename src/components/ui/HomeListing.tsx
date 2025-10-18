@@ -21,7 +21,7 @@ const HomeListing = () => {
     const loadData = async () => {
       if (sliderChalets.length === 0) {
         setLoading(true);
-        await Promise.all([fetchSliderApartments("34999"), fetchSliderChalets("34999")]);
+        await Promise.all([fetchSliderApartments("34999", "Courchevel 1850"), fetchSliderChalets("34999", "Courchevel 1850")]);
         setLoading(false);
       } else {
         setLoading(false);
