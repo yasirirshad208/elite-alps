@@ -20,9 +20,10 @@ interface VehicleDataProp {
     seats?: number
     gearType?: string
     fuelType?: string
+    page: string
 }
 
-const BookingVehicle = ({ hImages, name, details, isHelicopter, seats, gearType, fuelType, bookingDetails, speed, engine, luggage, softBags, passengers }: VehicleDataProp) => {
+const BookingVehicle = ({ hImages, name, details, isHelicopter, page, seats, gearType, fuelType, bookingDetails, speed, engine, luggage, softBags, passengers }: VehicleDataProp) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Assuming you want to filter for the helicopter with id 1
@@ -250,9 +251,9 @@ const BookingVehicle = ({ hImages, name, details, isHelicopter, seats, gearType,
 
                 
 
-                <h3 className="font-large text-[#121212] font-[600] mt-3 mb-2">Jet Details</h3>
+                <h3 className="font-large text-[#121212] font-[600] mt-3 mb-2">{page} Details</h3>
 
-                <p className="font-medium text-[#666D80] mb-3"> {details}</p>
+                <p className="font-medium text-[#666D80] mb-3 text-justify"> {details}</p>
             </div>
         </div>
     );

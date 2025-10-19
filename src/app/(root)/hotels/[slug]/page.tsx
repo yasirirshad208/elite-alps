@@ -455,7 +455,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                                                         <div className="text-[18px] text-[#121212] font-semibold leading-[120%]">
                                                             {hotel.name}
                                                         </div>
-                                                        <div className="text-[#666D80] leading-[140%] text-[14px]">
+                                                        <div className="text-[#666D80] leading-[140%] text-[14px]  text-justify">
                                                             {hotel.description}
                                                         </div>
                                                     </div>
@@ -483,7 +483,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                                                         <div className="text-[18px] text-[#121212] font-semibold leading-[120%]">
                                                             {hotel.name}
                                                         </div>
-                                                        <div className="text-[#666D80] leading-[140%] text-[14px]">
+                                                        <div className="text-[#666D80] leading-[140%] text-[14px] text-justify">
                                                             {hotel.description}
                                                         </div>
                                                     </div>

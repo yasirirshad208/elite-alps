@@ -40,8 +40,8 @@ export default function About() {
 
                    <div className="mt-[48px] flex items-center justify-between gap-[32px] flex-col lg:flex-row">
                      <div className="w-full lg:max-w-[616px]">
-                        <div className="w-full md:text-[20px] text-[18px] font-[400] text-[#121212] leading-[120%]">Elite is your gateway to unforgettable travel experiences, luxurious accommodations, and charming chalets. We meticulously curate the best in travel, from exotic destinations to hidden gems, ensuring that every journey with us is extraordinary.</div>
-                        <div className="w-full md:text-[20px] text-[18px] font-[400] text-[#121212] leading-[120%] mt-6">
+                        <div className="text-justify w-full md:text-[20px] text-[18px] font-[400] text-[#121212] leading-[120%]">Elite is your gateway to unforgettable travel experiences, luxurious accommodations, and charming chalets. We meticulously curate the best in travel, from exotic destinations to hidden gems, ensuring that every journey with us is extraordinary.</div>
+                        <div className="text-justify w-full md:text-[20px] text-[18px] font-[400] text-[#121212] leading-[120%] mt-6">
                         At Elite, we are dedicated to crafting moments that inspire and memories that last. Explore the world with us and elevate your travel adventures to new heights.
                     </div>
                     </div>
@@ -68,7 +68,7 @@ export default function About() {
                             What We Offer
                         </h1>
 
-                        <p className="text-[#666D80] font-medium max-w-[420px]">
+                        <p className="text-[#666D80] font-medium max-w-[420px] text-justify">
                             At Elite, we specialize in curating travel experiences that are more than just destinations—they’re journeys filled with comfort, excitement, and local charm.
                         </p>
 

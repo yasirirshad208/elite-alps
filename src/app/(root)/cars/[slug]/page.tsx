@@ -76,7 +76,7 @@ export default function BookCar({ params }: { params: { slug: string } }) {
             
                       {/* RIGHT SIDE */}
                       <div className="flex-1 font-inter w-full flex flex-col">
-            <BookingVehicle seats={car.seats} speed={car.cruisingSpeed} fuelType={car.fuelType} gearType={car.gearType} luggage={car.luggage.cabinBags} details={car.details} name={car.model} hImages={car.images} bookingDetails={car.bookingDetails} />
+            <BookingVehicle seats={car.seats} page="Car" speed={car.cruisingSpeed} fuelType={car.fuelType} gearType={car.gearType} luggage={car.luggage.cabinBags} details={car.details} name={car.model} hImages={car.images} bookingDetails={car.bookingDetails} />
 
           </div>
         </div>

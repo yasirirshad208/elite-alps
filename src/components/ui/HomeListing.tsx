@@ -9,26 +9,26 @@ import HomeAccommodationCardSkeleton from "../skeletons/HomeAccommodationCardSke
 const HomeListing = () => {
   const [selected, setSelected] = useState("chalets");
   const {
-    sliderApartments,
-    sliderChalets,
-    fetchSliderApartments,
-    fetchSliderChalets,
+    homeApartments,
+    homeChalets,
+    fetchHomeApartments,
+    fetchHomeChalets,
   } = usePropertyStore();
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
-      if (sliderChalets.length === 0) {
+      if (homeChalets.length === 0) {
         setLoading(true);
-        await Promise.all([fetchSliderApartments("34999", "Courchevel 1850"), fetchSliderChalets("34999", "Courchevel 1850")]);
+        await Promise.all([fetchHomeApartments("34999", "Courchevel 1850"), fetchHomeChalets("34999", "Courchevel 1850")]);
         setLoading(false);
       } else {
         setLoading(false);
       }
     };
     loadData();
-  }, [fetchSliderChalets, fetchSliderApartments, sliderChalets.length]);
+  }, [fetchHomeChalets, fetchHomeApartments, homeChalets.length]);
 
   return (
     <div className="container">
@@ -81,7 +81,7 @@ const HomeListing = () => {
         {loading
           ? Array.from({ length: 3 }).map((_, i) => <HomeAccommodationCardSkeleton key={i} />)
           : selected === "apartments" || selected === "hotels"
-          ? sliderApartments.slice(2, 5).map((item, index) => (
+          ? homeApartments.slice(2, 5).map((item, index) => (
               <HomeAccommodationCard
                 key={index}
                 title={item.name}
@@ -94,7 +94,7 @@ const HomeListing = () => {
                 link={`/chalets/${item.propertyId}`}
               />
             ))
-          : sliderChalets.slice(2, 5).map((item, index) => (
+          : homeChalets.slice(2, 5).map((item, index) => (
               <HomeAccommodationCard
                 key={index}
                 title={item.name}

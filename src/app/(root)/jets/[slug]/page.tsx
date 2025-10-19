@@ -77,6 +77,7 @@ export default function BookJet({ params }: { params: { slug: string } }) {
                       {/* RIGHT SIDE */}
                       <div className="flex-1 font-inter w-full flex flex-col">
                 <BookingVehicle
+                page="Jet"
                   passengers={jet.passengerCapacity}
                   speed={jet.cruisingSpeed}
                   engine={jet.engine}

@@ -11,6 +11,8 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
   // const [isPlaying, setIsPlaying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
 
   const itemImages: string[] = images ?? [];
@@ -24,19 +26,38 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
     }
   }, [isModalOpen, itemImages, url]);
 
-
-
-
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % (itemImages.length + 1));
+    setCurrentSlide((prev) => (prev + 1) % (itemImages.length));
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + itemImages.length + 1) % (itemImages.length + 1));
+    setCurrentSlide((prev) => (prev - 1 + itemImages.length) % itemImages.length);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
   };
 
   return (
@@ -148,7 +169,11 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                 </button>
 
                 {/* 📷 Image */}
-                <div className="relative md:h-[450px] h-[273px] w-full rounded-[15px] overflow-hidden">
+                <div 
+                  className="relative md:h-[450px] h-[273px] w-full rounded-[15px] overflow-hidden"
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
                   {itemImages.map((src, index) => (
                     <img
                       key={index}
@@ -156,6 +181,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                       className={`absolute top-0 left-0 h-full w-full object-cover transition-opacity duration-300 ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
                         }`}
                       alt={`Slide ${index}`}
+                      draggable={false}
                     />
                   ))}
                 </div>
@@ -168,21 +194,21 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                   {currentSlide + 1}
                 </span>
                 <span className="text-white/70 sm:text-[18px] text-[16px]">
-                  /{itemImages.length + 1}
+                  /{itemImages.length}
                 </span>
               </div>
 
-              {/* ⬅️ Prev Slide Button (Outside Image) */}
+              {/* ⬅️ Prev Slide Button (Hidden on Mobile) */}
               <button
-                className="absolute top-1/2 lg:left-14 left-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white sm:text-[22px] text-[18px] flex items-center justify-center cursor-pointer"
+                className="absolute top-1/2 z-10 lg:left-14 left-1 transform -translate-y-1/2 rounded-full sm:w-[60px] sm:h-[60px] lg:w-[80px] lg:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white sm:text-[22px] text-[18px] flex items-center justify-center cursor-pointer hidden md:flex"
                 onClick={prevSlide}
               >
                 <BsArrowLeft />
               </button>
 
-              {/* ➡️ Next Slide Button (Outside Image) */}
+              {/* ➡️ Next Slide Button (Hidden on Mobile) */}
               <button
-                className="absolute top-1/2 lg:right-14 right-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white  sm:text-[22px] text-[18px] flex items-center justify-center cursor-pointer"
+                className="absolute top-1/2 z-10 lg:right-14 right-1 transform -translate-y-1/2 rounded-full sm:w-[80px] sm:h-[80px] w-[40px] h-[40px] border border-white border-2 text-black bg-white  sm:text-[22px] text-[18px] flex items-center justify-center cursor-pointer hidden md:flex"
                 onClick={nextSlide}
               >
                 <BsArrowRight />

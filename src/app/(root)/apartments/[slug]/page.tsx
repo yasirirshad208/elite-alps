@@ -240,7 +240,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                                 {/* {dynamicParagraphs.map((paragraph: string, index: number) => ( */}
                                 <p
                                     // key={index}
-                                    className="font-medium text-[#666D80] md:mb-4 sm:mb-3 mb-3"
+                                    className="font-medium text-[#666D80] md:mb-4 sm:mb-3 mb-3 text-justify"
                                 >
                                     {data.data.propertyDetail.message.detail[0].descriptif_court_en[0]}
                                 </p>

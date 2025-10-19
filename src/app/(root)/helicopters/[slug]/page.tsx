@@ -92,6 +92,7 @@ export default function BookHelicopter({ params }: { params: { slug: string } })
                 hImages={helicopter.images}
                 bookingDetails={helicopter.bookingDetails}
                 isHelicopter={true}
+                page="Helicopter"
               />
             </div>
           </div>
