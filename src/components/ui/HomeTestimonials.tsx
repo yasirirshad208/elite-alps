@@ -43,17 +43,6 @@ const imageStyles = [
     "sm:left-[75px] sm:bottom-0 left-[67px] bottom-[14px] sm:w-[274px] sm:h-[343px] w-[187px] h-[235px] z-[4]"
 ];
 
-// const imageStyles = [
-//   // 4th (back-most)
-//   "right-[75px] top-[-10px] rotate-[2deg] w-[274px] h-[343px] z-[1]",
-//   // 3rd
-//   "left-[-14px] top-[23px] rotate-[-8deg] w-[274px] h-[343px] z-[2]",
-//   // 2nd
-//   "right-[-14px] bottom-[38px] rotate-[5deg] w-[274px] h-[343px] z-[3]",
-//   // 1st (front-most)
-//   "left-[75px] bottom-0 w-[274px] h-[343px] z-[4]"
-// ];
-
 
 
 const HomeTestimonials = () => {
@@ -95,7 +84,7 @@ const HomeTestimonials = () => {
 
                 {/* Testimonial text */}
                 <div className="flex items-center flex-col md:gap-6 gap-4 mt-10 max-w-[550px] mx-auto text-center">
-                    <div className="font-large font-[600] text-[#121212]">
+                    <div className="font-large font-[600] text-[#121212] min-h-[4.5rem]">
                         {testimonials[currentIndex].quote}
                     </div>
                     <div className="flex justify-center items-center gap-3 font-medium ">
