@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { FiClock } from "react-icons/fi";
 import { LuUsers } from "react-icons/lu";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -15,7 +15,7 @@ interface RestaurantCardProps {
     showRating?: boolean;
     showLocation?: boolean;
     location?: string;
-    image: string[]; // URL or path to the image
+    image: string[];
     showHandle?: boolean
     cardUrl?: string
     time?: string;
@@ -35,89 +35,179 @@ const RestaurantCard = ({
     location,
     cardUrl,
 }: RestaurantCardProps) => {
-    const images = image; // Combine the main image and additional images
+    const images = image;
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [currentTranslate, setCurrentTranslate] = useState(0);
+    const [prevTranslate, setPrevTranslate] = useState(0);
+    const sliderRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
-    const [activeImageIndex, setActiveImageIndex] = useState(0); // State to track the active image
-
-    const router = useRouter()
-
-    const handleDotClick = (index: number) => {
-        setActiveImageIndex(index); // Update the active image index when a dot is clicked
+    const handleDotClick = (e: React.MouseEvent, index: number) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setActiveImageIndex(index);
     };
 
-    const handleIndex = () => {
-        if (activeImageIndex === images.slice(0, 4).length - 1) {
-            setActiveImageIndex(0);
-            return
-        }
+    const handlePrev = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setActiveImageIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    };
+
+    const handleNext = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (activeImageIndex === images.length - 1) return;
         setActiveImageIndex(activeImageIndex + 1);
-    }
+    };
+
+    // Touch events
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setIsDragging(true);
+        setStartX(e.touches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isDragging) return;
+        const currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
+        setCurrentTranslate(prevTranslate + diff);
+    };
+
+    const handleTouchEnd = () => {
+        setIsDragging(false);
+        if (!images || images.length === 0) return;
+
+        const movedBy = currentTranslate - prevTranslate;
+        const threshold = 50;
+
+        if (movedBy < -threshold && activeImageIndex < images.length - 1) {
+            setActiveImageIndex(activeImageIndex + 1);
+        } else if (movedBy > threshold && activeImageIndex > 0) {
+            setActiveImageIndex(activeImageIndex - 1);
+        }
+
+        setCurrentTranslate(0);
+        setPrevTranslate(0);
+    };
+
+    // Mouse events for desktop
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        setStartX(e.clientX);
+        e.preventDefault();
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging) return;
+        const currentX = e.clientX;
+        const diff = currentX - startX;
+        setCurrentTranslate(prevTranslate + diff);
+    };
+
+    const handleMouseUp = () => {
+        if (!isDragging) return;
+        setIsDragging(false);
+        if (!images || images.length === 0) return;
+
+        const movedBy = currentTranslate - prevTranslate;
+        const threshold = 50;
+
+        if (movedBy < -threshold && activeImageIndex < images.length - 1) {
+            setActiveImageIndex(activeImageIndex + 1);
+        } else if (movedBy > threshold && activeImageIndex > 0) {
+            setActiveImageIndex(activeImageIndex - 1);
+        }
+
+        setCurrentTranslate(0);
+        setPrevTranslate(0);
+    };
+
+    const handleMouseLeave = () => {
+        if (isDragging) {
+            handleMouseUp();
+        }
+    };
 
     return (
-        <div className="border p-[6px] border-[#e3e3e3] rounded-[12px] ">
+        <div className="border p-[6px] border-[#e3e3e3] rounded-[12px]">
             <div>
-                <div className="relative group cursor-pointer">
-                    <div className="overflow-hidden h-[223px] w-full">
+                <div 
+                    className="relative group cursor-grab active:cursor-grabbing"
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <div 
+                        className="overflow-hidden h-[223px] w-full rounded-[12px]"
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                    >
                         <div
-                            className="flex transition-transform duration-500 ease-in-out w-full h-full"
+                            ref={sliderRef}
+                            className="flex w-full h-full"
                             style={{
-                                transform: `translateX(-${activeImageIndex * 100}%)`,
+                                transform: `translateX(calc(-${activeImageIndex * 100}% + ${isDragging ? currentTranslate : 0}px))`,
+                                transition: isDragging ? 'none' : 'transform 500ms ease-in-out',
                             }}
                         >
                             {images.map((img, idx) => (
-                                <Image
-                                    key={idx}
-                                    src={`${img}`}
-                                    className=" flex-shrink-0 object-cover rounded-[12px]"
-                                    alt={title}
-                                    fill
-                                />
+                                <div key={idx} className="w-full h-full flex-shrink-0 relative">
+                                    <img
+                                        src={img}
+                                        className="object-cover w-full h-full rounded-[12px] pointer-events-none"
+                                        alt={title}
+                                        draggable="false"
+                                    />
+                                </div>
                             ))}
                         </div>
                     </div>
-                    {showHandle && (
-                        <>
-                            {activeImageIndex > 0 && (
-                                <div
-                                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
-                                    onClick={() => setActiveImageIndex(activeImageIndex - 1)}
-                                >
-                                    <IoIosArrowBack className="mr-[2px]" />
-                                </div>
-                            )}
-                            {images.length - 1 !== activeImageIndex && (
-                                <div
-                                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
-                                    onClick={handleIndex}
-                                >
-                                    <IoIosArrowForward className="ml-[3px]" />
-                                </div>
-                            )}
-                        </>
-                    )}
+                     {showHandle && (
+                                  <>
+                                    {activeImageIndex > 0 && (
+                                      <div
+                                        className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
+                                        onClick={handlePrev}
+                                      >
+                                        <IoIosArrowBack className="mr-[2px]" />
+                                      </div>
+                                    )}
+                                    {images.length - 1 !== activeImageIndex && (
+                                      <div
+                                        className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
+                                        onClick={handleNext}
+                                      >
+                                        <IoIosArrowForward className="ml-[3px]" />
+                                      </div>
+                                    )}
+                                  </>
+                                )}
                     {/* Dots */}
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1">
                         {images.map((_, index) => (
                             <div
                                 key={index}
-                                className={`w-[5.5px] h-[5.5px] rounded-full cursor-pointer ${activeImageIndex === index ? "bg-white" : "bg-[#b0b0b0]"
-                                    }`}
-                                onClick={() => handleDotClick(index)}
+                                className={`w-[5.5px] h-[5.5px] rounded-full cursor-pointer ${
+                                    activeImageIndex === index ? "bg-white" : "bg-[#b0b0b0]"
+                                }`}
+                                onClick={(e) => handleDotClick(e, index)}
                             />
                         ))}
                     </div>
                 </div>
             </div>
 
-            <div className=" cursor-pointer mt-1 p-2" onClick={() => router.push(`${cardUrl}`)}>
+            <div className="cursor-pointer mt-1 p-2" onClick={() => router.push(`${cardUrl}`)}>
                 <div>
                     <div>
                         <h3 className="text-[20px] leading-[30px] font-[700] text-[#121212]">
                             {title}
                         </h3>
-
-
-
                     </div>
 
                     {showIcons && (
@@ -134,21 +224,12 @@ const RestaurantCard = ({
                         </div>
                     )}
 
-                    {/* {showLocation ? (
-                        <div className="flex items-center gap-2">
-                            <ImSpoonKnife className="text-[#121212] text-[18px] mt-2" />
-                            <span className="text-[#272835] text-[18px] font-[400]">{location}</span>
-                        </div>
-                    ) : ( */}
                     <div className="flex items-center gap-2">
                         <ImSpoonKnife className="text-[#121212] text-[20px]" />
                         <span className="text-[#272835] text-[18px] font-[400]">French, Mediterranean</span>
                     </div>
-                    {/* )} */}
-
 
                     <div className="border-[#e3e3e3] border-t w-full my-2"></div>
-
 
                     {showRating && (
                         <div className="flex items-center">

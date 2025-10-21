@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { CiLocationOn, CiRuler } from 'react-icons/ci';
 import { FaRegUser } from 'react-icons/fa';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -35,6 +35,11 @@ const HomeAccommodationCard = ({
   link,
 }: AccommodationCard) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentTranslate, setCurrentTranslate] = useState(0);
+  const [prevTranslate, setPrevTranslate] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleDotClick = (e: React.MouseEvent, index: number) => {
     e.stopPropagation();
@@ -57,6 +62,74 @@ const HomeAccommodationCard = ({
     );
   };
 
+  // Touch events
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    setCurrentTranslate(prevTranslate + diff);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    if (!images || images.length === 0) return;
+
+    const movedBy = currentTranslate - prevTranslate;
+    const threshold = 50;
+
+    if (movedBy < -threshold && activeImageIndex < images.length - 1) {
+      setActiveImageIndex(activeImageIndex + 1);
+    } else if (movedBy > threshold && activeImageIndex > 0) {
+      setActiveImageIndex(activeImageIndex - 1);
+    }
+
+    setCurrentTranslate(0);
+    setPrevTranslate(0);
+  };
+
+  // Mouse events for desktop
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    const currentX = e.clientX;
+    const diff = currentX - startX;
+    setCurrentTranslate(prevTranslate + diff);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    if (!images || images.length === 0) return;
+
+    const movedBy = currentTranslate - prevTranslate;
+    const threshold = 50;
+
+    if (movedBy < -threshold && activeImageIndex < images.length - 1) {
+      setActiveImageIndex(activeImageIndex + 1);
+    } else if (movedBy > threshold && activeImageIndex > 0) {
+      setActiveImageIndex(activeImageIndex - 1);
+    }
+
+    setCurrentTranslate(0);
+    setPrevTranslate(0);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      handleMouseUp();
+    }
+  };
+
   return (
     <div className="rounded-[12px] border border-[#E3E3E3] p-[6px] cursor-pointer">
       {/* Image or slider wrapped in Link */}
@@ -76,12 +149,25 @@ const HomeAccommodationCard = ({
         )}
 
         {images && (
-          <div className="relative z-0 group cursor-pointer">
-            <div className="overflow-hidden md:h-[360px] sm:h-[300px] h-[200px] w-full">
+          <div 
+            className="relative z-0 group cursor-grab active:cursor-grabbing"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div 
+              className="overflow-hidden md:h-[360px] sm:h-[300px] h-[200px] w-full"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               <div
+                ref={sliderRef}
                 className="flex transition-transform duration-500 ease-in-out w-full h-full"
                 style={{
-                  transform: `translateX(-${activeImageIndex * 100}%)`,
+                  transform: `translateX(calc(-${activeImageIndex * 100}% + ${isDragging ? currentTranslate : 0}px))`,
+                  transition: isDragging ? 'none' : 'transform 500ms ease-in-out',
                 }}
               >
                 {images.map((img, idx) => (
@@ -89,7 +175,8 @@ const HomeAccommodationCard = ({
                     <img
                       src={`https://admin.cimalpes.com/photos/bien/${id}/${img}`}
                       alt={title}
-                      className="object-cover rounded-[9px] w-full h-full"
+                      className="object-cover rounded-[9px] w-full h-full pointer-events-none"
+                      draggable="false"
                     />
                   </div>
                 ))}
@@ -100,7 +187,7 @@ const HomeAccommodationCard = ({
               <>
                 {activeImageIndex > 0 && (
                   <div
-                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
+                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 md:block hidden transition-opacity duration-300"
                     onClick={handlePrev}
                   >
                     <IoIosArrowBack className="mr-[2px]" />
@@ -108,7 +195,7 @@ const HomeAccommodationCard = ({
                 )}
                 {images.length - 1 !== activeImageIndex && (
                   <div
-                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
+                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 md:block hidden transition-opacity duration-300"
                     onClick={handleNext}
                   >
                     <IoIosArrowForward className="ml-[3px]" />

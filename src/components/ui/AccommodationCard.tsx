@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { CiRuler } from 'react-icons/ci';
 import { FaRegUser } from 'react-icons/fa';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -25,9 +25,14 @@ type AccommodationCard = {
 
 const AccommodationCard = ({ title, image, id, stars, showHandle = true, images, location, price, persons, bedrooms, area, link }: AccommodationCard) => {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [currentTranslate, setCurrentTranslate] = useState(0);
+    const [prevTranslate, setPrevTranslate] = useState(0);
+    const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleDotClick = (e: React.MouseEvent, index: number) => {
-    e.stopPropagation(); // prevent navigation
+    e.stopPropagation();
     e.preventDefault();
     setActiveImageIndex(index);
   };
@@ -45,6 +50,74 @@ const AccommodationCard = ({ title, image, id, stars, showHandle = true, images,
     setActiveImageIndex((prev) =>
       prev === images.length - 1 ? prev : prev + 1
     );
+  };
+
+  // Touch events
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    setCurrentTranslate(prevTranslate + diff);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    if (!images || images.length === 0) return;
+
+    const movedBy = currentTranslate - prevTranslate;
+    const threshold = 50;
+
+    if (movedBy < -threshold && activeImageIndex < images.length - 1) {
+      setActiveImageIndex(activeImageIndex + 1);
+    } else if (movedBy > threshold && activeImageIndex > 0) {
+      setActiveImageIndex(activeImageIndex - 1);
+    }
+
+    setCurrentTranslate(0);
+    setPrevTranslate(0);
+  };
+
+  // Mouse events for desktop
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    const currentX = e.clientX;
+    const diff = currentX - startX;
+    setCurrentTranslate(prevTranslate + diff);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    if (!images || images.length === 0) return;
+
+    const movedBy = currentTranslate - prevTranslate;
+    const threshold = 50;
+
+    if (movedBy < -threshold && activeImageIndex < images.length - 1) {
+      setActiveImageIndex(activeImageIndex + 1);
+    } else if (movedBy > threshold && activeImageIndex > 0) {
+      setActiveImageIndex(activeImageIndex - 1);
+    }
+
+    setCurrentTranslate(0);
+    setPrevTranslate(0);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      handleMouseUp();
+    }
   };
 
   return (
@@ -66,12 +139,25 @@ const AccommodationCard = ({ title, image, id, stars, showHandle = true, images,
         )}
 
         {images && (
-          <div className="relative z-0 group cursor-pointer">
-            <div className="overflow-hidden h-[223px] w-full">
+          <div 
+            className="relative z-0 group cursor-grab active:cursor-grabbing"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div 
+              className="overflow-hidden h-[223px] w-full"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               <div
+                ref={sliderRef}
                 className="flex transition-transform duration-500 ease-in-out w-full h-full"
                 style={{
-                  transform: `translateX(-${activeImageIndex * 100}%)`,
+                  transform: `translateX(calc(-${activeImageIndex * 100}% + ${isDragging ? currentTranslate : 0}px))`,
+                  transition: isDragging ? 'none' : 'transform 500ms ease-in-out',
                 }}
               >
                 {images.map((img, idx) => (
@@ -79,7 +165,8 @@ const AccommodationCard = ({ title, image, id, stars, showHandle = true, images,
                     <img
                       src={`https://admin.cimalpes.com/photos/bien/${id}/${img}`}
                       alt={title}
-                      className="object-cover rounded-[9px] w-full h-full"
+                      className="object-cover rounded-[9px] w-full h-full pointer-events-none"
+                      draggable="false"
                     />
                   </div>
                 ))}
@@ -172,7 +259,7 @@ const AccommodationCard = ({ title, image, id, stars, showHandle = true, images,
                     <div className='mt-2.5  h-[1px] w-full bg-[#e3e3e3]'></div>
                     <div className='font-regular text-[#121212] font-[600] sm:mt-2 mt-1.5'>Start From</div>
                     <div className='font-large text-[#184E44] font-[600] sm:mt-2 mt-1.5'>€{parseFloat(price)
-                        .toFixed(0) // remove decimal
+                        .toFixed(0)
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} / week</div>
                 </div>
             </Link>
