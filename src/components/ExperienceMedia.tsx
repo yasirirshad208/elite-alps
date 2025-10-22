@@ -13,7 +13,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
   const [currentSlide, setCurrentSlide] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-
+  const [mainCurrentSlide, setMainCurrentSlide] = useState(0); // New state for main mobile view
 
   const itemImages: string[] = images ?? [];
 
@@ -26,7 +26,10 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
     }
   }, [isModalOpen, itemImages, url]);
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    setCurrentSlide(mainCurrentSlide); // Set modal slide to main current slide
+    setIsModalOpen(true);
+  };
   const closeModal = () => setIsModalOpen(false);
 
   const nextSlide = () => {
@@ -35,6 +38,14 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + itemImages.length) % itemImages.length);
+  };
+
+  const nextMainSlide = () => {
+    setMainCurrentSlide((prev) => (prev + 1) % (itemImages.length));
+  };
+
+  const prevMainSlide = () => {
+    setMainCurrentSlide((prev) => (prev - 1 + itemImages.length) % itemImages.length);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -54,9 +65,9 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
     const isRightSwipe = distance < -50;
 
     if (isLeftSwipe) {
-      nextSlide();
+      nextMainSlide();
     } else if (isRightSwipe) {
-      prevSlide();
+      prevMainSlide();
     }
   };
 
@@ -68,13 +79,14 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
         <div className="flex-1 h-full">
           <div className="relative flex-1 h-full">
             <img
-              src={itemImages[0] ? url + itemImages[0] : "https://via.placeholder.com/150"}
+              src={itemImages[mainCurrentSlide] ? url + itemImages[mainCurrentSlide] : "https://via.placeholder.com/150"}
               alt="Image"
               className="h-full w-full sm:rounded-[12px] object-cover cursor-pointer"
               onClick={() => {
-                setCurrentSlide(0); // open the clicked image
                 openModal();
               }}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             />
 
             {/* See All Images Button for Small Screens */}
@@ -82,7 +94,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
               className="absolute rounded-[38px] bg-white/70 text-[14px] bottom-[20px] right-[20px] px-3 py-1 cursor-pointer font-inter md:hidden"
               onClick={openModal}
             >
-              1/{itemImages.length}
+              {mainCurrentSlide + 1}/{itemImages.length}
             </div>
           </div>
         </div>

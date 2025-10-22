@@ -149,14 +149,14 @@ const HomeAccommodationCard = ({
         )}
 
         {images && (
-          <div 
+          <div
             className="relative z-0 group cursor-grab active:cursor-grabbing"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseLeave}
           >
-            <div 
+            <div
               className="overflow-hidden md:h-[360px] sm:h-[300px] h-[200px] w-full"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
@@ -187,7 +187,7 @@ const HomeAccommodationCard = ({
               <>
                 {activeImageIndex > 0 && (
                   <div
-                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 md:block hidden transition-opacity duration-300"
+                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute left-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
                     onClick={handlePrev}
                   >
                     <IoIosArrowBack className="mr-[2px]" />
@@ -195,7 +195,7 @@ const HomeAccommodationCard = ({
                 )}
                 {images.length - 1 !== activeImageIndex && (
                   <div
-                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 md:block hidden transition-opacity duration-300"
+                    className="w-[25px] h-[25px] rounded-full bg-white flex justify-center items-center text-[15px] text-black absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer group-hover:opacity-75 opacity-0 transition-opacity duration-300"
                     onClick={handleNext}
                   >
                     <IoIosArrowForward className="ml-[3px]" />
@@ -209,9 +209,8 @@ const HomeAccommodationCard = ({
               {images.map((_, index) => (
                 <div
                   key={index}
-                  className={`w-[5.5px] h-[5.5px] rounded-full cursor-pointer ${
-                    activeImageIndex === index ? "bg-white" : "bg-[#b0b0b0]"
-                  }`}
+                  className={`w-[5.5px] h-[5.5px] rounded-full cursor-pointer ${activeImageIndex === index ? "bg-white" : "bg-[#b0b0b0]"
+                    }`}
                   onClick={(e) => handleDotClick(e, index)}
                 />
               ))}
