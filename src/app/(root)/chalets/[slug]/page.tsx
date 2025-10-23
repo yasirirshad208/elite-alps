@@ -47,7 +47,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
         fetchData();
     }, [params.slug]);
 
-    if (loading) return <BookAccommodationSkeleton/>;
+    if (loading) return <BookAccommodationSkeleton />;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 
@@ -193,19 +193,19 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
 
                     <div className="absolute w-full left-0 sm:pt-7 sm:pb-2 px-4 sm:px-0 sm:static top-[110px] z-19 sm:top-auto">
                         <div className="flex justify-between items-center">
-                            <div className="mb-1 sm:hidden block">
+                            <div className=" sm:hidden block">
                                 <Link href="/chalets">
                                     <div className="h-[40px] w-[40px] rounded-[10000px] bg-white border border-[#e3e3e3] flex justify-center items-center cursor-pointer">
                                         <FaArrowLeft className="text-[16px] text-[#121212]" />
                                     </div>
                                 </Link>
                             </div>
-                            <div className="sm:flex items-center gap-3 hidden">
-                                <h2 className="font-[600] text-[32px] text-[#121212] md:text-[40px] md:mb-3 mb-2">
+                            <div className="sm:flex items-end gap-3 hidden md:mb-3 mb-2">
+                                <h2 className="font-[600] text-[32px] text-[#121212] leading-[120%] md:text-[40px] ">
                                     {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
                                 </h2>
                                 <span className="text-[20px] text-[#272835] md:block hidden">
-                                    {data.data.propertyDetail.message.detail[0].secteur[1]._}
+                                    {data.data.propertyDetail.message.detail[0].nom_station2 + " " + data.data.propertyDetail.message.detail[0].secteur[1]._}
                                 </span>
                             </div>
                             <div>
@@ -220,16 +220,16 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                 </div>
             </section>
 
-            <div className="flex items-center gap-3 sm:hidden px-4 mt-[10px]">
+            <div className="flex items-end gap-3 sm:hidden px-4 mt-[10px]">
                 <h2 className="font-[600] heading-h1 text-[#121212] ">
                     {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
                 </h2>
                 <span className="font-large text-[#272835] ">
-                    {data.data.propertyDetail.message.detail[0].secteur[1]._}
+                    {data.data.propertyDetail.message.detail[0].nom_station2 + " " + data.data.propertyDetail.message.detail[0].secteur[1]._}
                 </span>
             </div>
 
-            
+
 
             <section >
                 <div className="container mx-auto">

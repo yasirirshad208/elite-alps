@@ -30,6 +30,20 @@ const HomeListing = () => {
     loadData();
   }, [fetchHomeChalets, fetchHomeApartments, homeChalets.length]);
 
+  // Get top 3 highest priced apartments
+  const getTopApartments = () => {
+    return [...homeApartments]
+      .sort((a, b) => parseFloat(b.winterPrice) - parseFloat(a.winterPrice))
+      .slice(0, 3);
+  };
+
+  // Get top 3 highest priced chalets
+  const getTopChalets = () => {
+    return [...homeChalets]
+      .sort((a, b) => parseFloat(b.winterPrice) - parseFloat(a.winterPrice))
+      .slice(0, 3);
+  };
+
   return (
     <div className="container">
       {/* Headings */}
@@ -81,7 +95,7 @@ const HomeListing = () => {
         {loading
           ? Array.from({ length: 3 }).map((_, i) => <HomeAccommodationCardSkeleton key={i} />)
           : selected === "apartments" || selected === "hotels"
-          ? homeApartments.slice(2, 5).map((item, index) => (
+          ? getTopApartments().map((item, index) => (
               <HomeAccommodationCard
                 key={index}
                 title={item.name}
@@ -90,11 +104,12 @@ const HomeListing = () => {
                 location={item.station}
                 bedrooms={item.rooms}
                 price={item.winterPrice}
-                image={item.mainImage}
-                link={`/chalets/${item.propertyId}`}
+                images={item.allImages?.slice(0, 7)}
+                id={item.propertyId}
+                link={`/apartments/${item.propertyId}`}
               />
             ))
-          : homeChalets.slice(2, 5).map((item, index) => (
+          : getTopChalets().map((item, index) => (
               <HomeAccommodationCard
                 key={index}
                 title={item.name}

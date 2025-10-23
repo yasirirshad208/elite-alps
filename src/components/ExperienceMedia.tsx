@@ -57,9 +57,19 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
     handleSwipe();
   };
 
+  // New handlers for modal
+  const handleModalTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleModalTouchEnd = (e: React.TouchEvent) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+    handleModalSwipe();
+  };
+
   const handleSwipe = () => {
     if (!touchStart || !touchEnd) return;
-    
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
@@ -68,6 +78,21 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
       nextMainSlide();
     } else if (isRightSwipe) {
       prevMainSlide();
+    }
+  };
+
+  // New swipe handler for modal
+  const handleModalSwipe = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
     }
   };
 
@@ -181,10 +206,11 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                 </button>
 
                 {/* 📷 Image */}
-                <div 
+                {/* 📷 Image */}
+                <div
                   className="relative md:h-[450px] h-[273px] w-full rounded-[15px] overflow-hidden"
-                  onTouchStart={handleTouchStart}
-                  onTouchEnd={handleTouchEnd}
+                  onTouchStart={handleModalTouchStart}
+                  onTouchEnd={handleModalTouchEnd}
                 >
                   {itemImages.map((src, index) => (
                     <img

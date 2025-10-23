@@ -68,6 +68,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           height: "318px",
           width: "100%",
           borderRadius: "12px",
+          zIndex:"0"
         }}
       >
         {/* Base Map Layer */}
