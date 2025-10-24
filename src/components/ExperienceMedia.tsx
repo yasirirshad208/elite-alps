@@ -13,16 +13,19 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [mainCurrentSlide, setMainCurrentSlide] = useState(0);
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
   const itemImages: string[] = images ?? [];
 
   // Preload all images on component mount
   useEffect(() => {
     if (itemImages.length > 0) {
-      itemImages.forEach((src) => {
+      itemImages.forEach((src, index) => {
         const img = new Image();
+        img.onload = () => {
+          setLoadedImages(prev => new Set(prev).add(index));
+        };
         img.src = url + src;
       });
     }
@@ -53,23 +56,19 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
 
   const nextMainSlide = () => {
     if (isTransitioning) return;
-    setSlideDirection('left');
     setIsTransitioning(true);
     setMainCurrentSlide((prev) => (prev + 1) % (itemImages.length));
     setTimeout(() => {
       setIsTransitioning(false);
-      setSlideDirection(null);
     }, 300);
   };
 
   const prevMainSlide = () => {
     if (isTransitioning) return;
-    setSlideDirection('right');
     setIsTransitioning(true);
     setMainCurrentSlide((prev) => (prev - 1 + itemImages.length) % itemImages.length);
     setTimeout(() => {
       setIsTransitioning(false);
-      setSlideDirection(null);
     }, 300);
   };
 
@@ -119,63 +118,40 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
     }
   };
 
-  const getNextIndex = () => (mainCurrentSlide + 1) % itemImages.length;
-  const getPrevIndex = () => (mainCurrentSlide - 1 + itemImages.length) % itemImages.length;
-
   return (
     <div>
       <div className="flex items-center md:h-[439px] h-[320px] gap-3">
         {/* First Image Block with Slide Effect */}
         <div className="flex-1 h-full">
           <div className="relative flex-1 h-full overflow-hidden sm:rounded-[12px]">
-            {/* Preload adjacent images */}
-            <img
-              src={itemImages[getPrevIndex()] ? url + itemImages[getPrevIndex()] : ""}
-              alt=""
-              className="hidden"
-            />
-            <img
-              src={itemImages[getNextIndex()] ? url + itemImages[getNextIndex()] : ""}
-              alt=""
-              className="hidden"
-            />
-
-            {/* Previous Image (behind, for right swipe) */}
-            <img
-              src={itemImages[getPrevIndex()] ? url + itemImages[getPrevIndex()] : "https://via.placeholder.com/150"}
-              alt="Previous Image"
-              className={`h-full w-full object-cover absolute inset-0 transition-transform duration-300 ease-out ${
-                slideDirection === 'right' ? 'translate-x-0' : '-translate-x-full'
-              }`}
-              style={{ zIndex: slideDirection === 'right' ? 2 : 0 }}
-            />
-
-            {/* Current Image */}
-            <img
-              src={itemImages[mainCurrentSlide] ? url + itemImages[mainCurrentSlide] : "https://via.placeholder.com/150"}
-              alt="Image"
-              className={`h-full w-full object-cover cursor-pointer absolute inset-0 transition-transform duration-300 ease-out ${
-                slideDirection === 'left' ? '-translate-x-full' : 
-                slideDirection === 'right' ? 'translate-x-full' : 
-                'translate-x-0'
-              }`}
-              style={{ zIndex: 1 }}
-              onClick={() => {
-                openModal();
+            <div 
+              className="flex h-full transition-transform duration-300 ease-out"
+              style={{ 
+                transform: `translateX(-${mainCurrentSlide * 100}%)`
               }}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-            />
-
-            {/* Next Image (behind, for left swipe) */}
-            <img
-              src={itemImages[getNextIndex()] ? url + itemImages[getNextIndex()] : "https://via.placeholder.com/150"}
-              alt="Next Image"
-              className={`h-full w-full object-cover absolute inset-0 transition-transform duration-300 ease-out ${
-                slideDirection === 'left' ? 'translate-x-0' : 'translate-x-full'
-              }`}
-              style={{ zIndex: slideDirection === 'left' ? 2 : 0 }}
-            />
+            >
+              {itemImages.map((image, index) => (
+                <div 
+                  key={index}
+                  className="h-full flex-shrink-0 relative w-full"
+                >
+                  {!loadedImages.has(index) && (
+                    <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                      <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+                    </div>
+                  )}
+                  <img
+                    src={url + image}
+                    alt={`Slide ${index + 1}`}
+                    className={`h-full w-full object-cover cursor-pointer ${!loadedImages.has(index) ? 'opacity-0' : 'opacity-100'} transition-opacity duration-200`}
+                    onClick={openModal}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                    onLoad={() => setLoadedImages(prev => new Set(prev).add(index))}
+                  />
+                </div>
+              ))}
+            </div>
 
             {/* See All Images Button for Small Screens */}
             <div
