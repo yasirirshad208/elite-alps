@@ -117,7 +117,7 @@ const HomeTestimonials = () => {
                 </div>
 
                 {/* Testimonial text */}
-                <div className="flex items-center flex-col md:min-h-[144px] min-h-[137px] md:gap-6 gap-4 mt-10 max-w-[550px] mx-auto text-center">
+                <div className="flex items-center flex-col md:min-h-[144px] min-h-[151px] sm:min-h-[138px] md:gap-6 gap-4 mt-10 max-w-[550px] mx-auto text-center">
                     <div 
                         key={`quote-${currentIndex}`}
                         className="font-large font-[600] text-[#121212] min-h-[4.5rem] animate-[fadeInUp_0.6s_ease-out]"
