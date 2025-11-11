@@ -257,7 +257,7 @@ const AccommodationCard = ({ title, image, id, stars, showHandle = true, images,
 
                     </div>
                     <div className='mt-2.5  h-[1px] w-full bg-[#e3e3e3]'></div>
-                    <div className='font-regular text-[#121212] font-[600] sm:mt-2 mt-1.5'>Start From</div>
+                    <div className='font-regular text-[#121212] font-[600] sm:mt-2 mt-1.5'>Starts From</div>
                     <div className='font-large text-[#184E44] font-[600] sm:mt-2 mt-1.5'>€{parseFloat(price)
                         .toFixed(0)
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} / week</div>

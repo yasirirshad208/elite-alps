@@ -13,6 +13,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { GrLocation } from "react-icons/gr";
 import { IoIosArrowBack } from "react-icons/io";
 import { LuWarehouse } from "react-icons/lu";
 
@@ -159,31 +160,31 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
     ];
 
     const hotelImages: string[] = [
-  "/hotel-1.jpg",
-  "/hotel-2.png",
-  "/hotel-3.jpg",
-  "/hotel-1.jpg",
-  "/hotel-2.png",
-  "/hotel-3.jpg",
-];
+        "/hotel-1.jpg",
+        "/hotel-2.png",
+        "/hotel-3.jpg",
+        "/hotel-1.jpg",
+        "/hotel-2.png",
+        "/hotel-3.jpg",
+    ];
 
     const keyFeatures = [
-  "Spa",
-  "Pool",
-  "Sauna",
-  "Fireplace",
-  "Balcony",
-  "Gym",
-  "Wi-Fi",
-  "Parking",
-  "Butler",
-  "Concierge",
-  "Wine Cellar",
-  "Helipad",
-  "Jacuzzi",
-  "Terrace",
-  "Lounge",
-];
+        "Spa",
+        "Pool",
+        "Sauna",
+        "Fireplace",
+        "Balcony",
+        "Gym",
+        "Wi-Fi",
+        "Parking",
+        "Butler",
+        "Concierge",
+        "Wine Cellar",
+        "Helipad",
+        "Jacuzzi",
+        "Terrace",
+        "Lounge",
+    ];
 
 
 
@@ -241,7 +242,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
 
             >
                 <div className="flex flex-col gap-1">
-                    <span className="text-[#666D80] text-[16px]">Start from</span>
+                    <span className="text-[#666D80] text-[16px]">Starts from</span>
                     <span className="text-[#121212] text-[16px] font-[600]">
                         Check You Rates
                     </span>
@@ -275,13 +276,13 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="sm:flex items-center gap-3 hidden">
-                                <h2 className="font-[600] text-[32px] text-[#121212] md:text-[40px] md:mb-3 mb-2">
+                            <div className="sm:flex justify-start items-start gap-3 flex-col gap-0 hidden lg:mb-5 mb-3.5">
+                                <h2 className="font-[600] text-[32px] text-[#121212] md:text-[40px] leading-[120%]">
                                     L’Apogée Courchevel
                                 </h2>
-                                <span className="text-[20px] text-[#272835] md:block hidden">
-                                    Courchevel 1850, France
-                                </span>
+                                <div className="flex items-center gap-1  text-[#272835] ">
+                                    <GrLocation className="w-[21px] h-[21px]" />  <span className="text-[20px] text-[#272835] md:block hidden">45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA</span>
+                                </div>
                             </div>
                             <div>
                                 <ShareBtn />
@@ -295,26 +296,26 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                 </div>
             </section>
 
-           
 
-             <div className="flex flex-col gap-3 sm:hidden px-4 my-[18px]">
+
+            <div className="flex flex-col justify-start items-start gap-3 sm:hidden px-4 mt-[24px] mb-[20px]">
                 <h2 className="font-[600] text-[20px] text-[#121212] ">
-                     L’Apogée Courchevel
+                    L’Apogée Courchevel
                 </h2>
-                <span className="font-large text-[#272835] ">
-                     Courchevel 1850, France
-                </span>
+                <div className="flex items-center gap-1  text-[#272835] ">
+                    <GrLocation className="w-[21px] h-[21px]" />  <span className="text-[14px] leading-[120%]">Courchevel 1850, France</span>
+                </div>
             </div>
 
 
 
-            
+
 
             <section id="details">
                 <div className="container mx-auto">
                     <div className="flex gap-10  md:flex-row flex-col">
                         <div className=" w-full ">
-<SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
+                            <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
                             <div>
                                 <h2 className="text-[#121212] font-large font-semibold mb-4">
                                     About The Hotel
@@ -434,7 +435,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
 
                                 </div>
 
-                               
+
                                 <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 mt-[24px]">
                                     <div>
                                         <div className="text-[18px] text-[#121212] text-semibold leading-[120%]">
@@ -494,9 +495,9 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                                 </div>
 
 
-                                 <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
+                                <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
 
-                                             <div>
+                                <div>
                                     <h2 className="text-[#121212] font-semibold mb-4 font-large">
                                         Key Features
                                     </h2>

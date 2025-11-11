@@ -17,6 +17,9 @@ export type Restaurant = {
   price: string;
   images: string[];
   location: string;
+  cuisine: string;
+  avgRating: number;
+  totalReviews: number;
 };
 
 type SearchParams = {
@@ -210,7 +213,7 @@ export default function Restaurants({ searchParams }: { searchParams: { [key: st
             {loading
               ? Array.from({ length: 8 }).map((_, i) => <RestaurantCardSkeleton key={i} />)
               : data.restaurants.map((item: Restaurant) => (
-                <RestaurantCard key={item._id} cardUrl={`/restaurants/${item.slug}`} title={item.name} restaurantType={item.price} image={item.images} showLocation={true} location={item.location} />
+                <RestaurantCard key={item._id} cuisine={item.cuisine} rating={item.avgRating} totalReviews={item.totalReviews} cardUrl={`/restaurants/${item.slug}`} title={item.name} restaurantType={item.price} image={item.images} showLocation={true} location={item.location} />
               ))
             }
 

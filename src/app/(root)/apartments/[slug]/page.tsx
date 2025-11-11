@@ -9,13 +9,16 @@ import ApartmentSlider from "@/components/ui/ApartmentsSlider";
 import ChaletsKeyFeatures from "@/components/ui/ChaletsKeyFeatures";
 import Faqs from "@/components/ui/Faqs";
 import SubMenu from "@/components/ui/SubMenu";
+import { getAddressFromCoords } from "@/lib/getAddressFormCoods";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { GrLocation } from "react-icons/gr";
 import { IoIosArrowBack } from "react-icons/io";
 import { LuWarehouse } from "react-icons/lu";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 
 interface Sejour {
@@ -31,6 +34,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
     const [openForm, setOpenForm] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [activeId, setActiveId] = useState('details');
+        const [address, setAddress] = useState<string>('');
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -53,6 +57,26 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
 
         fetchData();
     }, [params.slug]);
+
+      useEffect(() => {
+            if (
+                data &&
+                data.data &&
+                data.data.propertyDetail &&
+                data.data.propertyDetail.message &&
+                data.data.propertyDetail.message.detail &&
+                data.data.propertyDetail.message.detail[0]?.latitude &&
+                data.data.propertyDetail.message.detail[0]?.longitude
+            ) {
+                async function fetchAddress() {
+                    const { latitude, longitude } = data.data.propertyDetail.message.detail[0];
+                    const addr = await getAddressFromCoords(latitude[0], longitude[0]);
+                    setAddress(addr);
+                }
+    
+                fetchAddress();
+            }
+        }, [data]);
 
    if (loading) return <BookAccommodationSkeleton/>;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
@@ -102,7 +126,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
         { id: 'details', label: 'Details' },
         { id: 'pricing', label: 'Pricing' },
         { id: 'location', label: 'Location' },
-        { id: 'faqs', label: 'Faqs' },
+        { id: 'faqs', label: 'FAQ' },
     ];
 
     const handleScrollTo = (id: string) => {
@@ -161,7 +185,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
 
             >
                 <div className="flex flex-col gap-1">
-                    <span className="text-[#666D80] text-[16px]">Start from</span>
+                    <span className="text-[#666D80] text-[16px]">Starts from</span>
                     <span className="text-[#121212] text-[16px] font-[600]">
                         €{parseFloat(dateRanges[0].price)
                             .toFixed(0)
@@ -196,13 +220,22 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                                     </div>
                                 </Link>
                             </div>
-                            <div className="sm:flex items-end gap-3 hidden md:mb-3 mb-2">
-                                <h2 className="font-[600] text-[32px] text-[#121212] leading-[120%] md:text-[40px] ">
+                            <div className="sm:flex justify-start items-start gap-3 flex-col gap-0 hidden md:mb-5 mb-3.5">
+                                <h2 className="font-[600] text-[32px] text-[#121212] md:text-[40px] leading-[120%]">
                                     {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
                                 </h2>
-                                <span className="text-[20px] text-[#272835] md:block hidden">
-                                    {data.data.propertyDetail.message.detail[0].nom_station2 + " " + data.data.propertyDetail.message.detail[0].secteur[1]._}
-                                </span>
+                                <div className="flex items-center gap-1  text-[#272835] ">
+                                   {address ? (
+                                                                          <>
+                                                                          <GrLocation className="w-[21px] h-[21px]" />
+                                                                          <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
+                                                                      </>
+                                                                      ) : (
+                                                                          <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
+                                                                              <Skeleton width={180} height={18} />
+                                                                          </SkeletonTheme>
+                                                                      )}
+                                                                       </div>
                             </div>
                             <div>
                                 <ShareBtn />
@@ -216,14 +249,22 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                 </div>
             </section>
 
-            <div className="flex items-end gap-3 sm:hidden px-4 mt-[10px]">
-                <h2 className="font-[600] heading-h1 text-[#121212] ">
-                    {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
-                </h2>
-                <span className="font-large text-[#272835] ">
-                    {data.data.propertyDetail.message.detail[0].nom_station2 + " " + data.data.propertyDetail.message.detail[0].secteur[1]._}
-                </span>
-            </div>
+             <div className="flex flex-col justify-start items-start gap-3 sm:hidden px-4 mt-[24px] mb-[20px]">
+                            <h2 className="font-[600] text-[20px] text-[#121212] leading-[120%] ">
+                                {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
+                            </h2>
+                            <div className="flex gap-1  text-[#272835] ">
+                               {address ? (
+                                                                      <>
+                                                                      <GrLocation className="w-[21px] h-[21px]" />
+                                                                      <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
+                                                                  </>
+                                                                  ) : (
+                                                                      <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
+                                                                          <Skeleton width={180} height={18} />
+                                                                      </SkeletonTheme>
+                                                                  )}</div>
+                        </div>
 
             
 
@@ -334,7 +375,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
 
                             <div id="faqs">
                                 <h2 className="text-[#121212] font-semibold mb-4 font-large">
-                                    Faqs
+                                    FAQ
                                 </h2>
                                 <Faqs faqs={faqs} />
                             </div>

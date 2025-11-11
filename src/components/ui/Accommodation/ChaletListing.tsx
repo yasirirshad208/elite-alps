@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { usePropertyStore } from '@/stores/PropertyStore';
 import AccommodationCard from '../AccommodationCard';
 import CountResults from '../CountResults';
@@ -31,17 +31,26 @@ const ChaletListing = ({
 }) => {
   const [sort, setSort] = useState<string>('recommended');
   const [loading, setLoading] = useState<Boolean>(true);
+  const [allChalets, setAllChalets] = useState<any[]>([]);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
+  const lastItemRef = useRef<HTMLDivElement>(null); // Reference to last visible item
+  const isLoadingMoreRef = useRef<boolean>(false);
+  const previousCountRef = useRef<number>(0); // Track previous count for animations
 
   const { chalets, error, fetchChalets, countChalets } = usePropertyStore();
 
   // Fetch data (filters only)
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true);
+      // Only show full loading on first page or filter changes
+      if (page === '1' || !isLoadingMoreRef.current) {
+        setLoading(true);
+      }
+      
       await fetchChalets({
         location,
         minPrice,
-         maxPrice,
+        maxPrice,
         guest,
         feature,
         checkin,
@@ -49,63 +58,129 @@ const ChaletListing = ({
         page,
         sort
       });
+      
       setLoading(false);
     };
 
     loadData();
   }, [page, checkin, checkout, sort, location, minPrice, maxPrice, guest, feature]);
 
+  // Accumulate chalets when new data arrives
+  useEffect(() => {
+    if (page === '1') {
+      setAllChalets(chalets);
+      previousCountRef.current = chalets.length;
+      isLoadingMoreRef.current = false;
+      setLoadingMore(false);
+    } else if (chalets.length > 0) {
+      // When loading more, preserve scroll position by maintaining the last visible item
+      const lastItemElement = lastItemRef.current;
+      
+      if (lastItemElement && isLoadingMoreRef.current) {
+        // Get the position of the last item before adding new content
+        const rect = lastItemElement.getBoundingClientRect();
+        const scrollY = window.scrollY;
+        const offsetTop = rect.top + scrollY;
+        
+        // Filter out duplicates and add only new chalets
+        setAllChalets(prev => {
+          const existingIds = new Set(prev.map(chalet => chalet.propertyId));
+          const newChalets = chalets.filter(chalet => !existingIds.has(chalet.propertyId));
+          const updated = [...prev, ...newChalets];
+          previousCountRef.current = prev.length; // Store count before adding new items
+          return updated;
+        });
+        
+        // Restore position after DOM update with a small delay
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            window.scrollTo({ top: offsetTop - rect.top, behavior: 'instant' });
+            // Small delay before hiding loading state for smoother transition
+            setTimeout(() => {
+              isLoadingMoreRef.current = false;
+              setLoadingMore(false);
+            }, 100);
+          });
+        });
+      } else {
+        // Filter out duplicates even in fallback case
+        setAllChalets(prev => {
+          const existingIds = new Set(prev.map(chalet => chalet.propertyId));
+          const newChalets = chalets.filter(chalet => !existingIds.has(chalet.propertyId));
+          previousCountRef.current = prev.length;
+          return [...prev, ...newChalets];
+        });
+        setTimeout(() => {
+          isLoadingMoreRef.current = false;
+          setLoadingMore(false);
+        }, 100);
+      }
+    }
+  }, [chalets, page]);
 
-  // Frontend sorting
-  // const sortedChalets = useMemo(() => {
-  //   const data = [...chalets];
-  //   switch (sort) {
-  //     case 'price_asc':
-  //       return data.sort((a, b) => a.winterPrice - b.winterPrice);
-  //     case 'price_desc':
-  //       return data.sort((a, b) => b.winterPrice - a.winterPrice);
-  //     case 'bedrooms_asc':
-  //       return data.sort((a, b) => a.rooms - b.rooms);
-  //     case 'bedrooms_desc':
-  //       return data.sort((a, b) => b.rooms - a.rooms);
-  //     default:
-  //       return data; // recommended or no sort
-  //   }
-  // }, [chalets, sort]);
+  // Frontend sorting (apply to allChalets)
+  const sortedChalets = useMemo(() => {
+    const data = [...allChalets];
+    switch (sort) {
+      case 'price_asc':
+        return data.sort((a, b) => a.winterPrice - b.winterPrice);
+      case 'price_desc':
+        return data.sort((a, b) => b.winterPrice - a.winterPrice);
+      case 'bedrooms_asc':
+        return data.sort((a, b) => a.rooms - b.rooms);
+      case 'bedrooms_desc':
+        return data.sort((a, b) => b.rooms - a.rooms);
+      default:
+        return data;
+    }
+  }, [allChalets, sort]);
 
- const icons = [
-  // Based on your provided text (in the same order)
-  
-  { name: "All", iconKey: "IoMenu" },
-  { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" },
-  { name: "Near slopes", iconKey: "GiMountains" },
-  { name: "Near the center", iconKey: "MdLocationCity" },
-  { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
-  { name: "Swimming pool", iconKey: "FaSwimmingPool" },
-  { name: "Hammam", iconKey: "GiSteam" },
-  { name: "Nordic bath", iconKey: "GiBathtub" },
-  { name: "Indoor jacuzzi", iconKey: "FaHotTub" },
-  { name: "Outdoor jacuzzi", iconKey: "FaHotTub" },
-  { name: "Fitness room", iconKey: "FaDumbbell" },
-  { name: "Wood fireplace", iconKey: "GiWoodPile" },
-  { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
-  { name: "Snooker", iconKey: "GiEightBall" },
-  { name: "Garage", iconKey: "PiGarageFill" },
-  { name: "Parking space", iconKey: "FaParking" },
+  const icons = [
+    { name: "All", iconKey: "IoMenu" },
+    { name: "Ski-in Ski-out", iconKey: "FaSkiingNordic" },
+    { name: "Near slopes", iconKey: "GiMountains" },
+    { name: "Near the center", iconKey: "MdLocationCity" },
+    { name: "Home cinema room", iconKey: "MdOutlineTheaters" },
+    { name: "Swimming pool", iconKey: "FaSwimmingPool" },
+    { name: "Hammam", iconKey: "GiSteam" },
+    { name: "Nordic bath", iconKey: "GiBathtub" },
+    { name: "Indoor jacuzzi", iconKey: "FaHotTub" },
+    { name: "Outdoor jacuzzi", iconKey: "FaHotTub" },
+    { name: "Fitness room", iconKey: "FaDumbbell" },
+    { name: "Wood fireplace", iconKey: "GiWoodPile" },
+    { name: "Ethanol fireplace", iconKey: "MdOutlineFireplace" },
+    { name: "Snooker", iconKey: "GiEightBall" },
+    { name: "Garage", iconKey: "PiGarageFill" },
+    { name: "Parking space", iconKey: "FaParking" },
+    { name: "Ski locker", iconKey: "GiSkiBoot" },
+    { name: "Elevator", iconKey: "BiBuildingHouse" },
+    { name: "Centre", iconKey: "MdLocationOn" }
+  ];
 
-  // Remaining ones (not mentioned in text)
-  { name: "Ski locker", iconKey: "GiSkiBoot" },
-  { name: "Elevator", iconKey: "BiBuildingHouse" },
-  { name: "Centre", iconKey: "MdLocationOn" }
-];
-
-
-
-  // if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
 
+  // Calculate the index of the last item before loading more
+  const lastVisibleIndex = parseInt(page || "1") * 12 - 1;
+
   return (
-    <section className="sm:mt-[100px] mt-[120px] mb-16 md:mb-12 mb-10">
+    <>
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+          opacity: 0;
+        }
+      `}</style>
+      <section className="sm:mt-[100px] mt-[120px] mb-16 md:mb-12 mb-10">
       <div className="w-full h-[1px] bg-[#e3e3e3] sm:mb-[30px] mb-[20px]"></div>
 
       <div className="container">
@@ -129,37 +204,56 @@ const ChaletListing = ({
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {loading ? (
+          {loading && allChalets.length === 0 ? (
             Array.from({ length: 8 }).map((_, i) => (
               <AccommodationCardSkeleton key={i} />
             ))
-          ) : chalets.length === 0 ? (
+          ) : sortedChalets.length === 0 ? (
             <div className='col-span-full'>
               <NoRecord page='chalets' />
             </div>
-
           ) : (
-            chalets.map((item: any, index: number) => (
-              <AccommodationCard
-                key={index}
-                title={item.name}
-                area={item.surface}
-                persons={item.adults}
-                location={item.station}
-                bedrooms={item.rooms}
-                price={item.winterPrice}
-                images={item.allImages.slice(0, 7)}
-                id={item.propertyId}
-                link={`/chalets/${item.propertyId}`}
-              />
-            ))
+            <>
+              {sortedChalets.map((item: any, index: number) => {
+                const isNewItem = index >= previousCountRef.current && loadingMore;
+                return (
+                  <div
+                    key={item.propertyId}
+                    ref={index === lastVisibleIndex - 1 ? lastItemRef : null}
+                    className={isNewItem ? 'animate-fadeIn' : ''}
+                    style={isNewItem ? { animationDelay: `${(index - previousCountRef.current) * 50}ms` } : undefined}
+                  >
+                    <AccommodationCard
+                      title={item.name}
+                      area={item.surface}
+                      persons={item.adults}
+                      location={item.station}
+                      bedrooms={item.rooms}
+                      price={item.winterPrice}
+                      images={item.allImages.slice(0, 7)}
+                      id={item.propertyId}
+                      link={`/chalets/${item.propertyId}`}
+                    />
+                  </div>
+                );
+              })}
+              {loadingMore && (
+                Array.from({ length: 12 }).map((_, i) => (
+                  <AccommodationCardSkeleton key={`loading-${i}`} />
+                ))
+              )}
+            </>
           )}
         </div>
 
-
-        {parseInt(page || "1") * 12 < countChalets && <SeeMore />}
+        {parseInt(page || "1") * 12 < countChalets && (
+          <SeeMore 
+             
+          />
+        )}
       </div>
     </section>
+    </>
   );
 };
 

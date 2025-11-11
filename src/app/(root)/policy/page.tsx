@@ -24,14 +24,14 @@ export default function Policy() {
                 <div className="container flex flex-col gap-[30px]">
 
                     <div>
-                        <h1 className="heading-h1 font-[600] mb-[19px]">Privacy Policy</h1>
+                        <h1 className="md:text-[32px] sm:text-[26px] text-[20px] text-[#121212] font-[600] mb-[19px]">Privacy Policy</h1>
                         <p className="font-medium text-[#666D80]">
                             Welcome to Elite! This privacy policy outlines how we collect, use, and protect your personal information when you visit our website and use our services, including travel, accommodation, chalet booking, and experiences.
                         </p>
                     </div>
 
                     <div>
-                        <h1 className="heading-h1 font-[600] mb-[19px]">Information We Collect</h1>
+                        <h1 className="md:text-[32px] sm:text-[26px] text-[20px] text-[#121212] font-[600] mb-[19px]">Information We Collect</h1>
                         <ul className="list-disc pl-5 marker:text-[#666D80] text-[#666D80] font-medium space-y-2">
                             <li>
                                 <span className="font-medium">Personal Information:</span> When you create an account or make a booking, we collect personal information such as your name, email address, phone number, and payment details.
@@ -46,7 +46,7 @@ export default function Policy() {
                     </div>
 
                     <div>
-                        <h1 className="heading-h1 font-[600] mb-[19px]">How We Use Your Information</h1>
+                        <h1 className="md:text-[32px] sm:text-[26px] text-[20px] text-[#121212] font-[600] mb-[19px]">How We Use Your Information</h1>
                         <ul className="list-disc pl-5 marker:text-[#666D80] text-[#666D80] font-medium space-y-2">
                             <li>
                                 <span className="font-medium">To Provide Services:</span> We use your personal and booking information to process your reservations, payments, and to communicate with you about your bookings.
@@ -64,7 +64,7 @@ export default function Policy() {
                     </div>
 
                     <div>
-                        <h1 className="heading-h1 font-[600] mb-[19px]">Data Sharing and Disclosure</h1>
+                        <h1 className="md:text-[32px] sm:text-[26px] text-[20px] text-[#121212] font-[600] mb-[19px]">Data Sharing and Disclosure</h1>
                         <ul className="list-disc pl-5 marker:text-[#666D80] text-[#666D80] font-medium space-y-2">
                             <li>
                                 <span className="font-medium">Service Providers:</span> We may share your information with trusted third-party service providers who assist us in delivering our services.
@@ -79,28 +79,28 @@ export default function Policy() {
                     </div>
 
                     <div>
-                        <h1 className="heading-h1 font-[600] mb-[19px]">Data Security</h1>
+                        <h1 className="md:text-[32px] sm:text-[26px] text-[20px] text-[#121212] font-[600] mb-[19px]">Data Security</h1>
                         <p className="font-medium text-[#666D80]">
                             We take appropriate measures to protect your personal information against unauthorized access, alteration, or destruction. This includes implementing encryption, firewalls, and secure server protocols.
                         </p>
                     </div>
 
                     <div>
-                        <h1 className="heading-h1 font-[600] mb-[19px]">Cookies and Tracking Technologies</h1>
+                        <h1 className="md:text-[32px] sm:text-[26px] text-[20px] text-[#121212] font-[600] mb-[19px]">Cookies and Tracking Technologies</h1>
                         <p className="font-medium text-[#666D80]">
                             We use cookies and similar tracking technologies to enhance your browsing experience, analyze site traffic, and personalize content. You can manage your cookie preferences through your browser settings.
                         </p>
                     </div>
 
                     <div>
-                        <h1 className="heading-h1 font-[600] mb-[19px]">Changes to This Privacy Policy</h1>
+                        <h1 className="md:text-[32px] sm:text-[26px] text-[20px] text-[#121212] font-[600] mb-[19px]">Changes to This Privacy Policy</h1>
                         <p className="font-medium text-[#666D80]">
                             We may update this privacy policy periodically to reflect changes in our practices or legal requirements. The updated policy will be posted on our website with the effective date.
                         </p>
                     </div>
 
                     <div>
-                        <h1 className="heading-h1 font-[600] mb-[19px]">Contact Us</h1>
+                        <h1 className="md:text-[32px] sm:text-[26px] text-[20px] text-[#121212] font-[600] mb-[19px]">Contact Us</h1>
                         <p className="font-medium text-[#666D80]">
                             If you have any questions or concerns about this privacy policy, please contact us at <a href="mailto:elite@chalte.com" className="underline text-[#0074ec]">elite@chalte.com</a>
                         </p>

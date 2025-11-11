@@ -20,6 +20,9 @@ interface RestaurantCardProps {
     cardUrl?: string
     time?: string;
     persons?: string
+    totalReviews?: number;
+    rating?: number;
+    cuisine?: string;
 }
 
 const RestaurantCard = ({
@@ -33,6 +36,9 @@ const RestaurantCard = ({
     time,
     persons,
     location,
+    cuisine,
+    rating,
+    totalReviews,
     cardUrl,
 }: RestaurantCardProps) => {
     const images = image;
@@ -226,7 +232,7 @@ const RestaurantCard = ({
 
                     <div className="flex items-center gap-2">
                         <ImSpoonKnife className="text-[#121212] text-[20px]" />
-                        <span className="text-[#272835] text-[18px] font-[400]">French, Mediterranean</span>
+                        <span className="text-[#272835] text-[18px] font-[400]">{cuisine}</span>
                     </div>
 
                     <div className="border-[#e3e3e3] border-t w-full my-2"></div>
@@ -235,9 +241,9 @@ const RestaurantCard = ({
                         <div className="flex items-center">
                             <IoStar className="text-[20px] text-[#FFA515] mb-1" />
                             <span className="ml-1.5 text-[18px] text-[#121212] font-bold mr-1">
-                                5,0{" "}
+                                {rating?.toFixed(1)}{" "}
                             </span>
-                            <span className="text-[18px] text-[#6D6D6D]">(53) reviews</span>
+                            <span className="text-[18px] text-[#6D6D6D]">({totalReviews}) reviews</span>
                         </div>
                     )}
                 </div>

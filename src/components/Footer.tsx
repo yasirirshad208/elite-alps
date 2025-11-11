@@ -76,7 +76,7 @@ const Footer = () => {
 
                                     <Link href="/contact" className='font-regular font-[600] text-[#121212]'>Contact us</Link>
                                     <Link href="/about" className='font-regular font-[600] text-[#121212]'>About us</Link>
-                                    <Link href="/faqs" className='font-regular font-[600] text-[#121212]'>FAQS</Link>
+                                    <Link href="/faqs" className='font-regular font-[600] text-[#121212]'>FAQ</Link>
                                     <Link href="/magazine" className='font-regular font-[600] text-[#121212]'>Magazine</Link>
                                 </div>
 
@@ -90,8 +90,8 @@ const Footer = () => {
                                 </div>
 
                                 <div className='flex gap-3 justify-center'>
-                                    <Link href={"/privacy-policy"} className='hover:underline'>Privacy Policy</Link>
-                                    <Link href={"/privacy-policy"} className='hover:underline'>Terms of service</Link>
+                                    <Link href={"/policy"} className='hover:underline'>Privacy Policy</Link>
+                                    <Link href={"/terms"} className='hover:underline'>Terms of service</Link>
                                 </div>
 
                                 <div className='flex items-center justify-center gap-3'>

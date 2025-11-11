@@ -49,7 +49,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
         { id: 'details', label: 'Details' },
         
         { id: 'location', label: 'Location' },
-        { id: 'faqs', label: 'Faqs' },
+        { id: 'faqs', label: 'FAQ' },
     ];
 
     const handleScrollTo = (id: string) => {
@@ -117,7 +117,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
                                     </div>
                                 </Link>
                             </div>
-                            <div className="sm:flex justify-start items-start gap-3 flex-col gap-0 hidden">
+                            <div className="sm:flex justify-start items-start gap-3 flex-col gap-0 hidden md:mb-5 mb-3.5">
                                 <h2 className="font-[600] text-[32px] text-[#121212] md:text-[40px] leading-[120%]">
                                     {data.name}
                                 </h2>
@@ -133,22 +133,24 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
 
 
 
-                    <ExperienceMedia images={data.images} url={`https://elite-experience-backend.onrender.com/`} />
+                    <ExperienceMedia images={data.images} url={``} />
                 </div>
             </section>
 
-            <div className="flex flex-col justify-start items-start gap-3 sm:hidden px-4 mt-[12px] mb-[8px]">
-                <h2 className="font-[600] heading-h1 text-[#121212] ">
-                    {data.name}
-                </h2>
-                <div className="flex items-center gap-1  text-[#272835] ">
-                    <GrLocation className="w-[21px] h-[21px]" />  <span className="font-large">{data.address || "45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA"}</span>
-                </div>
-            </div>
+          
+
+            <div className="flex flex-col justify-start items-start gap-3 sm:hidden px-4 mt-[24px] mb-[20px]">
+                            <h2 className="font-[600] text-[20px] text-[#121212] leading-[120%] ">
+                                {data.name}
+                            </h2>
+                            <div className="flex gap-1  text-[#272835] ">
+                                <GrLocation className="w-[21px] h-[21px]" />  <span className="text-[14px] leading-[120%]">{data.address}</span>
+                            </div>
+                        </div>
 
             <section id="details">
                 <div className="container mx-auto">
-                    <div className="flex gap-10  md:flex-row flex-col">
+                    <div className="flex gap-10 md:justify-between md:flex-row flex-col">
                         <div className=" w-full md:max-w-[888px]  md:pl-3">
                             <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
                             <div>
@@ -189,7 +191,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
 
                                     <div id="faqs">
                                         <h2 className="text-[#121212] font-semibold mb-4 font-large">
-                                            Faqs
+                                            FAQ
                                         </h2>
                                         <Faqs faqs={data.faqs} />
                                     </div>

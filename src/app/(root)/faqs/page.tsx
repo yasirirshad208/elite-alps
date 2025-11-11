@@ -1,5 +1,7 @@
 import InquiryBtn from "@/components/ui/InquiryBtnBlue";
 import Image from "next/image";
+import Link from "next/link";
+import { FaArrowUpLong } from "react-icons/fa6";
 
 export default function Faqs() {
     return (
@@ -132,20 +134,26 @@ export default function Faqs() {
                 <div className="bg-[#efefef] lg:py-[80px] md:py-[60px] py-[40px]">
                     <div className="container py-[40px] px-[32px] flex flex-col gap-[32px]">
                         <div className="flex justify-center">
-                            <Image src="/faq-avatar.png" width={120} alt="Avatar" height={56}/>
+                            <Image src="/faq-avatar.png" width={120} alt="Avatar" height={56} />
                         </div>
 
                         <div className="flex justify-center flex-col gap-3">
                             <div className="text-[#101828] font-[600] text-[20px] text-center">Still have questions?</div>
 
                             <div className="text-[#475467] text-[18px] text-center">Can’t find the answer you’re looking for? Please chat to our friendly team.</div>
-                       
-                       
+
+
                         </div>
 
                         <div className="flex justify-center">
-                        <InquiryBtn/>
-                       </div>
+                            <Link
+                                href="/contact"
+                                className="sm:w-auto w-full px-6 py-3 bg-[#0074ec] cursor-pointer flex items-center justify-center text-white gap-2 rounded-[12px]"
+                            >
+                                <span className="font-medium font-[600]">Contact us</span>
+                                {/* <FaArrowUpLong className="rotate-[45deg] w-[16px] h-[16px]" /> */}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>

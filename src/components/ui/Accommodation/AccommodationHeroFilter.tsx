@@ -355,10 +355,12 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             </div>
           </div>
 
+        
+
           {/* Location */}
           <div className="relative">
             <div
-              className={`cursor-pointer w-full ${location !== "" ? "pr-2.5 lg:border-r" : ""} border-[#e3e3e3] `}
+              className="cursor-pointer w-full pr-2.5 "
               onMouseDown={(e) => {
                 e.stopPropagation();
                 handleDropdownToggle("location");
@@ -368,8 +370,8 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
 
               <div className="flex items-center justify-between">
                 <span
-                  className={`text-[14px] ${location !== "" ? "truncate" : "whitespace-nowrap"
-                    }`}
+                  className="text-[14px] truncate"
+                  style={{ minWidth: '120px' }}
                 >
                   {location === ""
                     ? "Choose Destination"
@@ -416,10 +418,13 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
 
           {/* Price */}
           <div className="relative">
-            <div className={`cursor-pointer w-full lg:pr-2.5 ${location === "" ? "pl-2.5 lg:border-l" : ""} py-2 sm:py-0 lg:border-r  border-[#e3e3e3]`} onMouseDown={(e) => {
-              e.stopPropagation();
-              handleDropdownToggle("price");
-            }}>
+            <div 
+              className="cursor-pointer w-full lg:pr-2.5 pl-2.5 py-2 sm:py-0 lg:border-r lg:border-l border-[#e3e3e3]" 
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                handleDropdownToggle("price");
+              }}
+            >
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Price</div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 min-w-0">
@@ -431,7 +436,6 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                 </div>
                 <IoIosArrowDown className="text-[20px] text-[#121212] flex-shrink-0" />
               </div>
-
             </div>
 
             {!isMobile && openDropdown === "price" ? (
@@ -462,6 +466,8 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             )}
 
           </div>
+
+
 
           {/* Guests */}
           <div className="relative col-span-2 lg:col-span-1">

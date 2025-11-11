@@ -4,6 +4,7 @@ import { IoMapSharp } from "react-icons/io5";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { GrLocation } from "react-icons/gr";
 
 interface MapComponentProps {
   latitude: string | number;
@@ -93,9 +94,12 @@ const MapComponent: React.FC<MapComponentProps> = ({
       {/* 📍 Address + Button */}
       <div className="flex justify-between items-center flex-col sm:flex-row sm:mt-1.5 mt-3 gap-x-10 gap-y-6 px-3 py-3">
         <div className="font-large font-[600] text-[#666D80] flex items-center gap-3">
-          <IoMapSharp className="text-[#121212] text-[16px]" />
+          <GrLocation className="w-[21px] h-[21px]" />
           {addresss || address}
+          
         </div>
+
+        
 
         <button
           onClick={openInGoogleMaps}

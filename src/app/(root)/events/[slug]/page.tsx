@@ -92,7 +92,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
                                     </div>
                                 </Link>
                             </div>
-                            <div className="sm:flex justify-start items-start gap-3 flex-col gap-0 hidden">
+                            <div className="sm:flex justify-start items-start gap-3 flex-col gap-0 hidden md:mb-5 mb-3.5">
                                 <h2 className="font-[600] text-[32px] text-[#121212] md:text-[40px] leading-[120%]">
                                     {data.name}
                                 </h2>
@@ -108,18 +108,19 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
 
 
 
-                    <ExperienceMedia images={data.images} url={`https://elite-experience-backend.onrender.com/`} />
+                    <ExperienceMedia images={data.images} url={``} />
                 </div>
             </section>
 
-            <div className="flex flex-col justify-start items-start gap-3 sm:hidden px-4 mt-[12px] mb-[8px]">
-                <h2 className="font-[600] heading-h1 text-[#121212] ">
+            <div className="flex flex-col justify-start items-start gap-3 sm:hidden px-4 mt-[24px] mb-[20px]">
+                <h2 className="font-[600] text-[20px] text-[#121212] leading-[120%] ">
                     {data.name}
                 </h2>
-                <div className="flex items-center gap-1  text-[#272835] ">
-                    <GrLocation className="w-[21px] h-[21px]" />  <span className="font-large">{data.address || "45 Sunset Blvd, Apt 6B,Brighton Town,Miami, FL33101, USA"}</span>
+                <div className="flex gap-1  text-[#272835] ">
+                    <GrLocation className="w-[21px] h-[21px]" />  <span className="text-[14px] leading-[120%]">{data.address}</span>
                 </div>
             </div>
+
 
 
             <section >
@@ -150,7 +151,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
                     </div>
                 </div>
             </section>
-               <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
+            <div className="my-[20px] my-[24px] h-[1px] w-full bg-[#e3e3e3]"></div>
             <section
                 // className="mt-[40px] md:mt-[60px] lg:mt-[80px]"
                 id="date"
@@ -200,7 +201,7 @@ export default function BookRestaurant({ params }: { params: { slug: string } })
 
                 </div>
             </section>
-         
+
 
 
             <section className="mt-[40px] sm:mt-[50px]">

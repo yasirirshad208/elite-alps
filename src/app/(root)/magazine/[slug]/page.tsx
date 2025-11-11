@@ -1,24 +1,15 @@
 "use client"
-// import { blogs } from "@/Data";
 import Link from "next/link";
-import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
-import {
-    FaFacebookF,
-} from "react-icons/fa";
-import { IoIosArrowForward, IoIosLink } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MagazineListing from "@/components/ui/MagazineListing";
-import { AiFillInstagram } from "react-icons/ai";
-import { PiTelegramLogoDuotone, PiWhatsappLogoFill } from "react-icons/pi";
-import { FaXTwitter } from "react-icons/fa6";
 import { useExperienceStore } from "@/stores/ExperienceStore";
 import SocialShare from "@/components/ui/SocialShare";
 
 export default function Magazine({ params }: { params: { slug: string } }) {
     const [data, setData] = useState<any>(null);
-    const [blogs, setBlogs] = useState<any>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -39,16 +30,16 @@ export default function Magazine({ params }: { params: { slug: string } }) {
         fetchData();
     }, [params.slug]);
 
-     const {
-                magazines,
-                fetchMagazines,
-            } = useExperienceStore();
-        
-            useEffect(() => {
-                if (magazines.length === 0) {
-                    fetchMagazines();
-                }
-            }, [fetchMagazines, magazines.length]);
+    const {
+        magazines,
+        fetchMagazines,
+    } = useExperienceStore();
+
+    useEffect(() => {
+        if (magazines.length === 0) {
+            fetchMagazines();
+        }
+    }, [fetchMagazines, magazines.length]);
 
     const truncate = (input: string, maxWords: number) => {
         const words = input.split(" ");
@@ -62,26 +53,37 @@ export default function Magazine({ params }: { params: { slug: string } }) {
         <>
             <section className="md:mt-[120px] mt-[100px]">
                 <div className="container mx-auto">
-                    <div className="flex items-center justify-center gap-1 font-inter">
-                        <Link href="/">
-                            <span className=" text-[16px] text-[#666D80] hover:underline">
-                                Home
+                    <div className="flex flex-col md:flex-row md:items-center items-start justify-center gap-1 font-inter ">
+                        {/* Breadcrumb */}
+                        <div className="flex items-center justify-center gap-1">
+                            <Link href="/">
+                                <span className="text-[16px] text-[#666D80] hover:underline">
+                                    Home
+                                </span>
+                            </Link>
+                            <IoIosArrowForward className="w-[14px] h-[14px]" />
+                            <Link href="/magazine">
+                                <span className="text-[16px] text-[#666D80] hover:underline">
+                                    Magazine
+                                </span>
+                            </Link>
+
+                            {/* Hide title here on small screens */}
+                            <IoIosArrowForward className="w-[14px] h-[14px] hidden sm:inline" />
+                            <span className="text-[16px] text-[#121212] hover:underline hidden sm:inline">
+                                {data.title}
                             </span>
-                        </Link>
-                        <IoIosArrowForward className="w-[14px] h-[14px]" />
-                        <Link href="/magazine">
-                            <span className=" text-[16px] text-[#666D80] hover:underline">
-                                Magazine
-                            </span>
-                        </Link>
-                        <IoIosArrowForward className="w-[14px] h-[14px]" />
-                        <span className=" text-[16px] text-[#121212] hover:underline">
+                        </div>
+
+                        {/* Show title separately on small screens */}
+                        <span className="text-[16px] text-[#121212] hover:underline sm:hidden mt-1">
                             {data.title}
                         </span>
                     </div>
 
+
                     <div className=" w-full flex flex-col items-center mt-[24px]">
-                        <h2 className="heading-h1 text-black font-[700] max-w-[833px] text-center leading-[120%]">
+                        <h2 className="heading-h1 text-black font-[600] max-w-[833px] text-center leading-[120%]">
                             {data.title}
                         </h2>
 
@@ -113,17 +115,25 @@ export default function Magazine({ params }: { params: { slug: string } }) {
             </section>
 
             <section className="md:mt-[50px] mt-[40px]">
-                <div className="container mx-auto flex lg:justify-between lg:flex-row flex-col">
+                <div className="container mx-auto flex lg:justify-between lg:flex-row gap-[32px] lg:gap-0 flex-col">
                     <div className="lg:w-[66%] w-full">
                         <div className="w-full">
                             <img
                                 src={"https://elite-experience-backend.onrender.com/" + data.image}
-                                className="w-full h-[420px] object-cover rounded-[20px]"
                                 alt=""
+                                className="
+                                    w-full 
+                                    h-[283px]       /* default: mobile */
+                                    sm:h-[400px]    /* small screens */
+                                    md:h-[500px]    /* medium screens */
+                                    lg:h-[604px]    /* large/desktop screens */
+                                    object-cover 
+                                    rounded-[20px]
+                                "
                             />
                         </div>
 
-                        <div className="font-inter md:mt-10 mt-8">
+                        <div className="font-inter mt-6">
                             <div className="prose prose-lg max-w-none article-blocks">
                                 <ReactMarkdown
                                 >
@@ -133,7 +143,7 @@ export default function Magazine({ params }: { params: { slug: string } }) {
                         </div>
 
 
-                        <SocialShare/>
+                        <SocialShare />
                     </div>
                     <div className="lg:w-[33%] w-full ">
                         <div className="p-3 bg-white border border-[#e3e3e3] rounded-[12px]">
@@ -149,27 +159,27 @@ export default function Magazine({ params }: { params: { slug: string } }) {
                                     return (
                                         <Link href={`/magazine/${item.slug}`}>
                                             <div className="flex gap-3" key={item._id}>
-                                            <div>
-                                                <img
-                                                    src={"https://elite-experience-backend.onrender.com/" + item.image}
-                                                    className="w-[120px] h-[80px] rounded-[8px] object-cover"
-                                                />
-                                            </div>
-
-                                            <div className="flex flex-col justify-center">
-                                                <div className="text-[14px] font-inter">
-                                                    <span className="text-[#0074ec]">{item.category}</span>
-                                                    <span className="text-[#3d3d3d]"> - {readTime} min read</span>
+                                                <div>
+                                                    <img
+                                                        src={"https://elite-experience-backend.onrender.com/" + item.image}
+                                                        className="w-[120px] h-[80px] rounded-[8px] object-cover"
+                                                    />
                                                 </div>
 
-                                                <div
-                                                    className="text-[16px] text-[#121212] mt-2"
-                                                    style={{ letterSpacing: "1px" }}
-                                                >
-                                                    {truncate(item.title, 7)}
+                                                <div className="flex flex-col justify-center">
+                                                    <div className="text-[14px] font-inter">
+                                                        <span className="text-[#0074ec]">{item.category}</span>
+                                                        <span className="text-[#3d3d3d]"> - {readTime} min read</span>
+                                                    </div>
+
+                                                    <div
+                                                        className="text-[16px] text-[#121212] mt-2"
+                                                        style={{ letterSpacing: "1px" }}
+                                                    >
+                                                        {truncate(item.title, 7)}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </Link>
                                     );
                                 })}

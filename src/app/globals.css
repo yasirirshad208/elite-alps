@@ -1,4 +1,3 @@
-
 @import "tailwindcss";
 /* In your global styles or layout.tsx */
 @import 'react-datepicker/dist/react-datepicker.css';
@@ -23,22 +22,25 @@
   font-family: inherit;
   border: none !important;
   box-shadow: 0 11.654px 39.884px 0 rgba(0, 0, 0, 0.07),
-              0 1px 3px 0 rgba(0, 0, 0, 0.10),
-              0 1px 2px -1px rgba(0, 0, 0, 0.10) !important;
+    0 1px 3px 0 rgba(0, 0, 0, 0.10),
+    0 1px 2px -1px rgba(0, 0, 0, 0.10) !important;
 }
 
 /* Header (month/year area) */
 .react-datepicker__header {
-  background-color: #fff !important; /* White background */
+  background-color: #fff !important;
+  /* White background */
   border-bottom: none !important;
-  color: #000 !important; /* Black text */
+  color: #000 !important;
+  /* Black text */
   box-shadow: none !important;
 }
 
 /* Month + Year text */
 .react-datepicker__current-month {
   font-size: 13px !important;
-  font-weight: 600 !important; /* semibold */
+  font-weight: 600 !important;
+  /* semibold */
   color: #000 !important;
 }
 
@@ -48,7 +50,8 @@
 }
 
 .react-datepicker__day-name {
-  color: #666D80 !important; /* Muted gray */
+  color: #666D80 !important;
+  /* Muted gray */
   font-weight: 500;
 }
 
@@ -64,12 +67,14 @@
 .react-datepicker__day {
   /* background-color: #0074ec !important; */
   color: #000 !important;
-  border-radius: 0px!important;
- 
+  border-radius: 0px !important;
+
   font-size: 13px !important;
-   margin: 0 !important;
-  line-height: 2rem !important; /* adjust height of the date cells */
-  width: 2rem !important; /* keep square shape */
+  margin: 0 !important;
+  line-height: 2rem !important;
+  /* adjust height of the date cells */
+  width: 2rem !important;
+  /* keep square shape */
   height: 2rem !important;
 }
 
@@ -86,7 +91,7 @@
 .react-datepicker__day:not(.react-datepicker__day--disabled):hover {
   background-color: #0074ec !important;
   color: #fff !important;
-   border-top-left-radius: 6px !important;
+  border-top-left-radius: 6px !important;
   border-bottom-left-radius: 6px !important;
 }
 
@@ -112,19 +117,22 @@
 
 /* Make default arrows black */
 .react-datepicker__navigation-icon::before {
-  border-color: #000 !important; /* Black arrows */
-  border-width: 2px 2px 0 0 !important; /* Thicker for better visibility */
+  border-color: #000 !important;
+  /* Black arrows */
+  border-width: 2px 2px 0 0 !important;
+  /* Thicker for better visibility */
 }
 
 .react-datepicker__navigation--previous:hover,
 .react-datepicker__navigation--next:hover {
-  background: #f5f5f5 !important; /* Light gray hover */
+  background: #f5f5f5 !important;
+  /* Light gray hover */
 }
 
 
-.react-datepicker__day--keyboard-selected{
-  background-color: white!important;
-  color: black!important;
+.react-datepicker__day--keyboard-selected {
+  background-color: white !important;
+  color: black !important;
   font-size: 13px;
 }
 
@@ -135,8 +143,10 @@
 .react-datepicker__day--selected:hover,
 .react-datepicker__day--highlighted,
 .react-datepicker__day--keyboard-selected:hover {
-  background-color: #0074ec !important; /* Keep blue background */
-  color: #fff !important; /* White text */
+  background-color: #0074ec !important;
+  /* Keep blue background */
+  color: #fff !important;
+  /* White text */
   border-top-left-radius: 6px !important;
   border-bottom-left-radius: 6px !important;
 }
@@ -152,6 +162,7 @@
   flex-direction: row !important;
   gap: 16px;
 }
+
 /* Hide the top arrow of the datepicker */
 .react-datepicker__triangle {
   display: none !important;
@@ -161,16 +172,18 @@
 .react-datepicker__day--in-range:not(.react-datepicker__day--selected) {
   background-color: #DFE1E7 !important;
 }
+
 .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--selected) {
   background-color: #DFE1E7 !important;
 }
+
 .react-datepicker__day--selecting-range-end:not(.react-datepicker__day--selected):hover {
   background-color: #0074ec !important;
   color: #fff !important;
-  border-top-left-radius: 0px!important;
-  border-bottom-left-radius: 0px!important;
-  border-bottom-right-radius: 6px!important;
-  border-top-right-radius: 6px!important;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 6px !important;
+  border-top-right-radius: 6px !important;
 }
 
 
@@ -180,27 +193,34 @@
 body {
   font-family: 'Proxima Nova', sans-serif;
 }
-.font-regular{
+
+.font-regular {
   font-size: 16px;
 }
-.font-medium{
+
+.font-medium {
   font-size: 18px;
 }
-.font-large{
+
+.font-large {
   font-size: 20px;
 }
-.heading-h1{
+
+.heading-h1 {
   font-size: 56px;
   font-weight: 600;
   line-height: 120%;
   color: #121212;
 }
-.container-padding{
-  margin: 0 auto!important;
+
+.container-padding {
+  margin: 0 auto !important;
 }
-.container{
-  margin: 0 auto!important;
+
+.container {
+  margin: 0 auto !important;
 }
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -215,17 +235,26 @@ input[type='number']::-webkit-outer-spin-button {
 /* Hide number input spinner arrows (Firefox) */
 input[type='number'] {
   -moz-appearance: textfield;
-  appearance: textfield; /* fallback */
+  appearance: textfield;
+  /* fallback */
 }
 
-.article-blocks p{
-margin-bottom: 24px!important;
-color: #666D80;
+.article-blocks p {
+  margin-bottom: 24px !important;
+  color: #666D80;
+  line-height: 140%;
+}
+
+/* If a list follows immediately after a paragraph, reduce margin to 12px */
+.article-blocks p:has(+ ul),
+.article-blocks p:has(+ ol),
+.article-blocks p:has(+ li) {
+  margin-bottom: 12px !important;
 }
 
 .article-blocks ul,
 .article-blocks ol {
-  padding-left: 1.5rem; /* space for bullets/numbers */
+  padding-left: 1.5rem;
   margin-bottom: 1rem;
 }
 
@@ -238,97 +267,124 @@ color: #666D80;
 }
 
 .article-blocks li {
-  margin-bottom: 0.5rem;
-  color: #121212;
-  line-height: 1.6;
+  /* color: #121212; */
+  color: #666D80;
 }
+
 
 .article-blocks hr {
   margin-bottom: 24px !important;
   border: none;
   border-top: 1px solid #e3e3e3;
-  height: 0; 
+  height: 0;
 }
+
 .article-blocks img {
   margin-bottom: 24px !important;
   width: 100%;
   height: 425px;
   border-radius: 18px;
 }
+
 .article-blocks h1 {
-  font-size: clamp(2rem, 4vw, 2.5rem); /* 32px–40px */
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  /* 32px–40px */
   color: #121212;
   margin-bottom: 20px;
   font-weight: 600;
+  line-height: 120%;
 }
 
 .article-blocks h2 {
-  font-size: clamp(1.5rem, 3vw, 2rem); /* 24px–32px */
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  /* 24px–32px */
   color: #121212;
   margin-bottom: 16px;
   font-weight: 600;
+  line-height: 120%;
 }
 
 .article-blocks h3 {
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem); /* 20px–24px */
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  /* 20px–24px */
   color: #121212;
   margin-bottom: 14px;
   font-weight: 600;
+  line-height: 120%;
 }
 
 .article-blocks h4 {
-  font-size: clamp(1.125rem, 2vw, 1.25rem); /* 18px–20px */
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  /* 18px–20px */
   color: #121212;
   margin-bottom: 12px;
   font-weight: 600;
+  line-height: 120%;
 }
 
 .article-blocks h5 {
-  font-size: clamp(1rem, 1.5vw, 1.125rem); /* 16px–18px */
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  /* 16px–18px */
   color: #121212;
   margin-bottom: 10px;
   font-weight: 600;
+  line-height: 120%;
 }
 
 .article-blocks h6 {
-  font-size: clamp(0.875rem, 1vw, 1rem); /* 14px–16px */
+  font-size: clamp(0.875rem, 1vw, 1rem);
+  /* 14px–16px */
   color: #121212;
   margin-bottom: 8px;
   font-weight: 600;
+  line-height: 120%;
 }
 
-@media(max-width:1024){
-  .heading-h1{
-  font-size: 48px;
+@media(max-width:1024) {
+  .heading-h1 {
+    font-size: 48px;
+  }
 }
-}
+
 @media (max-width: 767px) {
-      .heading-stroke {
-        -webkit-text-stroke-width: 2px !important;
-        letter-spacing: -0.46px !important;
-      }
-    }
-@media(max-width:600px){
-  .font-regular{
-  font-size: 14px;
-}
-.font-medium{
-  font-size: 16px;
-}
-.font-large{
-  font-size: 18px;
-}
-.heading-h1{
-  font-size: 36px;
-}
-  .container-padding{
-    padding-left: 16px !important;
-    padding-right: 16px!important;
+  .heading-stroke {
+    -webkit-text-stroke-width: 2px !important;
+    letter-spacing: -0.46px !important;
   }
-  .container{
-    padding-left: 16px !important;
-    padding-right: 16px!important;
+
+  .article-blocks img {
+    height: 400px;
   }
 }
 
+@media(max-width:600px) {
+  .font-regular {
+    font-size: 14px;
+  }
 
+  .font-medium {
+    font-size: 16px;
+  }
+
+  .font-large {
+    font-size: 18px;
+  }
+
+  .heading-h1 {
+    font-size: 36px;
+  }
+
+  .container-padding {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .article-blocks img {
+    height: 283px;
+  }
+}

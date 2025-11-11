@@ -40,8 +40,8 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
     }
   }, [isModalOpen, itemImages, url]);
 
-  const openModal = () => {
-    setCurrentSlide(mainCurrentSlide);
+  const openModal = (slideIndex?: number) => {
+    setCurrentSlide(slideIndex ?? mainCurrentSlide);
     setIsModalOpen(true);
   };
   const closeModal = () => setIsModalOpen(false);
@@ -144,7 +144,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                     src={url + image}
                     alt={`Slide ${index + 1}`}
                     className={`h-full w-full object-cover cursor-pointer ${!loadedImages.has(index) ? 'opacity-0' : 'opacity-100'} transition-opacity duration-200`}
-                    onClick={openModal}
+                    onClick={() => openModal()}
                     onTouchStart={handleTouchStart}
                     onTouchEnd={handleTouchEnd}
                     onLoad={() => setLoadedImages(prev => new Set(prev).add(index))}
@@ -156,7 +156,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
             {/* See All Images Button for Small Screens */}
             <div
               className="absolute rounded-[38px] bg-white/70 text-[14px] bottom-[20px] right-[20px] px-3 py-1 cursor-pointer font-inter md:hidden z-10"
-              onClick={openModal}
+              onClick={() => openModal()}
             >
               {mainCurrentSlide + 1}/{itemImages.length}
             </div>
@@ -179,10 +179,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                 >
                   <div
                     className="absolute inset-0 flex items-center justify-center text-black font-inter text-[14px] cursor-pointer"
-                    onClick={() => {
-                      setCurrentSlide(actualIndex);
-                      openModal();
-                    }}
+                    onClick={() => openModal(actualIndex)}
                   >
                     <button className="bg-white/70 px-3 py-1.5 rounded-[24px] cursor-pointer">
                       See all images
@@ -198,10 +195,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                   src={url + image}
                   className="h-full w-full object-cover rounded-[12px] cursor-pointer"
                   alt={`Slide ${actualIndex}`}
-                  onClick={() => {
-                    setCurrentSlide(actualIndex);
-                    openModal();
-                  }}
+                  onClick={() => openModal(actualIndex)}
                 />
               </div>
             );

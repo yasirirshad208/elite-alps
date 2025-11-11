@@ -245,7 +245,7 @@ const HomeAccommodationCard = ({
 
           <div className="mt-2.5 mb-1 h-[1px] w-full bg-[#e3e3e3]"></div>
 
-          <div className="font-regular text-[#121212] font-[600]">Start From</div>
+          <div className="font-regular text-[#121212] font-[600]">Starts From</div>
           <div className="font-large text-[#184E44] font-[600] sm:mt-2 mt-1.5">
             €{parseFloat(price)
               .toFixed(0)

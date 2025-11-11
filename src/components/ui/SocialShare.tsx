@@ -38,53 +38,48 @@ const SocialShare = () => {
 
   return (
     <div className="bg-white border border-[#e3e3e3] md:mt-8 mt-6 flex justify-between items-center gap-4 flex-wrap rounded-[12px] p-4 gap-y-3">
-      <div className="text-[20px] font-semibold">
-        Like what you see? Share with <br /> your family & friends
+      <div className="md:text-[20px] text-[18px] font-semibold">
+        Like what you see? Share with <br className='hidden md:block' /> your family & friends
       </div>
 
-      <div className="flex items-center justify-center gap-3">
-        <button
-          onClick={() => handleShare('instagram')}
-          className="cursor-pointer w-[48px] h-[48px] rounded-full flex items-center justify-center border border-[#ddd]"
-        >
-          <AiFillInstagram className="text-[#0691FF] text-[20px]" />
-        </button>
+      <div className="flex flex-wrap items-center sm:justify-center justify-start gap-3 sm:gap-4">
+  <button
+    onClick={() => handleShare("facebook")}
+    className="cursor-pointer p-3 sm:p-3.5 rounded-full flex items-center justify-center border border-[#ddd]"
+  >
+    <FaFacebookF className="text-[#0691FF] text-[18px] sm:text-[20px]" />
+  </button>
 
-        <button
-          onClick={() => handleShare('facebook')}
-          className="cursor-pointer w-[48px] h-[48px] rounded-full flex items-center justify-center border border-[#ddd]"
-        >
-          <FaFacebookF className="text-[#0691FF] text-[20px]" />
-        </button>
+  <button
+    onClick={() => handleShare("whatsapp")}
+    className="cursor-pointer p-3 sm:p-3.5 rounded-full flex items-center justify-center border border-[#ddd]"
+  >
+    <PiWhatsappLogoFill className="text-[#0691FF] text-[18px] sm:text-[20px]" />
+  </button>
 
-        <button
-          onClick={() => handleShare('whatsapp')}
-          className="cursor-pointer w-[48px] h-[48px] rounded-full flex items-center justify-center border border-[#ddd]"
-        >
-          <PiWhatsappLogoFill className="text-[#0691FF] text-[20px]" />
-        </button>
+  <button
+    onClick={() => handleShare("link")}
+    className="cursor-pointer p-3 sm:p-3.5 rounded-full flex items-center justify-center border border-[#ddd]"
+  >
+    <IoIosLink className="text-[#0691FF] text-[18px] sm:text-[20px]" />
+  </button>
 
-        <button
-          onClick={() => handleShare('link')}
-          className="cursor-pointer w-[48px] h-[48px] rounded-full flex items-center justify-center border border-[#ddd]"
-        >
-          <IoIosLink className="text-[#0691FF] text-[20px]" />
-        </button>
+  <button
+    onClick={() => handleShare("twitter")}
+    className="cursor-pointer p-3 sm:p-3.5 rounded-full flex items-center justify-center border border-[#ddd]"
+  >
+    <FaXTwitter className="text-[#0691FF] text-[18px] sm:text-[20px]" />
+  </button>
 
-        <button
-          onClick={() => handleShare('twitter')}
-          className="cursor-pointer w-[48px] h-[48px] rounded-full flex items-center justify-center border border-[#ddd]"
-        >
-          <FaXTwitter className="text-[#0691FF] text-[20px]" />
-        </button>
+  <button
+    onClick={() => handleShare("telegram")}
+    className="cursor-pointer p-3 sm:p-3.5 rounded-full flex items-center justify-center border border-[#ddd]"
+  >
+    <PiTelegramLogoDuotone className="text-[#0691FF] text-[18px] sm:text-[20px]" />
+  </button>
+</div>
 
-        <button
-          onClick={() => handleShare('telegram')}
-          className="cursor-pointer w-[48px] h-[48px] rounded-full flex items-center justify-center border border-[#ddd]"
-        >
-          <PiTelegramLogoDuotone className="text-[#0691FF] text-[20px]" />
-        </button>
-      </div>
+
     </div>
   );
 };

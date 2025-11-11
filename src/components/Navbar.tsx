@@ -25,7 +25,7 @@ const Navbar = () => {
                 <div className='flex justify-between h-full items-center'>
                     <div>
                         <Link href={"/"}>
-                            <Image src="/logo.png" alt="Logo" priority={true}  width={85} height={52} />
+                            <Image src="/logo.png" alt="Logo" priority={true} width={85} height={52} />
                         </Link>
                     </div>
 
@@ -35,17 +35,18 @@ const Navbar = () => {
                         <div className='relative'>
                             <div
                                 className={`flex items-center ${openMenu === 'accommodation' ? 'font-semibold' : ''} gap-1 px-[12px] py-[8px] text-[16px] cursor-pointer text-[#121212]`}
-                               
+
                                 onMouseDown={(e) => {
                                     e.stopPropagation()
-                                    toggleMenu('accommodation')}}
+                                    toggleMenu('accommodation')
+                                }}
                             >
                                 Accommodation <IoIosArrowDown
                                     className={`transition-transform duration-300 ${openMenu === 'accommodation' ? 'rotate-180' : ''
                                         }`}
                                 />
                             </div>
-                            <Dropdown top="top-[59px]" onClose={()=>setOpenMenu(null)} isOpen={openMenu === 'accommodation'}>
+                            <Dropdown top="top-[59px]" onClose={() => setOpenMenu(null)} isOpen={openMenu === 'accommodation'}>
                                 <div className='w-full cursor-pointer'>
                                     <Link href={"/chalets"}>
                                         <div className='rounded-[8px] pr-6 pl-2 flex items-center gap-2 py-2 rounded-md hover:bg-[#F6F8FA] group transition-all duration-200' onClick={() => setOpenMenu(null)}>
@@ -149,16 +150,17 @@ const Navbar = () => {
                         <div className='relative'>
                             <div
                                 className={`flex items-center ${openMenu === 'transfer' ? 'font-semibold' : ''} gap-1 px-[12px] py-[8px] text-[16px] cursor-pointer text-[#121212]`}
-                                 onMouseDown={(e) => {
+                                onMouseDown={(e) => {
                                     e.stopPropagation()
-                                    toggleMenu('transfer')}}
+                                    toggleMenu('transfer')
+                                }}
                             >
                                 Transfer <IoIosArrowDown
                                     className={`transition-transform duration-300 ${openMenu === 'transfer' ? 'rotate-180' : ''
                                         }`}
                                 />
                             </div>
-                            <Dropdown onClose={()=>setOpenMenu(null)} top="top-[59px]" isOpen={openMenu === 'transfer'}>
+                            <Dropdown onClose={() => setOpenMenu(null)} top="top-[59px]" isOpen={openMenu === 'transfer'}>
                                 <div className='w-full cursor-pointer'>
                                     <Link href={"/helicopters"}>
                                         <div className='rounded-[8px] pr-6 pl-2 flex items-center gap-2 py-2 rounded-md hover:bg-[#F6F8FA] group transition-all duration-200' onClick={() => setOpenMenu(null)}>
@@ -218,17 +220,18 @@ const Navbar = () => {
                         <div className='relative'>
                             <div
                                 className={`flex items-center ${openMenu === 'experiences' ? 'font-semibold' : ''} gap-1 px-[12px] py-[8px] text-[16px] cursor-pointer text-[#121212]`}
-                                 onMouseDown={(e) => {
+                                onMouseDown={(e) => {
                                     e.stopPropagation()
-                                    toggleMenu('experiences')}}
-                            
+                                    toggleMenu('experiences')
+                                }}
+
                             >
                                 Experiences <IoIosArrowDown
                                     className={`transition-transform duration-300 ${openMenu === 'experiences' ? 'rotate-180' : ''
                                         }`}
                                 />
                             </div>
-                            <Dropdown onClose={()=>setOpenMenu(null)} top="top-[59px]" isOpen={openMenu === 'experiences'}>
+                            <Dropdown onClose={() => setOpenMenu(null)} top="top-[59px]" isOpen={openMenu === 'experiences'}>
                                 <div className='w-full cursor-pointer'>
                                     <Link href={"/restaurants"}>
                                         <div className='rounded-[8px] pr-6 pl-2 flex items-center gap-2 py-2 rounded-md hover:bg-[#F6F8FA] group transition-all duration-200' onClick={() => setOpenMenu(null)}>
@@ -297,46 +300,46 @@ const Navbar = () => {
                             <Link href='/about'>About us</Link>
                         </div>
                     </nav>
-                    
+
                     <div className='flex items-center gap-3'>
                         <div>
-                        <button
-                            onClick={openInquiry}
-                            className="cursor-pointer bg-[#0074ec] rounded-[9999px] sm:w-[120px] md:w-[140px] lg:w-[152px] px-3 md:py-3 py-2 text-white font-[600]  md:text-[16px] text-[14px] whitespace-nowrap"
-                        style={{ letterSpacing: "-0.36px", lineHeight: "140%"}}
-                        >
-                            Quick Inquiry
-                        </button>
+                            <button
+                                onClick={openInquiry}
+                                className="cursor-pointer bg-[#0074ec] rounded-[9999px] sm:w-[120px] md:w-[140px] lg:w-[152px] px-3 md:py-3 py-2 text-white font-[600]  md:text-[16px] text-[14px] whitespace-nowrap"
+                                style={{ letterSpacing: "-0.36px", lineHeight: "140%" }}
+                            >
+                                Quick Inquiry
+                            </button>
 
-                    </div>
-
-                    <div className="w-10 h-10 flex items-center justify-center lg:hidden">
-                        <div
-                            className="relative w-6 h-8 cursor-pointer flex items-center justify-center"
-                            onClick={() => {
-                                setOpen(!open)
-                                setOpenMobileMenu(null)
-                            }}
-                        >
-                            {/* Top bar */}
-                            <span
-                                className={`absolute w-full h-[2px] bg-black rounded-md transition-all duration-300 ease-in-out ${open ? "rotate-45 translate-y-0" : "-translate-y-[8px]"
-                                    }`}
-                            ></span>
-
-                            {/* Middle bar */}
-                            <span
-                                className={`absolute w-full h-[2px] bg-black rounded-md transition-all duration-300 ease-in-out ${open ? "opacity-0" : "translate-y-0"
-                                    }`}
-                            ></span>
-
-                            {/* Bottom bar */}
-                            <span
-                                className={`absolute w-full h-[2px] bg-black rounded-md transition-all duration-300 ease-in-out ${open ? "-rotate-45 translate-y-0" : "translate-y-[8px]"
-                                    }`}
-                            ></span>
                         </div>
-                    </div>
+
+                        <div className="w-10 h-10 flex items-center justify-center lg:hidden">
+                            <div
+                                className="relative w-6 h-8 cursor-pointer flex items-center justify-center"
+                                onClick={() => {
+                                    setOpen(!open)
+                                    setOpenMobileMenu(null)
+                                }}
+                            >
+                                {/* Top bar */}
+                                <span
+                                    className={`absolute w-full h-[2px] bg-black rounded-md transition-all duration-300 ease-in-out ${open ? "rotate-45 translate-y-0" : "-translate-y-[8px]"
+                                        }`}
+                                ></span>
+
+                                {/* Middle bar */}
+                                <span
+                                    className={`absolute w-full h-[2px] bg-black rounded-md transition-all duration-300 ease-in-out ${open ? "opacity-0" : "translate-y-0"
+                                        }`}
+                                ></span>
+
+                                {/* Bottom bar */}
+                                <span
+                                    className={`absolute w-full h-[2px] bg-black rounded-md transition-all duration-300 ease-in-out ${open ? "-rotate-45 translate-y-0" : "translate-y-[8px]"
+                                        }`}
+                                ></span>
+                            </div>
+                        </div>
                     </div>
                     {/* </div> */}
                 </div>
@@ -597,21 +600,22 @@ const Navbar = () => {
 
                         </div>
 
-                        <div className='w-full'>
-                            <div className={`flex justify-between items-center p-2 cursor-pointer text-[#666D80] `} onClick={() => {
-                                setOpen(!open)
-                            }}>
+                        <div className="w-full">
+                            <Link
+                                href="/magazine"
+                                className="flex justify-between items-center p-2 cursor-pointer text-[#666D80]"
+                            >
                                 Magazine
-
-                            </div>
+                            </Link>
                         </div>
-                        <div className='w-full'>
-                            <div className={`flex justify-between items-center p-2 cursor-pointer text-[#666D80] `} onClick={() => {
-                                setOpen(!open)
-                            }}>
-                                About us
 
-                            </div>
+                        <div className="w-full">
+                            <Link
+                                href="/about"
+                                className="flex justify-between items-center p-2 cursor-pointer text-[#666D80]"
+                            >
+                                About us
+                            </Link>
                         </div>
                     </div>
                 </div>

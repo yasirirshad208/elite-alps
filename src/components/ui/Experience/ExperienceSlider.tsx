@@ -98,6 +98,9 @@ const ExperiencSlider = ({
                       image={item.images}
                       showLocation={true}
                       location={item.location}
+                      cuisine={item.cuisine}
+                      rating={item.avgRating}
+                      totalReviews={item.totalReviews}
                     />
                   </SwiperSlide>
                 ))}
