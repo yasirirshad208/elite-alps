@@ -355,7 +355,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             </div>
           </div>
 
-        
+
 
           {/* Location */}
           <div className="relative">
@@ -418,8 +418,8 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
 
           {/* Price */}
           <div className="relative">
-            <div 
-              className="cursor-pointer w-full lg:pr-2.5 pl-2.5 py-2 sm:py-0 lg:border-r lg:border-l border-[#e3e3e3]" 
+            <div
+              className="cursor-pointer w-full lg:pr-2.5 pl-2.5 py-2 sm:py-0 lg:border-r lg:border-l border-[#e3e3e3]"
               onMouseDown={(e) => {
                 e.stopPropagation();
                 handleDropdownToggle("price");
@@ -492,15 +492,25 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
 
         {/* Search Button */}
         <div>
-          <Link
-            scroll={false}
-            href={`/${page}?location=${encodeURIComponent(locations.join(','))}&minPrice=${minPrice}&maxPrice=${maxPrice}&guest=${guest}&checkin=${checkIn ? checkIn.toISOString().split('T')[0] : ''
-              }&checkout=${checkOut ? checkOut.toISOString().split('T')[0] : ''}`}
-            className="flex items-center justify-center gap-2 font-medium font-[600] text-white bg-[#0074ec] lg:p-[20px] py-3 rounded-[12px] whitespace-nowrap"
-          >
-            <IoSearch className='md:text-[20px] text-[18px]' />
-            <span className='text-white text-[16px] font-[600] lg:hidden'>Search Now</span>
-          </Link>
+          {page !== 'hotels' ? (
+            <Link
+              scroll={false}
+              href={`/${page}?location=${encodeURIComponent(locations.join(','))}&minPrice=${minPrice}&maxPrice=${maxPrice}&guest=${guest}&checkin=${checkIn ? checkIn.toISOString().split('T')[0] : ''
+                }&checkout=${checkOut ? checkOut.toISOString().split('T')[0] : ''}`}
+              className="flex items-center justify-center gap-2 font-medium font-[600] text-white bg-[#0074ec] lg:p-[20px] py-3 rounded-[12px] whitespace-nowrap"
+            >
+              <IoSearch className='md:text-[20px] text-[18px]' />
+              <span className='text-white text-[16px] font-[600] lg:hidden'>Search Now</span>
+            </Link>
+          ) : (
+            <div
+              className="flex items-center justify-center gap-2 font-medium font-[600] text-white bg-blue-400 lg:p-[20px] py-3 rounded-[12px] whitespace-nowrap cursor-not-allowed"
+            >
+              <IoSearch className='md:text-[20px] text-[18px]' />
+              <span className='text-gray-400 text-[16px] font-[600] lg:hidden'>Search Now</span>
+            </div>
+          )}
+
         </div>
       </div>
     </div>

@@ -126,6 +126,11 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
 
     return (
         <div>
+            {accommodationType === "Hotel" ?
+        <h2 className="text-[20px] text-[#121212] font-semibold">
+               Check Your Rates
+
+            </h2>:
             <h2 className="text-[20px] text-[#121212] font-semibold">
                 <span className='text-[18px]'>{rate ? "":"From "} </span>€{displayPrice
                     ? parseFloat(displayPrice)
@@ -133,7 +138,8 @@ const AccommodationForm = ({ id, name, location, accommodationType, dateRanges }
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                     : "xxxx"} / Week
 
-            </h2>
+            </h2>    
+        }
 
             <div className="h-[1px] bg-[#e3e3e3] w-full my-3"></div>
 

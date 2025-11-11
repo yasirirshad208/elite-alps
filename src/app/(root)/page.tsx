@@ -58,9 +58,9 @@ export default function Home() {
             </div>
 
 
-            <div className="w-full flex justify-center mt-4">
+            {/* <div className="w-full flex justify-center mt-4">
               <button className="flex items-center justify-center gap-2 bg-white rounded-[9999px] px-[24px] py-[12px] font-medium font-[700] cursor-pointer w-full sm:w-auto">Start Planning <GoArrowUpRight /></button>
-            </div>
+            </div> */}
           </div>
 
           <HeroFilter />
