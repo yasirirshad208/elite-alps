@@ -9,6 +9,7 @@ import AccommodationIconsFilter from './AccommodationFilters';
 import SortBy from '../SortBy';
 import AccommodationCardSkeleton from '@/components/skeletons/AccommodationCardSkeleton';
 import NoRecord from '../NoRecord';
+import { getChaletPrice } from '@/lib/getPropertyPrice';
 
 const ChaletListing = ({
   location,
@@ -46,7 +47,7 @@ const ChaletListing = ({
       if (page === '1' || !isLoadingMoreRef.current) {
         setLoading(true);
       }
-      
+
       await fetchChalets({
         location,
         minPrice,
@@ -58,7 +59,7 @@ const ChaletListing = ({
         page,
         sort
       });
-      
+
       setLoading(false);
     };
 
@@ -75,13 +76,13 @@ const ChaletListing = ({
     } else if (chalets.length > 0) {
       // When loading more, preserve scroll position by maintaining the last visible item
       const lastItemElement = lastItemRef.current;
-      
+
       if (lastItemElement && isLoadingMoreRef.current) {
         // Get the position of the last item before adding new content
         const rect = lastItemElement.getBoundingClientRect();
         const scrollY = window.scrollY;
         const offsetTop = rect.top + scrollY;
-        
+
         // Filter out duplicates and add only new chalets
         setAllChalets(prev => {
           const existingIds = new Set(prev.map(chalet => chalet.propertyId));
@@ -90,7 +91,7 @@ const ChaletListing = ({
           previousCountRef.current = prev.length; // Store count before adding new items
           return updated;
         });
-        
+
         // Restore position after DOM update with a small delay
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
@@ -121,11 +122,14 @@ const ChaletListing = ({
   // Frontend sorting (apply to allChalets)
   const sortedChalets = useMemo(() => {
     const data = [...allChalets];
+
+    const getPrice = (item: any) => getChaletPrice(item, checkin);
+
     switch (sort) {
       case 'price_asc':
-        return data.sort((a, b) => a.winterPrice - b.winterPrice);
+        return data.sort((a, b) => getPrice(a) - getPrice(b));
       case 'price_desc':
-        return data.sort((a, b) => b.winterPrice - a.winterPrice);
+        return data.sort((a, b) => getPrice(b) - getPrice(a));
       case 'bedrooms_asc':
         return data.sort((a, b) => a.rooms - b.rooms);
       case 'bedrooms_desc':
@@ -181,78 +185,78 @@ const ChaletListing = ({
         }
       `}</style>
       <section className="sm:mt-[100px] mt-[120px] mb-16 md:mb-12 mb-10">
-      <div className="w-full h-[1px] bg-[#e3e3e3] sm:mb-[30px] mb-[20px]"></div>
+        <div className="w-full h-[1px] bg-[#e3e3e3] sm:mb-[30px] mb-[20px]"></div>
 
-      <div className="container">
-        <div className="sm:mb-[30px] mb-[20px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-[32px]">
-          <div className="overflow-hidden w-full">
-            <AccommodationIconsFilter icons={icons} />
-          </div>
-          <div className="sm:w-auto w-full flex sm:justify-center gap-2 justify-between">
-            <CountResults number={countChalets} />
-            <SortBy
-              list={[
-                { label: 'Recommended', value: 'recommended' },
-                { label: 'Price low to high', value: 'price_asc' },
-                { label: 'Price high to low', value: 'price_desc' },
-                { label: 'Bedrooms min to max', value: 'bedrooms_asc' },
-                { label: 'Bedrooms max to min', value: 'bedrooms_desc' }
-              ]}
-              onChange={(value) => setSort(value)}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
-          {loading && allChalets.length === 0 ? (
-            Array.from({ length: 8 }).map((_, i) => (
-              <AccommodationCardSkeleton key={i} />
-            ))
-          ) : sortedChalets.length === 0 ? (
-            <div className='col-span-full'>
-              <NoRecord page='chalets' />
+        <div className="container">
+          <div className="sm:mb-[30px] mb-[20px] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-[32px]">
+            <div className="overflow-hidden w-full">
+              <AccommodationIconsFilter icons={icons} />
             </div>
-          ) : (
-            <>
-              {sortedChalets.map((item: any, index: number) => {
-                const isNewItem = index >= previousCountRef.current && loadingMore;
-                return (
-                  <div
-                    key={item.propertyId}
-                    ref={index === lastVisibleIndex - 1 ? lastItemRef : null}
-                    className={isNewItem ? 'animate-fadeIn' : ''}
-                    style={isNewItem ? { animationDelay: `${(index - previousCountRef.current) * 50}ms` } : undefined}
-                  >
-                    <AccommodationCard
-                      title={item.name}
-                      area={item.surface}
-                      persons={item.adults}
-                      location={item.station}
-                      bedrooms={item.rooms}
-                      price={item.winterPrice}
-                      images={item.allImages.slice(0, 7)}
-                      id={item.propertyId}
-                      link={`/chalets/${item.propertyId}`}
-                    />
-                  </div>
-                );
-              })}
-              {loadingMore && (
-                Array.from({ length: 12 }).map((_, i) => (
-                  <AccommodationCardSkeleton key={`loading-${i}`} />
-                ))
-              )}
-            </>
+            <div className="sm:w-auto w-full flex sm:justify-center gap-2 justify-between">
+              <CountResults number={countChalets} />
+              <SortBy
+                list={[
+                  { label: 'Recommended', value: 'recommended' },
+                  { label: 'Price low to high', value: 'price_asc' },
+                  { label: 'Price high to low', value: 'price_desc' },
+                  { label: 'Bedrooms min to max', value: 'bedrooms_asc' },
+                  { label: 'Bedrooms max to min', value: 'bedrooms_desc' }
+                ]}
+                onChange={(value) => setSort(value)}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:mt-8 mt-6">
+            {loading && allChalets.length === 0 ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <AccommodationCardSkeleton key={i} />
+              ))
+            ) : sortedChalets.length === 0 ? (
+              <div className='col-span-full'>
+                <NoRecord page='chalets' />
+              </div>
+            ) : (
+              <>
+                {sortedChalets.map((item: any, index: number) => {
+                  const isNewItem = index >= previousCountRef.current && loadingMore;
+                  return (
+                    <div
+                      key={item.propertyId}
+                      ref={index === lastVisibleIndex - 1 ? lastItemRef : null}
+                      className={isNewItem ? 'animate-fadeIn' : ''}
+                      style={isNewItem ? { animationDelay: `${(index - previousCountRef.current) * 50}ms` } : undefined}
+                    >
+                      <AccommodationCard
+                        title={item.name}
+                        area={item.surface}
+                        persons={item.adults}
+                        location={item.station}
+                        bedrooms={item.rooms}
+                        price={getChaletPrice(item, checkin)}
+                        images={item.allImages.slice(0, 7)}
+                        id={item.propertyId}
+                        link={`/chalets/${item.propertyId}`}
+                      />
+                    </div>
+                  );
+                })}
+                {loadingMore && (
+                  Array.from({ length: 12 }).map((_, i) => (
+                    <AccommodationCardSkeleton key={`loading-${i}`} />
+                  ))
+                )}
+              </>
+            )}
+          </div>
+
+          {parseInt(page || "1") * 12 < countChalets && (
+            <SeeMore
+
+            />
           )}
         </div>
-
-        {parseInt(page || "1") * 12 < countChalets && (
-          <SeeMore 
-             
-          />
-        )}
-      </div>
-    </section>
+      </section>
     </>
   );
 };

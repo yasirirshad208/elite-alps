@@ -3,14 +3,11 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
-import { MdApartment } from 'react-icons/md'
 import { IoIosAdd, IoIosArrowDown, IoIosClose } from 'react-icons/io'
 import { FiMinus } from 'react-icons/fi'
 import Dropdown from '../DropdownAnimation'
-import { FaHouseDamage } from 'react-icons/fa'
-import { RiHotelLine } from 'react-icons/ri'
 import DatePicker from 'react-datepicker'
-import { addDays, isSaturday } from 'date-fns'
+import {  isSaturday } from 'date-fns'
 import PriceRange from '../PriceRange'
 
 type DropdownType = 'accommodation' | 'location' | 'guests' | 'price' | 'checkIn' | 'checkOut' | null;

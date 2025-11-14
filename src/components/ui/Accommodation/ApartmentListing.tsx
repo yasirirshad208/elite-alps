@@ -9,6 +9,7 @@ import AccommodationIconsFilter from './AccommodationFilters';
 import SortBy from '../SortBy';
 import AccommodationCardSkeleton from '@/components/skeletons/AccommodationCardSkeleton';
 import NoRecord from '../NoRecord';
+import { getChaletPrice } from '@/lib/getPropertyPrice';
 
 const ApartmentListing = ({
   location,
@@ -46,7 +47,7 @@ const ApartmentListing = ({
       if (page === '1' || !isLoadingMoreRef.current) {
         setLoading(true);
       }
-      
+
       await fetchApartments({
         location,
         minPrice,
@@ -58,7 +59,7 @@ const ApartmentListing = ({
         page,
         sort
       });
-      
+
       setLoading(false);
     };
 
@@ -75,13 +76,13 @@ const ApartmentListing = ({
     } else if (apartments.length > 0) {
       // When loading more, preserve scroll position by maintaining the last visible item
       const lastItemElement = lastItemRef.current;
-      
+
       if (lastItemElement && isLoadingMoreRef.current) {
         // Get the position of the last item before adding new content
         const rect = lastItemElement.getBoundingClientRect();
         const scrollY = window.scrollY;
         const offsetTop = rect.top + scrollY;
-        
+
         // Filter out duplicates and add only new apartments
         setAllApartments(prev => {
           const existingIds = new Set(prev.map(apartment => apartment.propertyId));
@@ -90,7 +91,7 @@ const ApartmentListing = ({
           previousCountRef.current = prev.length; // Store count before adding new items
           return updated;
         });
-        
+
         // Restore position after DOM update with a small delay
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
@@ -121,11 +122,13 @@ const ApartmentListing = ({
   // Frontend sorting (apply to allApartments)
   const sortedApartments = useMemo(() => {
     const data = [...allApartments];
+    const getPrice = (item: any) => getChaletPrice(item, checkin);
+
     switch (sort) {
       case 'price_asc':
-        return data.sort((a, b) => a.winterPrice - b.winterPrice);
+        return data.sort((a, b) => getPrice(a) - getPrice(b));
       case 'price_desc':
-        return data.sort((a, b) => b.winterPrice - a.winterPrice);
+        return data.sort((a, b) => getPrice(b) - getPrice(a));
       case 'bedrooms_asc':
         return data.sort((a, b) => a.rooms - b.rooms);
       case 'bedrooms_desc':
@@ -229,7 +232,7 @@ const ApartmentListing = ({
                         persons={item.adults}
                         location={item.station}
                         bedrooms={item.rooms}
-                        price={item.winterPrice}
+                        price={getChaletPrice(item, checkin)}
                         images={item.allImages.slice(0, 7)}
                         id={item.propertyId}
                         link={`/apartments/${item.propertyId}`}

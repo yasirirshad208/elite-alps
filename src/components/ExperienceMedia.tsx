@@ -12,6 +12,8 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
   const [currentSlide, setCurrentSlide] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
   const [mainCurrentSlide, setMainCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
@@ -74,10 +76,20 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const currentTouch = e.targetTouches[0].clientX;
+    const diff = currentTouch - touchStart;
+    setDragOffset(diff);
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     setTouchEnd(e.changedTouches[0].clientX);
+    setIsDragging(false);
+    setDragOffset(0);
     handleSwipe();
   };
 
@@ -125,9 +137,10 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
         <div className="flex-1 h-full">
           <div className="relative flex-1 h-full overflow-hidden sm:rounded-[12px]">
             <div 
-              className="flex h-full transition-transform duration-300 ease-out"
+              className="flex h-full transition-transform ease-out"
               style={{ 
-                transform: `translateX(-${mainCurrentSlide * 100}%)`
+                transform: `translateX(calc(-${mainCurrentSlide * 100}% + ${dragOffset}px))`,
+                transitionDuration: isDragging ? '0ms' : '300ms'
               }}
             >
               {itemImages.map((image, index) => (
@@ -146,6 +159,7 @@ const ExperienceMedia = ({ images, url = "https://elite-experience-backend.onren
                     className={`h-full w-full object-cover cursor-pointer ${!loadedImages.has(index) ? 'opacity-0' : 'opacity-100'} transition-opacity duration-200`}
                     onClick={() => openModal()}
                     onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                     onLoad={() => setLoadedImages(prev => new Set(prev).add(index))}
                   />
