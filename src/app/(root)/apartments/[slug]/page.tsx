@@ -34,7 +34,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
     const [openForm, setOpenForm] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [activeId, setActiveId] = useState('details');
-        const [address, setAddress] = useState<string>('');
+    const [address, setAddress] = useState<string>('');
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -58,27 +58,27 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
         fetchData();
     }, [params.slug]);
 
-      useEffect(() => {
-            if (
-                data &&
-                data.data &&
-                data.data.propertyDetail &&
-                data.data.propertyDetail.message &&
-                data.data.propertyDetail.message.detail &&
-                data.data.propertyDetail.message.detail[0]?.latitude &&
-                data.data.propertyDetail.message.detail[0]?.longitude
-            ) {
-                async function fetchAddress() {
-                    const { latitude, longitude } = data.data.propertyDetail.message.detail[0];
-                    const addr = await getAddressFromCoords(latitude[0], longitude[0]);
-                    setAddress(addr);
-                }
-    
-                fetchAddress();
+    useEffect(() => {
+        if (
+            data &&
+            data.data &&
+            data.data.propertyDetail &&
+            data.data.propertyDetail.message &&
+            data.data.propertyDetail.message.detail &&
+            data.data.propertyDetail.message.detail[0]?.latitude &&
+            data.data.propertyDetail.message.detail[0]?.longitude
+        ) {
+            async function fetchAddress() {
+                const { latitude, longitude } = data.data.propertyDetail.message.detail[0];
+                const addr = await getAddressFromCoords(latitude[0], longitude[0]);
+                setAddress(addr);
             }
-        }, [data]);
 
-   if (loading) return <BookAccommodationSkeleton/>;
+            fetchAddress();
+        }
+    }, [data]);
+
+    if (loading) return <BookAccommodationSkeleton />;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
 
 
@@ -225,17 +225,17 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                                     {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
                                 </h2>
                                 <div className="flex items-center gap-1  text-[#272835] ">
-                                   {address ? (
-                                                                          <>
-                                                                          <GrLocation className="w-[21px] h-[21px]" />
-                                                                          <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
-                                                                      </>
-                                                                      ) : (
-                                                                          <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
-                                                                              <Skeleton width={180} height={18} />
-                                                                          </SkeletonTheme>
-                                                                      )}
-                                                                       </div>
+                                    {address ? (
+                                        <>
+                                            <GrLocation className="w-[21px] h-[21px]" />
+                                            <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
+                                        </>
+                                    ) : (
+                                        <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
+                                            <Skeleton width={180} height={18} />
+                                        </SkeletonTheme>
+                                    )}
+                                </div>
                             </div>
                             <div>
                                 <ShareBtn />
@@ -249,30 +249,30 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                 </div>
             </section>
 
-             <div className="flex flex-col justify-start items-start gap-3 sm:hidden px-4 mt-[24px] mb-[20px]">
-                            <h2 className="font-[600] text-[20px] text-[#121212] leading-[120%] ">
-                                {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
-                            </h2>
-                            <div className="flex gap-1  text-[#272835] ">
-                               {address ? (
-                                                                      <>
-                                                                      <GrLocation className="w-[21px] h-[21px]" />
-                                                                      <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
-                                                                  </>
-                                                                  ) : (
-                                                                      <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
-                                                                          <Skeleton width={180} height={18} />
-                                                                      </SkeletonTheme>
-                                                                  )}</div>
-                        </div>
+            <div className="flex flex-col justify-start items-start gap-3 sm:hidden px-4 mt-[24px] mb-[20px]">
+                <h2 className="font-[600] text-[20px] text-[#121212] leading-[120%] ">
+                    {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
+                </h2>
+                <div className="flex gap-1  text-[#272835] ">
+                    {address ? (
+                        <>
+                            <GrLocation className="w-[21px] h-[21px]" />
+                            <span className="text-[20px] text-[#272835]">{address}</span>
+                        </>
+                    ) : (
+                        <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
+                            <Skeleton width={180} height={18} />
+                        </SkeletonTheme>
+                    )}</div>
+            </div>
 
-            
+
 
             <section id="details">
                 <div className="container mx-auto">
                     <div className="flex gap-10 md:justify-between   md:flex-row flex-col">
                         <div className=" w-full md:max-w-[888px]">
-<SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
+                            <SubMenu items={sections} activeId={activeId} onClick={handleScrollTo} />
                             <div className="font-inter ">
                                 <h2 className="text-[#121212] font-large font-semibold mb-4">
                                     About The Apartment

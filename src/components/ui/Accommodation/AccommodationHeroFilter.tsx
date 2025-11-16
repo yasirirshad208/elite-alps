@@ -31,7 +31,10 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
   const [isSelectingCheckIn, setIsSelectingCheckIn] = useState(true)
   const [calendarKey, setCalendarKey] = useState(0)
 
+  const isDisabled = page === 'hotels';
+
   const handleLocationToggle = (item: string) => {
+    if (isDisabled) return;
     setLocations((prev) => {
       let updated;
 
@@ -48,6 +51,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
   };
 
   const handleDropdownToggle = (dropdown: DropdownType) => {
+    if (isDisabled) return;
     setOpenDropdown(prev => (prev === dropdown ? null : dropdown))
   }
 
@@ -68,6 +72,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
   const [maxPrice, setMaxPrice] = useState(maxPriceVal)
 
   const handleApply = (min: number, max: number) => {
+    if (isDisabled) return;
     setPrice(max.toString());
     setMinPrice(min)
     setMaxPrice(max)
@@ -106,7 +111,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
   }
 
   const handleDateSelect = (date: Date | null) => {
-    if (!date) return
+    if (isDisabled || !date) return
 
     const normalized = normalizeDateToUTC(date)
 
@@ -132,6 +137,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
   }
 
   const handleCalendarOpen = () => {
+    if (isDisabled) return;
     setOpenDropdown('checkIn')
     setIsSelectingCheckIn(true)
     setCalendarKey(prev => prev + 1)
@@ -139,10 +145,10 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
 
   return (
     <div
-      className="absolute z-10 left-1/2 bottom-0 transform -translate-x-1/2 translate-y-[30%] lg:translate-y-1/2 w-full max-w-[872px] px-4 sm:px-0"
+      className={`absolute z-10 left-1/2 bottom-0 ${isDisabled ? 'bg-white rounded-t-[16px]' : ''} transform -translate-x-1/2 translate-y-[30%] lg:translate-y-1/2 w-full max-w-[872px] px-4 sm:px-0`}
       style={{ boxShadow: "0px 11.65px 39.88px 0px #00000012" }}
     >
-      <div className="bg-white rounded-[16px] w-full">
+      <div className="bg-white rounded-[16px]  w-full">
         <div className="bg-[#EFEFEF] rounded-t-[16px] sm:px-3 sm:py-2 p-1 flex items-center">
           <Link href="/chalets" className='w-full'>
             <button
@@ -229,12 +235,12 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
         </div>
       </div>
 
-      <div className='bg-white rounded-b-[12px] p-[12px] flex lg:flex-row flex-col gap-[24px]'>
+      <div className={`bg-white rounded-b-[12px] p-[12px] flex lg:flex-row flex-col gap-[24px] ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`}>
         <div className='w-full grid grid-cols-2 lg:grid-cols-5 gap-[12px]'>
 
           {/* Check In */}
           <div className="relative">
-            <div className='cursor-pointer w-full lg:pr-2.5 lg:border-r border-[#e3e3e3]'>
+            <div className={`w-full lg:pr-2.5 lg:border-r border-[#e3e3e3] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
               <div className="mb-2 font-regular font-[600] text-[#121212]">Check In</div>
 
               <div className="flex items-center justify-between">
@@ -247,9 +253,10 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                     placeholderText="Select Dates"
                     className="w-full bg-transparent placeholder:text-[#121212] text-[14px] text-[#121212] focus:outline-none"
                     dateFormat="MMM d yyyy"
-                    open={openDropdown === 'checkIn'}
+                    open={openDropdown === 'checkIn' && !isDisabled}
                     onClickOutside={() => setOpenDropdown(null)}
                     onInputClick={() => handleCalendarOpen()}
+                    disabled={isDisabled}
                     calendarClassName={`!z-50 sm:ml-[120px] ml-[80px] ${isMobile ? '' : 'react-datepicker--two-months side-by-side'}`}
                     shouldCloseOnSelect={false}
                     monthsShown={isMobile ? 1 : 2}
@@ -304,8 +311,9 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
 
                 {checkIn ? (
                   <IoIosClose
-                    className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
+                    className={`min-w-[20px] text-[20px] text-[#121212] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                     onClick={() => {
+                      if (isDisabled) return;
                       setCheckIn(null)
                       setCheckOut(null)
                       setIsSelectingCheckIn(true)
@@ -314,7 +322,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                   />
                 ) : (
                   <IoIosArrowDown
-                    className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
+                    className={`min-w-[20px] text-[20px] text-[#121212] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                     onClick={handleCalendarOpen}
                   />
                 )}
@@ -324,18 +332,19 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
 
           {/* Check Out */}
           <div className="relative">
-            <div className='cursor-pointer w-full lg:pr-2.5 lg:border-r border-[#e3e3e3]'>
+            <div className={`w-full lg:pr-2.5 lg:border-r border-[#e3e3e3] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
               <div className="mb-2 font-regular font-[600] text-[#121212]">Check Out</div>
               <div className="flex items-center justify-between">
-                <span className="text-[14px] cursor-text" onClick={handleCalendarOpen}>
+                <span className={`text-[14px] ${isDisabled ? 'cursor-not-allowed' : 'cursor-text'}`} onClick={handleCalendarOpen}>
                   {checkOut
                     ? checkOut.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' })
                     : 'Select Dates'}
                 </span>
                 {checkOut ? (
                   <IoIosClose
-                    className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
+                    className={`min-w-[20px] text-[20px] text-[#121212] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                     onClick={() => {
+                      if (isDisabled) return;
                       setCheckOut(null)
                       setCheckIn(null)
                       setIsSelectingCheckIn(true)
@@ -344,7 +353,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                   />
                 ) : (
                   <IoIosArrowDown
-                    className="min-w-[20px] text-[20px] text-[#121212] cursor-pointer"
+                    className={`min-w-[20px] text-[20px] text-[#121212] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                     onClick={handleCalendarOpen}
                   />
                 )}
@@ -357,8 +366,9 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
           {/* Location */}
           <div className="relative">
             <div
-              className="cursor-pointer w-full pr-2.5 "
+              className={`w-full pr-2.5 ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
               onMouseDown={(e) => {
+                if (isDisabled) return;
                 e.stopPropagation();
                 handleDropdownToggle("location");
               }}
@@ -382,7 +392,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             <Dropdown
               top="top-[calc(100%+6px)]"
               onClose={() => setOpenDropdown(null)}
-              isOpen={openDropdown === "location"}
+              isOpen={openDropdown === "location" && !isDisabled}
               border={true}
             >
               <div className="w-full">
@@ -416,8 +426,9 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
           {/* Price */}
           <div className="relative">
             <div
-              className="cursor-pointer w-full lg:pr-2.5 pl-2.5 py-2 sm:py-0 lg:border-r lg:border-l border-[#e3e3e3]"
+              className={`w-full lg:pr-2.5 pl-2.5 py-2 sm:py-0 lg:border-r lg:border-l border-[#e3e3e3] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
               onMouseDown={(e) => {
+                if (isDisabled) return;
                 e.stopPropagation();
                 handleDropdownToggle("price");
               }}
@@ -435,7 +446,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
               </div>
             </div>
 
-            {!isMobile && openDropdown === "price" ? (
+            {!isMobile && openDropdown === "price" && !isDisabled ? (
               <div
                 ref={dropdownRef}
                 className="
@@ -451,7 +462,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
               </div>
             ) : (
               <>
-                {isMobile && openDropdown === "price" && (
+                {isMobile && openDropdown === "price" && !isDisabled && (
                   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10001]">
                     <div className="w-[90%] max-w-md px-[12px]" ref={dropdownRef}>
                       <PriceRange min={minPrice} max={maxPrice} onApplyFilter={handleApply} onClose={() => { setOpenDropdown(null) }} />
@@ -468,7 +479,7 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
 
           {/* Guests */}
           <div className="relative col-span-2 lg:col-span-1">
-            <div className='cursor-pointer w-full ' onClick={() => handleDropdownToggle('guests')}>
+            <div className={`w-full ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`} onClick={() => handleDropdownToggle('guests')}>
               <div className='mb-2 font-regular font-[600] text-[#121212]'>Guests</div>
               <div className=' flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
@@ -476,9 +487,21 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
                 </div>
 
                 <div className='flex items-center gap-2.5'>
-                  <FiMinus className='rounded-[4px] border border-[#e3e3e3] text-[16px] cursor-pointer' onClick={() => { guest > 0 ? setGuest(guest - 1) : setGuest(0) }} />
+                  <FiMinus 
+                    className={`rounded-[4px] border border-[#e3e3e3] text-[16px] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    onClick={() => { 
+                      if (isDisabled) return;
+                      guest > 0 ? setGuest(guest - 1) : setGuest(0) 
+                    }} 
+                  />
                   <span>{guest}</span>
-                  <IoIosAdd className='rounded-[4px] border border-[#e3e3e3] text-[18px] cursor-pointer' onClick={() => { setGuest(guest + 1) }} />
+                  <IoIosAdd 
+                    className={`rounded-[4px] border border-[#e3e3e3] text-[18px] ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    onClick={() => { 
+                      if (isDisabled) return;
+                      setGuest(guest + 1) 
+                    }} 
+                  />
 
                 </div>
               </div>
@@ -501,10 +524,10 @@ const AccommodationHeroFilter = ({ page, locationVal = "", guestsVal = 0, minPri
             </Link>
           ) : (
             <div
-              className="flex items-center justify-center gap-2 font-medium font-[600] text-white bg-blue-400 lg:p-[20px] py-3 rounded-[12px] whitespace-nowrap cursor-not-allowed"
+              className="flex items-center justify-center gap-2 font-medium font-[600] text-white bg-gray-400 lg:p-[20px] py-3 rounded-[12px] whitespace-nowrap cursor-not-allowed"
             >
               <IoSearch className='md:text-[20px] text-[18px]' />
-              <span className='text-gray-400 text-[16px] font-[600] lg:hidden'>Search Now</span>
+              <span className='text-white text-[16px] font-[600] lg:hidden'>Search Now</span>
             </div>
           )}
 

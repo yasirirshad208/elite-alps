@@ -231,13 +231,13 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                                 </h2>
 
                                 <div className="flex items-center gap-1 text-[#272835]">
-                                    
+
 
                                     {address ? (
                                         <>
-                                        <GrLocation className="w-[21px] h-[21px]" />
-                                        <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
-                                    </>
+                                            <GrLocation className="w-[21px] h-[21px]" />
+                                            <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
+                                        </>
                                     ) : (
                                         <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
                                             <Skeleton width={180} height={18} />
@@ -263,17 +263,17 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                     {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
                 </h2>
                 <div className="flex gap-1  text-[#272835] ">
-                     {address ? (
-                                        <>
-                                        <GrLocation className="w-[21px] h-[21px]" />
-                                        <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
-                                    </>
-                                    ) : (
-                                        <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
-                                            <Skeleton width={180} height={18} />
-                                        </SkeletonTheme>
-                                    )}
-                                    </div>
+                    {address ? (
+                        <>
+                            <GrLocation className="w-[21px] h-[21px]" />
+                            <span className="text-[20px] text-[#272835]">{address}</span>
+                        </>
+                    ) : (
+                        <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
+                            <Skeleton width={180} height={18} />
+                        </SkeletonTheme>
+                    )}
+                </div>
             </div>
 
 
