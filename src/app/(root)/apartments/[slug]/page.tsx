@@ -225,16 +225,10 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                                     {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
                                 </h2>
                                 <div className="flex items-center gap-1  text-[#272835] ">
-                                    {address ? (
-                                        <>
+                                   
                                             <GrLocation className="w-[21px] h-[21px]" />
-                                            <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
-                                        </>
-                                    ) : (
-                                        <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
-                                            <Skeleton width={180} height={18} />
-                                        </SkeletonTheme>
-                                    )}
+                                            <span className="text-[20px] text-[#272835] md:block hidden">{`${data?.data?.propertyDetail?.message?.detail?.[0]?.nom_station2?.[0] || ""} ${data?.data?.propertyDetail?.message?.detail?.[0]?.secteur?.[0]?._ || ""}`}</span>
+                                   
                                 </div>
                             </div>
                             <div>
@@ -254,16 +248,10 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                     {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
                 </h2>
                 <div className="flex gap-1  text-[#272835] ">
-                    {address ? (
-                        <>
-                            <GrLocation className="w-[21px] h-[21px]" />
-                            <span className="text-[20px] text-[#272835]">{address}</span>
-                        </>
-                    ) : (
-                        <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
-                            <Skeleton width={180} height={18} />
-                        </SkeletonTheme>
-                    )}</div>
+
+                    <GrLocation className="w-[21px] h-[21px]" />
+                    <span className="text-[20px] text-[#272835]">{`${data?.data?.propertyDetail?.message?.detail?.[0]?.nom_station2?.[0] || ""} ${data?.data?.propertyDetail?.message?.detail?.[0]?.secteur?.[0]?._ || ""}`}</span>
+                </div>
             </div>
 
 
@@ -403,7 +391,7 @@ export default function BookApartment({ params }: { params: { slug: string } }) 
                         Chalet Location
                     </h2>
 
-                    <MapComponent addresss={data.data.propertyDetail.message.detail[0].nom_station2} latitude={data.data.propertyDetail.message.detail[0].latitude[0]} longitude={data.data.propertyDetail.message.detail[0].longitude[0]} />
+                    <MapComponent addresss={`${data?.data?.propertyDetail?.message?.detail?.[0]?.nom_station2?.[0] || ""} ${data?.data?.propertyDetail?.message?.detail?.[0]?.secteur?.[0]?._ || ""}`} latitude={data.data.propertyDetail.message.detail[0].latitude[0]} longitude={data.data.propertyDetail.message.detail[0].longitude[0]} />
 
 
                 </div>

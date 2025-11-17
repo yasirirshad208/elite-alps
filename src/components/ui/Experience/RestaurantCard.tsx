@@ -3,10 +3,10 @@ import React, { useState, useRef } from "react";
 import { FiClock } from "react-icons/fi";
 import { LuUsers } from "react-icons/lu";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useRouter } from "next/navigation";
 import { IoStar } from "react-icons/io5";
 import { ImSpoonKnife } from "react-icons/im";
 import Image from "next/image";
+import Link from "next/link";
 
 interface RestaurantCardProps {
     title: string;
@@ -48,7 +48,6 @@ const RestaurantCard = ({
     const [currentTranslate, setCurrentTranslate] = useState(0);
     const [prevTranslate, setPrevTranslate] = useState(0);
     const sliderRef = useRef<HTMLDivElement>(null);
-    const router = useRouter();
 
     const handleDotClick = (e: React.MouseEvent, index: number) => {
         e.stopPropagation();
@@ -138,7 +137,7 @@ const RestaurantCard = ({
     };
 
     return (
-        <div className="border p-[6px] border-[#e3e3e3] rounded-[12px]">
+        <Link href={cardUrl || "#"} className="border p-[6px] border-[#e3e3e3] rounded-[12px] block">
             <div>
                 <div 
                     className="relative group cursor-grab active:cursor-grabbing"
@@ -146,6 +145,7 @@ const RestaurantCard = ({
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     onMouseLeave={handleMouseLeave}
+                    onClick={(e) => e.stopPropagation()}
                 >
                     <div 
                         className="overflow-hidden h-[223px] w-full rounded-[12px]"
@@ -208,7 +208,7 @@ const RestaurantCard = ({
                 </div>
             </div>
 
-            <div className="cursor-pointer mt-1 p-2" onClick={() => router.push(`${cardUrl}`)}>
+            <div className="mt-1 p-2">
                 <div>
                     <div>
                         <h3 className="text-[20px] leading-[30px] font-[700] text-[#121212]">
@@ -248,7 +248,7 @@ const RestaurantCard = ({
                     )}
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 

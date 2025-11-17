@@ -237,6 +237,7 @@ const ChaletListing = ({
                         images={item.allImages.slice(0, 7)}
                         id={item.propertyId}
                         link={`/chalets/${item.propertyId}`}
+                        checkin={checkin}
                       />
                     </div>
                   );

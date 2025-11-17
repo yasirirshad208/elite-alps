@@ -236,6 +236,7 @@ const ApartmentListing = ({
                         images={item.allImages.slice(0, 7)}
                         id={item.propertyId}
                         link={`/apartments/${item.propertyId}`}
+                        checkin={checkin}
                       />
                     </div>
                   );

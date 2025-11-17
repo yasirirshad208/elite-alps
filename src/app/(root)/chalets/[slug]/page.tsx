@@ -51,25 +51,25 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
         fetchData();
     }, [params.slug]);
 
-    useEffect(() => {
-        if (
-            data &&
-            data.data &&
-            data.data.propertyDetail &&
-            data.data.propertyDetail.message &&
-            data.data.propertyDetail.message.detail &&
-            data.data.propertyDetail.message.detail[0]?.latitude &&
-            data.data.propertyDetail.message.detail[0]?.longitude
-        ) {
-            async function fetchAddress() {
-                const { latitude, longitude } = data.data.propertyDetail.message.detail[0];
-                const addr = await getAddressFromCoords(latitude[0], longitude[0]);
-                setAddress(addr);
-            }
+    // useEffect(() => {
+    //     if (
+    //         data &&
+    //         data.data &&
+    //         data.data.propertyDetail &&
+    //         data.data.propertyDetail.message &&
+    //         data.data.propertyDetail.message.detail &&
+    //         data.data.propertyDetail.message.detail[0]?.latitude &&
+    //         data.data.propertyDetail.message.detail[0]?.longitude
+    //     ) {
+    //         async function fetchAddress() {
+    //             const { latitude, longitude } = data.data.propertyDetail.message.detail[0];
+    //             const addr = await getAddressFromCoords(latitude[0], longitude[0]);
+    //             setAddress(addr);
+    //         }
 
-            fetchAddress();
-        }
-    }, [data]);
+    //         fetchAddress();
+    //     }
+    // }, [data]);
 
     if (loading) return <BookAccommodationSkeleton />;
     if (error) return <p className="text-red-500 md:mt-20 mt-10 text-center">{error}</p>;
@@ -233,16 +233,16 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                                 <div className="flex items-center gap-1 text-[#272835]">
 
 
-                                    {address ? (
-                                        <>
+                                    {/* {address ? (
+                                        <> */}
                                             <GrLocation className="w-[21px] h-[21px]" />
-                                            <span className="text-[20px] text-[#272835] md:block hidden">{address}</span>
-                                        </>
+                                            <span className="text-[20px] text-[#272835] md:block hidden">{`${data?.data?.propertyDetail?.message?.detail?.[0]?.nom_station2?.[0] || ""} ${data?.data?.propertyDetail?.message?.detail?.[0]?.secteur?.[0]?._ || ""}`}</span>
+                                        {/* </>
                                     ) : (
                                         <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
                                             <Skeleton width={180} height={18} />
                                         </SkeletonTheme>
-                                    )}
+                                    )} */}
                                 </div>
                             </div>
 
@@ -263,16 +263,16 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                     {data.data.propertyDetail.message.detail[0].nom_bien_en[0]}
                 </h2>
                 <div className="flex gap-1  text-[#272835] ">
-                    {address ? (
-                        <>
+                    {/* {address ? (
+                        <> */}
                             <GrLocation className="w-[21px] h-[21px]" />
-                            <span className="text-[20px] text-[#272835]">{address}</span>
-                        </>
+                            <span className="text-[20px] text-[#272835]">{`${data?.data?.propertyDetail?.message?.detail?.[0]?.nom_station2?.[0] || ""} ${data?.data?.propertyDetail?.message?.detail?.[0]?.secteur?.[0]?._ || ""}`}</span>
+                        {/* </>
                     ) : (
                         <SkeletonTheme baseColor="#d4d4d4" highlightColor="#e5e5e5">
                             <Skeleton width={180} height={18} />
                         </SkeletonTheme>
-                    )}
+                    )} */}
                 </div>
             </div>
 
@@ -420,7 +420,7 @@ export default function BookChalet({ params }: { params: { slug: string } }) {
                         Chalet Location
                     </h2>
 
-                    <MapComponent addresss={address} latitude={data.data.propertyDetail.message.detail[0].latitude[0]} longitude={data.data.propertyDetail.message.detail[0].longitude[0]} />
+                    <MapComponent addresss={`${data?.data?.propertyDetail?.message?.detail?.[0]?.nom_station2?.[0] || ""} ${data?.data?.propertyDetail?.message?.detail?.[0]?.secteur?.[0]?._ || ""}`} latitude={data.data.propertyDetail.message.detail[0].latitude[0]} longitude={data.data.propertyDetail.message.detail[0].longitude[0]} />
 
 
                 </div>
